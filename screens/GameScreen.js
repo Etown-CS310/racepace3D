@@ -16,7 +16,7 @@ import roadbg from '../images/Roadbg.jpg';
 import spacebg from '../images/Spacebg.jpeg';
 import racepacebg from '../images/Track_darkmode.png';
 
-
+import LevelPressable from '../components/LevelPressable.js';
 
 const lvls = [
     { id: 'track', name: "Track", component: Track, bg: trackbg },
@@ -30,7 +30,7 @@ const lvls = [
 function GameScreen() {
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
-    const[mode, setMode] = useState('play'); // in the game or between levels (play or selectLvl)
+    const[mode, setMode] = useState('selectLvl'); // in the game or between levels (play or selectLvl)
 
     const LvlComponent = lvls[currentLevel].component;
 
@@ -53,6 +53,14 @@ function GameScreen() {
     const failedLevelHandler = () => {
 
         setMode('selectLvl');
+    };
+
+    const currentLevelHandler = (index) => {
+        setCurrentLevel(index);
+    };
+
+    const setModeHandler = (selectedMode) => {
+        setMode(selectedMode);
     };
 
     if (mode === 'play') {
@@ -83,26 +91,13 @@ function GameScreen() {
                         {lvls.map((level, index) => {
                             const unlocked = unlockedLevels.includes (level.id);
                             return (
-                                <Pressable
-                                    key={level.id}
-                                    style={styles.levelBox}
-                                    onPress={() => {
-                                    if (unlocked) {
-                                        setCurrentLevel(index);
-                                        setMode('play');
-                                    }
-                                    }}
-                                >
-                                    <ImageBackground
-                                    source={level.bg} // level image goes here
-                                    style={styles.bgImage}
-                                    imageStyle={{ opacity: unlocked ? 1 : 0.3 }} // dim if locked
-                                    >
-                                    <Text style={styles.levelText}>
-                                        {level.name} {unlocked ? '' : '\n🔒'}
-                                    </Text>
-                                    </ImageBackground>
-                                </Pressable>
+                                <LevelPressable
+                                    level={level}
+                                    index={index}
+                                    unlocked={unlocked}
+                                    onCurrentLevel={currentLevelHandler}
+                                    onSetMode={setModeHandler}
+                                />
                             );
                         })}
                     </View>

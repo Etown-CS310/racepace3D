@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground } from 'react-native';
 
-import Track from '../components/Game/Track.js';
-import Forest from '../components/Game/Forest.js';
-import Mountain from '../components/Game/Mountain.js';
-import Desert from '../components/Game/Desert.js';
-import Road from '../components/Game/Road.js';
-import Space from '../components/Game/Space.js';
+import Track from './Game/Track.js';
+import Forest from './Game/Forest.js';
+import Mountain from './Game/Mountain.js';
+import Desert from './Game/Desert.js';
+import Road from './Game/Road.js';
+import Space from './Game/Space.js';
 
 import trackbg from '../images/Trackbg.jpg';
 import forestbg from '../images/Forestbg.jpeg';

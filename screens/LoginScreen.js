@@ -2,7 +2,10 @@ import { StyleSheet } from 'react-native';
 
 
 function LoginScreen() {
-    return;
+    return
+    
+        
+    ;
 
 
 }

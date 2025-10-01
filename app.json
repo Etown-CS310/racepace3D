@@ -3,7 +3,7 @@
     "name": "racepace3D",
     "slug": "racepace3D",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, Pressable, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
 
 import Track from './Game/Track.js';
 import Forest from './Game/Forest.js';
@@ -17,7 +17,6 @@ import spacebg from '../images/Spacebg.png';
 // import racepacebg from '../images/Track_darkmode.png';
 
 import LevelPressable from '../components/LevelPressable.js';
-
 const lvls = [
     { id: 'track', name: "Track", component: Track, bg: trackbg },
     { id: 'forest', name: "Forest", component: Forest, bg: forestbg },
@@ -87,7 +86,11 @@ function GameScreen() {
 
                     <Text style={styles.title}> Select Level</Text>
 
-                    <View style={styles.grid}>
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.levelList}
+                    >
                         {lvls.map((level, index) => {
                             const unlocked = unlockedLevels.includes (level.id);
                             return (
@@ -100,7 +103,7 @@ function GameScreen() {
                                 />
                             );
                         })}
-                    </View>
+                    </ScrollView>
                 </View>
             </ImageBackground>
             
@@ -116,6 +119,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',    
+        paddingTop: 40,
     },
 
     title: {
@@ -127,6 +131,8 @@ const styles = StyleSheet.create({
     levelList: {
         marginTop: 30,
         alignitems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: 10,
     },
 
     grid: {

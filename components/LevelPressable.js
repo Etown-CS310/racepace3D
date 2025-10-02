@@ -29,8 +29,8 @@ export default LevelPressable;
 
 const styles = StyleSheet.create({
     levelBox: {
-        width: 100,
-        height: 175,
+        width: 300,
+        height: 155,
         margin: 10,
         borderRadius: 10,
         overflow: 'hidden',

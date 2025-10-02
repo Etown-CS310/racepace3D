@@ -4,6 +4,9 @@ Upgraded version of racepace made for mobile devices
 # What is racepace?
 Racepace is a game about running and jumping throughout many different levels, you play as multiple levels and ulock new levels and cosmetics as you go. The purpose of the game is to have fun, unlock levels and build your highscore. You will also be able to have friends to share your highscore with, and teams to build group highscores with as well.
 
+# Game setup
+To set up racepace3D simply clone the repo locally and then run npm install to get the node modules missing. Then simply run npm start in the terminal, connect with your mobile device via the QR code or run the simulator on your computer and experience the game
+
 # Feature Upgrades
 
 ## Game Upgrades

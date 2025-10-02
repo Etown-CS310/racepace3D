@@ -8,10 +8,10 @@ import Desert from './Game/Desert.js';
 import Road from './Game/Road.js';
 import Space from './Game/Space.js';
 
-import trackbg from '../images/Trackbg.jpg';
-import forestbg from '../images/Forestbg.jpeg';
-import mountainbg from '../images/Mountainbg.jpg';
-import desertbg from '../images/Desertbg.jpg';
+import trackbg from '../images/Trackbg.png';
+import forestbg from '../images/Forestbg.png';
+import mountainbg from '../images/Mountainbg.png';
+import desertbg from '../images/Desertbg.png';
 import roadbg from '../images/Roadbg.jpg';
 import spacebg from '../images/Spacebg.jpeg';
 import racepacebg from '../images/Track_darkmode.png';

@@ -17,7 +17,7 @@ export default function App() {
     }
   }
 
-  let screen = <GameScreen onChangeScreen={changeScreenHandler}/>;
+  let screen = <MenuScreen onChangeScreen={changeScreenHandler}/>;
 
   if (screenName === 'menu') {
     screen = <MenuScreen onChangeScreen={changeScreenHandler}/>;

@@ -1,9 +1,9 @@
 import { StyleSheet, Text, Pressable, ImageBackground } from 'react-native';
 
-function LevelPressable({ level, index, unlocked, onCurrentLevel, onSetMode }) {
+function LevelPressable({ id, level, index, unlocked, onCurrentLevel, onSetMode }) {
     return (
         <Pressable
-            key={index}
+            key={id}
             style={styles.levelBox}
             onPress={() => {
             if (unlocked) {

@@ -103,6 +103,7 @@ function GameScreen({ onChangeScreen }) {
                             const unlocked = unlockedLevels.includes (level.id);
                             return (
                                 <LevelPressable
+                                    key={level.id}
                                     level={level}
                                     index={index}
                                     unlocked={unlocked}

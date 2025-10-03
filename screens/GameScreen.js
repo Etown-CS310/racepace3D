@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+// https://oblador.github.io/react-native-vector-icons/#Ionicons
 
 import Track from './Game/Track.js';
 import Forest from './Game/Forest.js';
@@ -17,6 +19,8 @@ import spacebg from '../images/Spacebg.png';
 // import racepacebg from '../images/Track_darkmode.png';
 
 import LevelPressable from '../components/LevelPressable.js';
+import NavigationPressable from '../components/NavigationPressable.js';
+
 const lvls = [
     { id: 'track', name: "Track", component: Track, bg: trackbg },
     { id: 'forest', name: "Forest", component: Forest, bg: forestbg },
@@ -26,7 +30,7 @@ const lvls = [
     { id: 'space', name: "Space", component: Space, bg: spacebg },
 ];
 
-function GameScreen() {
+function GameScreen({ onChangeScreen }) {
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
     const[mode, setMode] = useState('selectLvl'); // in the game or between levels (play or selectLvl)
@@ -60,6 +64,10 @@ function GameScreen() {
 
     const setModeHandler = (selectedMode) => {
         setMode(selectedMode);
+    };
+
+    const menuHandler = () => {
+        onChangeScreen('menu');
     };
 
     if (mode === 'play') {
@@ -105,8 +113,8 @@ function GameScreen() {
                         })}
                     </ScrollView>
                 </View>
+                <NavigationPressable onPress={menuHandler} symbol="caret-back" />
             </ImageBackground>
-            
         );
     }
 }
@@ -167,6 +175,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-    },  
-
+    },
 });

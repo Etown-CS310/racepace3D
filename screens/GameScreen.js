@@ -88,6 +88,7 @@ function GameScreen({ onChangeScreen }) {
             <ImageBackground
                 source={lvls[currentLevel].bg} // background image goes here
                 style={styles.backgroundImage}
+                imageStyle={{ opacity: 0.75 }}
                 resizeMode="cover"
             >
                 <View style={styles.container}>

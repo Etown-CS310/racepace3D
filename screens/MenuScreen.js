@@ -1,6 +1,9 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+
+import menuBg from '../images/MenuImage.png';
+
 function MenuScreen({ onChangeScreen }) {
 
     const gameHandler = () => {
@@ -9,8 +12,8 @@ function MenuScreen({ onChangeScreen }) {
 
     return(
         <ImageBackground
-            // source={lvls[currentLevel].bg}
-            // style={styles.backgroundImage}
+            source={ menuBg }
+            style={styles.backgroundImage}
             resizeMode="cover"
         >
             <View style={styles.container}>
@@ -40,9 +43,10 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'white',
     },
 
     button: {
@@ -54,5 +58,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 8,
         margin: 20,
+    },
+    backgroundImage: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

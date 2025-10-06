@@ -1,13 +1,12 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import menuBg from '../assets/images/MenuImage.png';
 
-import menuBg from '../images/MenuImage.png';
-
-function MenuScreen({ onChangeScreen }) {
+function MenuScreen({ navigation }) {
 
     const gameHandler = () => {
-        onChangeScreen('game');
+        navigation.navigate('Game');
     };
 
     return(
@@ -43,8 +42,8 @@ const styles = StyleSheet.create({
     },
 
     title: {
+        fontFamily: 'PressStart2P',
         fontSize: 35,
-        fontWeight: 'bold',
         marginBottom: 20,
         color: 'white',
     },

@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     levelText: {
+        fontFamily: 'PressStart2P',
         fontSize: 18,
-        fontWeight: 'bold',
         color: 'white',
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },

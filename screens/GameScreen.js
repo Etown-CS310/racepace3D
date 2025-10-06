@@ -10,13 +10,12 @@ import Desert from './Game/Desert.js';
 import Road from './Game/Road.js';
 import Space from './Game/Space.js';
 
-import trackbg from '../images/Trackbg.png';
-import forestbg from '../images/Forestbg.png';
-import mountainbg from '../images/Mountainbg.png';
-import desertbg from '../images/Desertbg.png';
-import roadbg from '../images/Roadbg.png';
-import spacebg from '../images/Spacebg.png';
-// import racepacebg from '../images/Track_darkmode.png';
+import trackbg from '../assets/images/Trackbg.png';
+import forestbg from '../assets/images/Forestbg.png';
+import mountainbg from '../assets/images/Mountainbg.png';
+import desertbg from '../assets/images/Desertbg.png';
+import roadbg from '../assets/images/Roadbg.png';
+import spacebg from '../assets/images/Spacebg.png';
 
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
@@ -30,7 +29,7 @@ const lvls = [
     { id: 'space', name: "Space", component: Space, bg: spacebg },
 ];
 
-function GameScreen({ onChangeScreen }) {
+function GameScreen({ navigation }) {
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
     const[mode, setMode] = useState('selectLvl'); // in the game or between levels (play or selectLvl)
@@ -67,7 +66,7 @@ function GameScreen({ onChangeScreen }) {
     };
 
     const menuHandler = () => {
-        onChangeScreen('menu');
+        navigation.navigate('Menu');
     };
 
     if (mode === 'play') {
@@ -133,14 +132,14 @@ const styles = StyleSheet.create({
     },
 
     title: {
+        fontFamily: 'PressStart2P',
         fontSize: 25,
-        fontWeight: 'bold',
-        marginBotton: 20,
+        marginBottom: 20,
     },
 
     levelList: {
         marginTop: 30,
-        alignitems: 'center',
+        alignItems: 'center',
         flexDirection: 'row',
         paddingHorizontal: 10,
     },
@@ -163,8 +162,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     levelText: {
+        fontFamily: 'PressStart2P',
         fontSize: 18,
-        fontWeight: 'bold',
         color: 'white',
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },

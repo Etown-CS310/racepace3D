@@ -1,10 +1,10 @@
 import { StyleSheet, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 function NavigationPressable({ onPress, symbol }) {
     return (
         <Pressable style={styles.button} onPress={onPress}>
-            <Ionicons name={symbol} size={35} color="black" />
+            <FontAwesome6 name={symbol} size={30} color="black" />
         </Pressable>
     );
 }
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingRight: 4,
         margin: 20,
     },
 });

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 // https://oblador.github.io/react-native-vector-icons/#Ionicons
 
 import Track from './Game/Track.js';
@@ -114,7 +114,7 @@ function GameScreen({ navigation }) {
                         })}
                     </ScrollView>
                 </View>
-                <NavigationPressable onPress={menuHandler} symbol="caret-back" />
+                <NavigationPressable onPress={menuHandler} symbol="caret-left" />
             </ImageBackground>
         );
     }

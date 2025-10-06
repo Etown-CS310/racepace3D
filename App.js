@@ -6,6 +6,10 @@ import { useFonts } from 'expo-font';
 
 import GameScreen from './screens/GameScreen';
 import MenuScreen from './screens/MenuScreen';
+import CharactersScreen from './screens/Menu/CharactersScreen';
+import HighscoresScreen from './screens/Menu/HighscoresScreen';
+import FriendsScreen from './screens/Menu/FriendsScreen';
+import TeamScreen from './screens/Menu/TeamScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +23,10 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
+        <Stack.Screen name="Characters" component={CharactersScreen} />
+        <Stack.Screen name="Highscores" component={HighscoresScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen name="Team" component={TeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

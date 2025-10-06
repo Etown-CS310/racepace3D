@@ -1,12 +1,30 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 import menuBg from '../assets/images/MenuImage.png';
+
+import NavigationPressable from '../components/NavigationPressable.js';
 
 function MenuScreen({ navigation }) {
 
     const gameHandler = () => {
         navigation.navigate('Game');
+    };
+
+    const charactersHandler = () => {
+        navigation.navigate('Characters');
+    };
+
+    const highscoresHandler = () => {
+        navigation.navigate('Highscores');
+    };
+
+    const friendsHandler = () => {
+        navigation.navigate('Friends');
+    };
+
+    const teamHandler = () => {
+        navigation.navigate('Team');
     };
 
     return(
@@ -20,9 +38,16 @@ function MenuScreen({ navigation }) {
                 <Text style={styles.title}> RacePace3D</Text>
 
                 <Pressable style={styles.button} onPress={gameHandler}>
-                    <Ionicons name="caret-forward" size={75} color="white" />
+                    <FontAwesome6 name="caret-right" size={100} color="white" />
                 </Pressable>
 
+            </View>
+
+            <View style={styles.buttonsContainer}>
+                <NavigationPressable onPress={charactersHandler} symbol="person-running"/>
+                <NavigationPressable onPress={highscoresHandler} symbol="trophy"/>
+                <NavigationPressable onPress={friendsHandler} symbol="user-group"/>
+                <NavigationPressable onPress={teamHandler} symbol="users"/>
             </View>
         </ImageBackground>
     );
@@ -43,25 +68,33 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 20,
-        marginBottom: 20,
+        fontSize: 35,
         color: 'white',
+        paddingBottom: 5,
+        marginBottom: 5,
     },
 
     button: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 150,
+        height: 150,
+        borderRadius: 75,
         backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingLeft: 8,
         margin: 20,
+        marginBottom: 0,
     },
+
     backgroundImage: {
         width: '100%',
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+
+    buttonsContainer: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'flex-end',
     },
 });

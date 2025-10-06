@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 35,
+        fontSize: 20,
         marginBottom: 20,
         color: 'white',
     },

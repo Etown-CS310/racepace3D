@@ -2,6 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect } from 'react';
+import * as NavigationBar from 'expo-navigation-bar';
+
 import { useFonts } from 'expo-font';
 
 import GameScreen from './screens/GameScreen';
@@ -18,9 +21,17 @@ export default function App() {
     PressStart2P: require('./assets/fonts/PressStart2P-Regular.ttf'),
   });
 
+  // Hide Android navigation bar
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync("hidden");
+    NavigationBar.setBehaviorAsync("immersive");
+  }, []);
+
   return (
+    <>
+    <StatusBar hidden={true} />
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
         <Stack.Screen name="Characters" component={CharactersScreen} />
@@ -29,6 +40,7 @@ export default function App() {
         <Stack.Screen name="Team" component={TeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </>
   );
 }
 

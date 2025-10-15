@@ -6,7 +6,7 @@ import NavigationPressable from '../../components/NavigationPressable';
 
 function HighscoresScreen({ navigation }) {
     const menuHandler = () => {
-        navigation.navigate('Menu');
+        navigation.goBack();
     };
 
     return (

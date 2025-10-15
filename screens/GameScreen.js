@@ -66,7 +66,7 @@ function GameScreen({ navigation }) {
     };
 
     const menuHandler = () => {
-        navigation.navigate('Menu');
+        navigation.goBack();
     };
 
     if (mode === 'play') {

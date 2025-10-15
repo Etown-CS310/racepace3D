@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         fontSize: 35,
         color: 'white',
-        paddingBottom: 5,
-        marginBottom: 5,
+        paddingBottom: 10, // title will fit on screen
+        marginBottom: 10,
     },
 
     button: {

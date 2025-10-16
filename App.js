@@ -13,6 +13,7 @@ import CharactersScreen from './screens/Menu/CharactersScreen';
 import HighscoresScreen from './screens/Menu/HighscoresScreen';
 import FriendsScreen from './screens/Menu/FriendsScreen';
 import TeamScreen from './screens/Menu/TeamScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 

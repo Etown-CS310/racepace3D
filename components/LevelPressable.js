@@ -1,27 +1,51 @@
-import { StyleSheet, Text, Pressable, ImageBackground } from 'react-native';
+import { StyleSheet, Text, Pressable, ImageBackground, Animated } from 'react-native';
+import { useRef } from 'react';
 
 function LevelPressable({ id, level, index, unlocked, onCurrentLevel, onSetMode }) {
+    const scale = useRef(new Animated.Value(1)).current;
+    
+    const handlePressIn = () => {
+        Animated.spring(scale, {
+            toValue: 0.9,
+            useNativeDriver: true,
+            speed: 50,
+            bounciness: 3,
+        }).start();
+    }
+
+    const handlePressOut = () => {
+        Animated.spring(scale, {
+            toValue: 1,
+            useNativeDriver: true,
+            speed: 30,
+        }).start();
+    }
+
     return (
-        <Pressable
-            key={id}
-            style={styles.levelBox}
-            onPress={() => {
-            if (unlocked) {
-                onCurrentLevel(index);
-                onSetMode('play');
-            }
-            }}
-        >
-            <ImageBackground
-            source={level.bg} // level image goes here
-            style={styles.bgImage}
-            imageStyle={{ opacity: unlocked ? 1 : 0.3 }} // dim if locked
+        <Animated.View style={{ transform: [{ scale }] }}>
+            <Pressable
+                key={id}
+                style={styles.levelBox}
+                onPress={() => {
+                if (unlocked) {
+                    onCurrentLevel(index);
+                    onSetMode('play');
+                }
+                }}
+                onPressIn={handlePressIn}
+                onPressOut={handlePressOut}
             >
-            <Text style={styles.levelText}>
-                {level.name} {unlocked ? '' : '\n🔒'}
-            </Text>
-            </ImageBackground>
-        </Pressable>
+                <ImageBackground
+                source={level.bg} // level image goes here
+                style={styles.bgImage}
+                imageStyle={{ opacity: unlocked ? 1 : 0.3 }} // dim if locked
+                >
+                <Text style={styles.levelText}>
+                    {level.name} {unlocked ? '' : '\n🔒'}
+                </Text>
+                </ImageBackground>
+            </Pressable>
+        </Animated.View>
     );
 }
 

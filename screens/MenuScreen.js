@@ -1,11 +1,31 @@
-import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 
 import menuBg from '../assets/images/MenuImage.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
+import { useRef } from 'react';
 
 function MenuScreen({ navigation }) {
+
+    const scale = useRef(new Animated.Value(1)).current;
+
+    const handlePressIn = () => {
+        Animated.spring(scale, {
+            toValue: 0.9,
+            useNativeDriver: true,
+            speed: 50,
+            bounciness: 3,
+        }).start();
+    }
+
+    const handlePressOut = () => {
+        Animated.spring(scale, {
+            toValue: 1,
+            useNativeDriver: true,
+            speed: 30,
+        }).start();
+    }
 
     const gameHandler = () => {
         navigation.navigate('Game');
@@ -37,9 +57,11 @@ function MenuScreen({ navigation }) {
 
                 <Text style={styles.title}> RacePace3D</Text>
 
-                <Pressable style={styles.button} onPress={gameHandler}>
-                    <FontAwesome6 name="caret-right" size={100} color="white" />
-                </Pressable>
+                <Animated.View style={{ transform: [{ scale }] }}>
+                    <Pressable style={styles.button} onPress={gameHandler} onPressIn={handlePressIn} onPressOut={handlePressOut}>
+                        <FontAwesome6 name="caret-right" size={100} color="white" />
+                    </Pressable>
+                </Animated.View>
 
             </View>
 

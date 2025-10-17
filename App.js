@@ -36,7 +36,7 @@ export default function App() {
     (<>
     <StatusBar hidden={true} />
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false, animation: 'none'}}>
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
         <Stack.Screen name="Characters" component={CharactersScreen} />

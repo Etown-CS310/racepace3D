@@ -18,7 +18,7 @@ function CharactersScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.title}>Characters Screen</Text>
             </View>
-            <NavigationPressable onPress={menuHandler} symbol="caret-left" />
+            <NavigationPressable onPress={menuHandler} symbol="back" />
         </ImageBackground>
     );
 }

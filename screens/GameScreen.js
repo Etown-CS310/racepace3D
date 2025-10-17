@@ -114,7 +114,7 @@ function GameScreen({ navigation }) {
                         })}
                     </ScrollView>
                 </View>
-                <NavigationPressable onPress={menuHandler} symbol="caret-left" />
+                <NavigationPressable onPress={menuHandler} symbol="back" />
             </ImageBackground>
         );
     }

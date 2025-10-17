@@ -44,10 +44,10 @@ function MenuScreen({ navigation }) {
             </View>
 
             <View style={styles.buttonsContainer}>
-                <NavigationPressable onPress={charactersHandler} symbol="person-running"/>
+                <NavigationPressable onPress={charactersHandler} symbol="character"/>
                 <NavigationPressable onPress={highscoresHandler} symbol="trophy"/>
-                <NavigationPressable onPress={friendsHandler} symbol="user-group"/>
-                <NavigationPressable onPress={teamHandler} symbol="users"/>
+                <NavigationPressable onPress={friendsHandler} symbol="friend"/>
+                <NavigationPressable onPress={teamHandler} symbol="team"/>
             </View>
         </ImageBackground>
     );

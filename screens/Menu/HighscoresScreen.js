@@ -18,7 +18,7 @@ function HighscoresScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.title}>Highscores Screen</Text>
             </View>
-            <NavigationPressable onPress={menuHandler} symbol="caret-left" />
+            <NavigationPressable onPress={menuHandler} symbol="back" />
         </ImageBackground>
     );
 }

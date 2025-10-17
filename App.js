@@ -25,7 +25,7 @@ function MainScreen()
     (<>
     <StatusBar hidden={true} />
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false, animation: 'none' }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />

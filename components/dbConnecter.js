@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { createContext } from 'react';
-
-const API_KEY = '';
+import { API_KEY } from './apikey';
 
 export const AuthContext = createContext({
     isLoggedIn: false,
@@ -12,7 +11,7 @@ export const AuthContext = createContext({
 
 async function auth(email,password,mode)
 {
-    console.log(API_KEY);
+    //console.log(API_KEY);
     const url = mode === 'login' ?
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}` : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     //console.log(email,password,mode)
@@ -21,20 +20,24 @@ async function auth(email,password,mode)
         password: password,
         returnSecureToken: true
     });
-    console.log(response.data.idToken);
+    //console.log(response.data.idToken);
+    AuthContext.token= response.data.idToken;
+    AuthContext.isLoggedIn= true;
     return response.data.idToken;
 }
 
 
 export async function login(email, password) 
     {
-        AuthContext.login(auth(email, password, 'login'));
-        return AuthContext.isLoggedIn;
+        const id = await auth(email, password, 'login');
+        if(id!=null)
+            return true;
     }
 
 export async function signUp(email, password) 
     {
-        AuthContext.login(auth(email, password, 'signup'));
-        return AuthContext.isLoggedIn;
+        const id = await auth(email, password, 'signup');
+        if(id!=null)
+            return true;
     }
 

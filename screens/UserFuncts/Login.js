@@ -7,7 +7,7 @@ import TextButton from '../../components/textButton';
 
 
 
-function Login()
+function Login({nav})
 {
     const [userEmail, setUserEmail] = useState('');
     const [userPass, setUserPass] = useState('');
@@ -16,8 +16,14 @@ function Login()
     async function loginHandler()
     {
         //console.log(userEmail,userPass);
-        const id= await login(userEmail,userPass);
+        //console.log("here");
+        const response= await login(userEmail,userPass);
         
+        //console.log(response);
+        if(response)
+            {
+            nav.navigate('Menu');
+            }
     }
 
     return(
@@ -37,13 +43,14 @@ export default Login;
 const styles = StyleSheet.create({
     text:
     {
+        marginTop:250,
         color: 'white',
         fontSize: 30,
         fontWeight: 500,
     },
     textInput:
     {
-        width: 600,
+        width: 300,
     },
     
 });

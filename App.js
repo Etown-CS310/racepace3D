@@ -18,26 +18,6 @@ import LoginScreen from './screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
-function MainScreen()
-{
-  const authctx= useContext(AuthContext);
-  return (
-    (<>
-    <StatusBar hidden={true} />
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false, animation: 'none' }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Menu" component={MenuScreen} />
-        <Stack.Screen name="Game" component={GameScreen} />
-        <Stack.Screen name="Characters" component={CharactersScreen} />
-        <Stack.Screen name="Highscores" component={HighscoresScreen} />
-        <Stack.Screen name="Friends" component={FriendsScreen} />
-        <Stack.Screen name="Team" component={TeamScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    </>));
-}
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     PressStart2P: require('./assets/fonts/PressStart2P-Regular.ttf'),
@@ -53,7 +33,20 @@ export default function App() {
   
 
   return (
-    <MainScreen />
+    <>
+    <StatusBar hidden={true} />
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Menu" component={MenuScreen} />
+        <Stack.Screen name="Game" component={GameScreen} />
+        <Stack.Screen name="Characters" component={CharactersScreen} />
+        <Stack.Screen name="Highscores" component={HighscoresScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen name="Team" component={TeamScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    </>
   );
 }
 

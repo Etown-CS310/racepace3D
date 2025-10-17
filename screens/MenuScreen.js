@@ -4,7 +4,11 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import menuBg from '../assets/images/MenuImage.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
-import { useRef } from 'react';
+
+import charimg from '../assets/images/Charselect.png';
+import highscoreimg from '../assets/images/Highscoores.png';
+import friendsimg from '../assets/images/Friends.png';
+import teamimg from '../assets/images/Teams.png';
 
 function MenuScreen({ navigation }) {
 
@@ -66,10 +70,10 @@ function MenuScreen({ navigation }) {
             </View>
 
             <View style={styles.buttonsContainer}>
-                <NavigationPressable onPress={charactersHandler} symbol="character"/>
-                <NavigationPressable onPress={highscoresHandler} symbol="trophy"/>
-                <NavigationPressable onPress={friendsHandler} symbol="friend"/>
-                <NavigationPressable onPress={teamHandler} symbol="team"/>
+                <NavigationPressable onPress={charactersHandler} source={charimg}/>
+                <NavigationPressable onPress={highscoresHandler} source={highscoreimg}/>
+                <NavigationPressable onPress={friendsHandler} source={friendsimg}/>
+                <NavigationPressable onPress={teamHandler} source={teamimg}/>
             </View>
         </ImageBackground>
     );
@@ -118,5 +122,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'flex-end',
+    },
+
+    lowbutton: {
+        width: 10,
+        height: 10,
     },
 });

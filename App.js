@@ -15,6 +15,7 @@ import HighscoresScreen from './screens/Menu/HighscoresScreen';
 import FriendsScreen from './screens/Menu/FriendsScreen';
 import TeamScreen from './screens/Menu/TeamScreen';
 import LoginScreen from './screens/LoginScreen';
+import Login from './screens/UserFuncts/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +31,10 @@ export default function App() {
   }, []);
 
 
-  
+  const authctx= useContext(AuthContext);
 
-  return (
-    <>
+  const mainScreen= !authctx.isLoggedIn ?
+    (<>
     <StatusBar hidden={true} />
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
@@ -46,7 +47,9 @@ export default function App() {
         <Stack.Screen name="Team" component={TeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    </>
+    </>) : <LoginScreen/>;
+    return (
+      mainScreen
   );
 }
 

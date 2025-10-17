@@ -28,7 +28,10 @@ function NavigationPressable({ onPress, symbol }) {
                 <FontAwesome6 name={symbol} size={30} color="black" />
             </Animated.View>
         </Pressable>
+
+
     );
+
 }
 
 export default NavigationPressable;

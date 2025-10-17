@@ -8,9 +8,3 @@ function Track() {
   );
 }
 
-export default Track; 
-
-
-const styles = StyleSheet.create({
-    container: {},
-});

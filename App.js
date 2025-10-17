@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect } from 'react';
+import { useEffect,useContext, } from 'react';
 import * as NavigationBar from 'expo-navigation-bar';
+import { AuthContext } from './components/dbConnecter';
 
 import { useFonts } from 'expo-font';
 
@@ -13,6 +14,7 @@ import CharactersScreen from './screens/Menu/CharactersScreen';
 import HighscoresScreen from './screens/Menu/HighscoresScreen';
 import FriendsScreen from './screens/Menu/FriendsScreen';
 import TeamScreen from './screens/Menu/TeamScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,8 +29,11 @@ export default function App() {
     NavigationBar.setBehaviorAsync("immersive");
   }, []);
 
-  return (
-    <>
+
+  const authctx= useContext(AuthContext);
+
+  const mainScreen= authctx.isLoggedIn ?
+    (<>
     <StatusBar hidden={true} />
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
@@ -40,7 +45,10 @@ export default function App() {
         <Stack.Screen name="Team" component={TeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    </>
+    </>) : <LoginScreen />;
+
+  return (
+    mainScreen
   );
 }
 

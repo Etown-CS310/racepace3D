@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
-import { FontAwesome6 } from '@expo/vector-icons';
 // https://oblador.github.io/react-native-vector-icons/#Ionicons
 
 import Track from './Game/Track.js';
@@ -16,6 +15,8 @@ import mountainbg from '../assets/images/Mountainbg.png';
 import desertbg from '../assets/images/Desertbg.png';
 import roadbg from '../assets/images/Roadbg.png';
 import spacebg from '../assets/images/Spacebg.png';
+
+import backimg from '../assets/images/LeftArrow.png';
 
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
@@ -45,15 +46,10 @@ function GameScreen({ navigation }) {
                 setUnlockedLevels([...unlockedLevels,nextLevelId]);
             }
         }
-
-
-    
         setMode('selectLvl');
-        
     };
 
     const failedLevelHandler = () => {
-
         setMode('selectLvl');
     };
 
@@ -70,19 +66,18 @@ function GameScreen({ navigation }) {
     };
 
     if (mode === 'play') {
-    return(
-        <View style={styles.container}>
-            <Text style={styles.title}> Current Level: {lvls[currentLevel].name}</Text>
+        return(
+            <View style={styles.container}>
+                <Text style={styles.title}> Current Level: {lvls[currentLevel].name}</Text>
 
-            {/* <LvlComponent /> */}
+                {/* <LvlComponent /> */}
 
-            <Button title="Complete Level" onPress={completeLevelHandler} />
-            <Button title="Level Failed" onPress={failedLevelHandler} />
+                <Button title="Complete Level" onPress={completeLevelHandler} />
+                <Button title="Level Failed" onPress={failedLevelHandler} />
 
-        </View>
-    );
+            </View>
+        );
     } else if (mode === 'selectLvl') {
-
         return (
             <ImageBackground
                 source={lvls[currentLevel].bg} // background image goes here
@@ -91,7 +86,6 @@ function GameScreen({ navigation }) {
                 resizeMode="cover"
             >
                 <View style={styles.container}>
-
                     <Text style={styles.title}> Select Level</Text>
 
                     <ScrollView
@@ -114,7 +108,7 @@ function GameScreen({ navigation }) {
                         })}
                     </ScrollView>
                 </View>
-                <NavigationPressable onPress={menuHandler} symbol="back" />
+                <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
             </ImageBackground>
         );
     }
@@ -149,6 +143,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
     },
+
     levelBox: {
         width: 100,
         height: 175,
@@ -156,11 +151,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
     },
-    bgImage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     levelText: {
         fontFamily: 'PressStart2P',
         fontSize: 18,
@@ -170,10 +161,10 @@ const styles = StyleSheet.create({
         textShadowRadius: 2,
         textAlign: 'center',
     },
+
     backgroundImage: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
         width: '100%',
         height: '100%',
     },

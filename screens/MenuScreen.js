@@ -1,55 +1,27 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
-import { FontAwesome6 } from '@expo/vector-icons';
 
 import menuBg from '../assets/images/MenuImage.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
 
-import charimg from '../assets/images/Charselect.png';
-import highscoreimg from '../assets/images/Highscoores.png';
-import friendsimg from '../assets/images/Friends.png';
+import startimg from '../assets/images/Start.png';
+import charimg from '../assets/images/Characters.png';
+import highscoreimg from '../assets/images/Highscores.png';
+import friendimg from '../assets/images/Friends.png';
 import teamimg from '../assets/images/Teams.png';
 
 function MenuScreen({ navigation }) {
 
-    const scale = useRef(new Animated.Value(1)).current;
-
-    const handlePressIn = () => {
-        Animated.spring(scale, {
-            toValue: 0.9,
-            useNativeDriver: true,
-            speed: 50,
-            bounciness: 3,
-        }).start();
+    const navigationHandler = (screen) => {
+        navigation.navigate(screen);
     }
 
-    const handlePressOut = () => {
-        Animated.spring(scale, {
-            toValue: 1,
-            useNativeDriver: true,
-            speed: 30,
-        }).start();
-    }
-
-    const gameHandler = () => {
-        navigation.navigate('Game');
-    };
-
-    const charactersHandler = () => {
-        navigation.navigate('Characters');
-    };
-
-    const highscoresHandler = () => {
-        navigation.navigate('Highscores');
-    };
-
-    const friendsHandler = () => {
-        navigation.navigate('Friends');
-    };
-
-    const teamHandler = () => {
-        navigation.navigate('Team');
-    };
+    const buttons = [
+        {screen: 'Characters', source: charimg},
+        {screen: 'Highscores', source: highscoreimg},
+        {screen: 'Friends', source: friendimg},
+        {screen: 'Team', source: teamimg},
+    ];
 
     return(
         <ImageBackground
@@ -60,25 +32,20 @@ function MenuScreen({ navigation }) {
             <View style={styles.container}>
 
                 <Text style={styles.title}> RacePace3D</Text>
-
-                <Animated.View style={{ transform: [{ scale }] }}>
-                    <Pressable style={styles.button} onPress={gameHandler} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-                        <FontAwesome6 name="caret-right" size={100} color="white" />
-                    </Pressable>
-                </Animated.View>
-
+                <NavigationPressable onPress={() => navigationHandler('Game')} source={startimg} size={150}/>
             </View>
 
             <View style={styles.buttonsContainer}>
-                <NavigationPressable onPress={charactersHandler} source={charimg}/>
-                <NavigationPressable onPress={highscoresHandler} source={highscoreimg}/>
-                <NavigationPressable onPress={friendsHandler} source={friendsimg}/>
-                <NavigationPressable onPress={teamHandler} source={teamimg}/>
+                {buttons.map((btn) => (
+                    <NavigationPressable
+                        key={btn.screen}
+                        onPress={() => navigationHandler(btn.screen)}
+                        source={btn.source}
+                    />
+                ))}
             </View>
         </ImageBackground>
     );
-
-
 }
 
 export default MenuScreen;
@@ -100,17 +67,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 
-    button: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        backgroundColor: 'black',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 20,
-        marginBottom: 0,
-    },
-
     backgroundImage: {
         width: '100%',
         height: '100%',
@@ -121,7 +77,7 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         alignContent: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
     },
 
     lowbutton: {

@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
 import menuBg from '../../assets/images/MenuImage.png';
 
+import backimg from '../../assets/images/LeftArrow.png';
+
 import NavigationPressable from '../../components/NavigationPressable';
 
 function TeamScreen({ navigation }) {
@@ -18,7 +20,7 @@ function TeamScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.title}>Team Screen</Text>
             </View>
-            <NavigationPressable onPress={menuHandler} symbol="back" />
+            <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
         </ImageBackground>
     );
 }
@@ -44,6 +46,5 @@ const styles = StyleSheet.create({
     bgImage: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
     },
 });

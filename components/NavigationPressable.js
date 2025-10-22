@@ -1,8 +1,7 @@
-import { View, StyleSheet, Pressable, Animated } from 'react-native';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { View, StyleSheet, Pressable, Animated, Image } from 'react-native';
 import { useRef } from 'react';
 
-function NavigationPressable({ onPress, symbol }) {
+function NavigationPressable({ onPress, source, size=75 }) {
     const scale = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
@@ -23,13 +22,17 @@ function NavigationPressable({ onPress, symbol }) {
     }
 
     return (
-        <Pressable style={styles.button} onPress={onPress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-            <Animated.View style={{ transform: [{ scale }] }}>
-                <FontAwesome6 name={symbol} size={30} color="black" />
-            </Animated.View>
+        <Pressable
+            style={[styles.button, { width: size, height: size }]}
+            onPress={onPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Animated.Image
+                source={source}
+                style={[styles.bgImage, { transform: [{ scale }] }]}
+            />
         </Pressable>
-
-
     );
 
 }
@@ -38,53 +41,12 @@ export default NavigationPressable;
 
 const styles = StyleSheet.create({
     button: {
-        alignSelf: 'flex-start',
-        margin: 20,
+        margin: 20
     },
-    circleWrapper: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    pixel: {
-        width: 7,
-        height: 7,
-        margin: 0,
-        padding: 0,
-        gap: 0,
-        backgroundColor: 'black',
-        display: 'flex',
-    },
-    // emptyPixel: {
-    //     width: 4,
-    //     height: 4,
-    //     margin: 0,
-    //     padding: 0,
-    //     gap: 0,
-    //     // opacity: 0,
-    //     display: 'flex',
-    // },
-    symbolWrapper: {
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        display: 'flex',
-    },
-    symbolPixel: {
-        width: 4,
-        height: 4,
-        margin: 0,
-        padding: 0,
-        gap: 0,
-        backgroundColor: 'white',
-        display: 'flex',
-    },
-    emptySymbolPixel: {
-        width: 4,
-        height: 4,
-        margin: 0,
-        padding: 0,
-        gap: 0,
-        // opacity: 0,
-        display: 'flex',
+    
+    bgImage: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
 });

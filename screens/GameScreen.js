@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
 // https://oblador.github.io/react-native-vector-icons/#Ionicons
 
@@ -20,6 +20,7 @@ import backimg from '../assets/images/LeftArrow.png';
 
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
+import { useRoute } from '@react-navigation/native';
 
 const lvls = [
     { id: 'track', name: "Track", component: Track, bg: trackbg },
@@ -31,11 +32,20 @@ const lvls = [
 ];
 
 function GameScreen({ navigation }) {
+
+    const route = useRoute();
+    const selectedMode = route.params?.mode || 'selectLvl';
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
-    const[mode, setMode] = useState('selectLvl'); // in the game or between levels (play or selectLvl)
+    const[mode, setMode] = useState(selectedMode); // in the game or between levels (play or selectLvl)
 
     const LvlComponent = lvls[currentLevel].component;
+
+    useEffect(() => {
+        if (route.params?.mode) {
+            setMode(route.params.mode);
+        }
+    }, [route.params?.mode]);
 
     const completeLevelHandler = () => {
         const nextLevel = currentLevel + 1;
@@ -66,14 +76,22 @@ function GameScreen({ navigation }) {
     };
 
     if (mode === 'play') {
+        const bg = lvls[currentLevel].bg;
+        const LvlComponent = lvls[currentLevel].component;
         return(
-            <View style={styles.container}>
-                <Text style={styles.title}> Current Level: {lvls[currentLevel].name}</Text>
+            <View style={{flex: 1}}>
+                {/* <Text style={styles.title}> Current Level: {lvls[currentLevel].name}</Text> */}
 
                 {/* <LvlComponent /> */}
 
-                <Button title="Complete Level" onPress={completeLevelHandler} />
-                <Button title="Level Failed" onPress={failedLevelHandler} />
+                {/* <Button title="Complete Level" onPress={completeLevelHandler} /> */}
+                {/* <Button title="Level Failed" onPress={failedLevelHandler} /> */}
+
+                <LvlComponent
+                    background={bg}
+                    onComplete={completeLevelHandler}
+                    onFail={failedLevelHandler}
+                />
 
             </View>
         );

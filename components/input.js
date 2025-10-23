@@ -8,7 +8,7 @@ function Input({title, value,onChangeText}){
             placeholder={title}
             value={value}
             onChangeText={onChangeText}
-            secureTextEntry={title === "Password"}        
+            secureTextEntry={title === "Password" || title=== "Confirm Password"}        
             />
         </View>
     );

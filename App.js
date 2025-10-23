@@ -2,20 +2,20 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect,useContext, } from 'react';
+import { useEffect, } from 'react';
 import * as NavigationBar from 'expo-navigation-bar';
-import { AuthContext } from './components/dbConnecter';
 
 import { useFonts } from 'expo-font';
 
+// Importing The Screens
 import GameScreen from './screens/GameScreen';
 import MenuScreen from './screens/MenuScreen';
 import CharactersScreen from './screens/Menu/CharactersScreen';
 import HighscoresScreen from './screens/Menu/HighscoresScreen';
 import FriendsScreen from './screens/Menu/FriendsScreen';
 import TeamScreen from './screens/Menu/TeamScreen';
-import LoginScreen from './screens/LoginScreen';
 import Login from './screens/UserFuncts/Login';
+import Register from './screens/UserFuncts/Register';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,10 +31,8 @@ export default function App() {
   }, []);
 
 
-  const authctx= useContext(AuthContext);
-
-  const mainScreen= !authctx.isLoggedIn ?
-    (<>
+    return (
+      <>
     <StatusBar hidden={true} />
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
@@ -43,7 +41,8 @@ export default function App() {
         animation: 'none',
         detachPreviousScreen: false,
       }}>
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
         <Stack.Screen name="Characters" component={CharactersScreen} />
@@ -52,9 +51,7 @@ export default function App() {
         <Stack.Screen name="Team" component={TeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    </>) : <LoginScreen/>;
-    return (
-      mainScreen
+    </>
   );
 }
 

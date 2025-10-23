@@ -4,10 +4,11 @@ import { login } from '../../components/dbConnecter';
 
 import Input from '../../components/input';
 import TextButton from '../../components/textButton';
+import LoginScreen from '../LoginScreen';
 
 
 
-function Login({nav})
+function Login({navigation})
 {
     const [userEmail, setUserEmail] = useState('');
     const [userPass, setUserPass] = useState('');
@@ -22,17 +23,27 @@ function Login({nav})
         //console.log(response);
         if(response)
             {
-            nav.navigate('Menu');
+            navigation.navigate('Menu');
             }
     }
 
+    function regNavHandler()
+    {
+        navigation.navigate('Register');
+    }
+
     return(
-        <View>
-            <Text style={styles.text}>Login</Text>
-            <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail}/>
-            <Input style={styles.textInput} title="Password" value={userPass} onChangeText={setUserPass}/>
-            <TextButton title="Login" onPress={loginHandler}/>
-        </View>
+        <LoginScreen>
+                <Text style={styles.text}>Login</Text>
+                <View style={styles.textInput}>
+                    <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail}/>
+                    <Input style={styles.textInput} title="Password" value={userPass} onChangeText={setUserPass}/>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <TextButton title="Login" onPress={loginHandler}/>
+                    <TextButton title="Sign up" onPress={regNavHandler} />
+                </View>
+        </LoginScreen>
     );
 
 
@@ -43,14 +54,29 @@ export default Login;
 const styles = StyleSheet.create({
     text:
     {
-        marginTop:250,
+        //marginTop:"10%",
         color: 'white',
         fontSize: 30,
-        fontWeight: 500,
+        fontWeight: 800,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+        textAlign: 'center',
     },
     textInput:
     {
-        width: 300,
+        width: 250,
+        textAlign: 'center',
     },
     
+    buttonContainer:
+    {
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        marginTop:10,
+        width:'80%',
+        alignItems: 'center',
+        height:100,
+    },
 });

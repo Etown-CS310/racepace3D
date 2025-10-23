@@ -16,13 +16,15 @@ export default TextButton;
 const styles = StyleSheet.create({
     container:
     {
-
+        backgroundColor:'#EEE',
+        borderRadius:4,
+        width:'60%',
     },
     button:
     {
         backgroundColor: 'rgba(197, 1, 1, 1);',
         color: 'white',
-        width: '100%',
+        width: '200%',
     }
 
 });

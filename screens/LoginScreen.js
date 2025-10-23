@@ -1,23 +1,37 @@
-import Login from './UserFuncts/Login';
-import { View,StyleSheet } from 'react-native';
+import { StyleSheet,ImageBackground,View } from 'react-native';
+import bkimg from '../assets/images/Trackbg.png';
 
-function LoginScreen({navigation}) 
+function LoginScreen({children}) 
 {
+    
     return(
-        <View style={styles.container}>
-            <Login nav={navigation} />
-        </View>
+        <ImageBackground 
+        style={styles.bkimg}
+        source={bkimg}
+        >
+            <View style={styles.container}>
+                {children}
+            </View>
+        </ImageBackground>
     );
 }
 export default LoginScreen;
 
 const styles = StyleSheet.create(
     {
-        container: 
+        bkimg: 
     {
         flex: 1,
-        backgroundColor: 'rgba(47, 43, 43, 1)',
         alignItems: 'center',
-        margin:30,
+        
+    },
+    container:
+    {
+        margin:'auto',
+        backgroundColor: 'rgba(190, 190, 190, 0.7);',
+        width: 350,
+        alignItems: 'center',
+        borderRadius: 10,
+        padding: 20,
     },
     });

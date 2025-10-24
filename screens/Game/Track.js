@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import BaseGame from './BaseGame';
 import trackbg from '../../assets/images/Trackbg.png';
-import player from  '../../assets/characters/cole.gif';
+import player from  '../../assets/characters/cole3D.gif';
 import barrier from '../../assets/barriers/hurdle_1.png';
 
 export default function Track() {

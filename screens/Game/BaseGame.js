@@ -15,6 +15,8 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
     const [gameRunning, setGameRunning] = useState(true);
     const [gameOver, setGameOver] = useState(false);
     const [playerY, setPlayerY] = useState(0);
+    // const [score, setScore] = useState(0);
+    // const [barrierPassed, setBarrierPassed] = useState(false);
 
     const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -110,12 +112,26 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
             setGameOver(true);
             setGameRunning(false);
             if (onComplete) onComplete(false);
-        }
+
+        } 
+        // if (!barrierPassed && barrierPosX + BARRIER.width < PLAYER.x) { // update score
+        //     setScore(prevScore => prevScore + 1);
+        //     setBarrierPassed(true);
+        // }
+        // if (barrierPosX > SCREEN_WIDTH - 10) {
+        //     setBarrierPassed(false);
+        // }
+
+        // if (score == 15) { // if the player jumps 15 barriers, they win
+        //     setGameRunning(false);
+        //     if (onComplete) onComplete(true);
+        // }
     };
 
     
     return (
         <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>
+            {/* <View><Text> Score: {score} </Text></View> */}
         <ImageBackground source={background} style={styles.container}>
             <View style={[styles.floor, { backgroundColor: floorColor }]} />
 

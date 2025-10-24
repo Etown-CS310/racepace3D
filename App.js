@@ -41,8 +41,8 @@ export default function App() {
         animation: 'none',
         detachPreviousScreen: false,
       }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
+        {/* <Stack.Screen name="Login" component={Login} /> */}
+        {/* <Stack.Screen name="Register" component={Register} /> */}
         <Stack.Screen name="Menu" component={MenuScreen} />
         <Stack.Screen name="Game" component={GameScreen} />
         <Stack.Screen name="Characters" component={CharactersScreen} />

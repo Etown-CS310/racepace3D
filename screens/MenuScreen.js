@@ -4,11 +4,11 @@ import menuBg from '../assets/images/MenuImage.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
 
-import startimg from '../assets/images/Start.png';
-import charimg from '../assets/images/Characters.png';
-import highscoreimg from '../assets/images/Highscores.png';
-import friendimg from '../assets/images/Friends.png';
-import teamimg from '../assets/images/Teams.png';
+import startimg from '../assets/buttons/Start.png';
+import charimg from '../assets/buttons/Characters.png';
+import highscoreimg from '../assets/buttons/Highscores.png';
+import friendimg from '../assets/buttons/Friends.png';
+import teamimg from '../assets/buttons/Teams.png';
 
 function MenuScreen({ navigation }) {
 

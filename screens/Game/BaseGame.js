@@ -115,7 +115,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
 
     
     return (
-        <Pressable onPress={JumpingAnim} style={{ flex: 1 }}>
+        <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>
         <ImageBackground source={background} style={styles.container}>
             <View style={[styles.floor, { backgroundColor: floorColor }]} />
 

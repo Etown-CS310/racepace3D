@@ -1,6 +1,6 @@
 import {View, TextInput, StyleSheet } from 'react-native';
 
-function Input({title, value,onChangeText}){
+function Input({title, value,onChangeText, focus}){
     return(
         <View style={styles.container}>
         <TextInput
@@ -8,7 +8,10 @@ function Input({title, value,onChangeText}){
             placeholder={title}
             value={value}
             onChangeText={onChangeText}
-            secureTextEntry={title === "Password" || title=== "Confirm Password"}        
+            secureTextEntry={title === "Password" || title=== "Confirm Password"} 
+            autoCorrect={false}       
+            autoFocus={focus}
+            disableFullscreenUI={true}
             />
         </View>
     );

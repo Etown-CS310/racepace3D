@@ -1,4 +1,4 @@
-import { View,Text,StyleSheet, } from 'react-native';
+import { View,Text,StyleSheet,Alert, } from 'react-native';
 import { useState } from 'react';
 import { login } from '../../components/dbConnecter';
 
@@ -16,6 +16,7 @@ function Login({navigation})
 
     async function loginHandler()
     {
+        
         //console.log(userEmail,userPass);
         //console.log("here");
         const response= await login(userEmail,userPass);
@@ -25,6 +26,9 @@ function Login({navigation})
             {
             navigation.navigate('Menu');
             }
+        else
+            Alert.alert("Login Failed","Incorrect email or password",[{text:"OK"}]);
+            
     }
 
     function regNavHandler()
@@ -36,7 +40,7 @@ function Login({navigation})
         <LoginScreen>
                 <Text style={styles.text}>Login</Text>
                 <View style={styles.textInput}>
-                    <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail}/>
+                    <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail} focus={true}/>
                     <Input style={styles.textInput} title="Password" value={userPass} onChangeText={setUserPass}/>
                 </View>
                 <View style={styles.buttonContainer}>
@@ -54,6 +58,7 @@ export default Login;
 const styles = StyleSheet.create({
     text:
     {
+        fontFamily: 'PressStart2P',
         //marginTop:"10%",
         color: 'white',
         fontSize: 30,

@@ -6,6 +6,7 @@ import { useEffect, } from 'react';
 import * as NavigationBar from 'expo-navigation-bar';
 
 import { useFonts } from 'expo-font';
+import { useState } from 'react';
 
 // Importing The Screens
 import GameScreen from './screens/GameScreen';
@@ -16,6 +17,8 @@ import FriendsScreen from './screens/Menu/FriendsScreen';
 import TeamScreen from './screens/Menu/TeamScreen';
 import Login from './screens/UserFuncts/Login';
 import Register from './screens/UserFuncts/Register';
+
+import { chars } from './data/characters';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +33,11 @@ export default function App() {
     NavigationBar.setBehaviorAsync("immersive");
   }, []);
 
+  const [currentCharacter, setCurrentCharacter] = useState(0);
+
+  const characterHandler = (index) => {
+    setCurrentCharacter(index);
+  };
 
     return (
       <>
@@ -44,8 +52,25 @@ export default function App() {
         {/* <Stack.Screen name="Login" component={Login} /> */}
         {/* <Stack.Screen name="Register" component={Register} /> */}
         <Stack.Screen name="Menu" component={MenuScreen} />
-        <Stack.Screen name="Game" component={GameScreen} />
-        <Stack.Screen name="Characters" component={CharactersScreen} />
+        <Stack.Screen name="Game">
+          {(props) => (
+            <GameScreen
+              {...props}
+              currentCharacter={currentCharacter}
+              chars={chars}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Characters">
+          {(props) => (
+            <CharactersScreen
+              {...props}
+              currentCharacter={currentCharacter}
+              characterHandler={characterHandler}
+              chars={chars}
+            />
+          )}
+        </Stack.Screen>
         <Stack.Screen name="Highscores" component={HighscoresScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
         <Stack.Screen name="Team" component={TeamScreen} />

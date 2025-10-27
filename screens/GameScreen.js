@@ -31,13 +31,13 @@ const lvls = [
     { id: 'space', name: "Space", component: Space, bg: spacebg },
 ];
 
-function GameScreen({ navigation }) {
+function GameScreen({ navigation, currentCharacter, chars }) {
 
     const route = useRoute();
     const selectedMode = route.params?.mode || 'selectLvl';
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
-    const[mode, setMode] = useState(selectedMode); // in the game or between levels (play or selectLvl)
+    const [mode, setMode] = useState(selectedMode); // in the game or between levels (play or selectLvl)
 
     const LvlComponent = lvls[currentLevel].component;
 
@@ -91,6 +91,7 @@ function GameScreen({ navigation }) {
                     background={bg}
                     onComplete={completeLevelHandler}
                     onFail={failedLevelHandler}
+                    playerCharacter={chars[currentCharacter].img}
                 />
 
             </View>

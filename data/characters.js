@@ -3,6 +3,7 @@ import Eliud from '../assets/characters/Eliud3D.gif';
 import Grant from '../assets/characters/Grant3D.gif';
 import Jakob from '../assets/characters/Jakob3D.gif';
 import Mo from '../assets/characters/Mo3D.gif';
+import Falk from '../assets/characters/Falk3D.gif';
 
 export const chars = [
   {
@@ -34,5 +35,11 @@ export const chars = [
     name: 'Mo Farah',
     desc: 'Mo Farah is a British long-distance runner. He is a four-time Olympic champion and a six-time world champion.',
     img: Mo,
+  },
+  {
+    id: 'falk',
+    name: 'Brian Falk',
+    desc: 'Brian Falk is a Division III Cross Country and Track coach at Elizabetown College in Pennsylvania. He always encourages his athletes that "wherever you are, it gets better from here".',
+    img: Falk,
   },
 ];

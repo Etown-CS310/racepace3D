@@ -39,7 +39,7 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
                         data={chars}
                         renderItem={renderCharacter}
                         keyExtractor={(item) => item.id}
-                        numColumns={5}
+                        numColumns={6}
                         columnWrapperStyle={styles.row}
                         contentContainerStyle={styles.grid}
                         showsVerticalScrollIndicator={false}

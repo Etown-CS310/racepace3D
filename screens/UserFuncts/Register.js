@@ -1,4 +1,4 @@
-import {Text,View,StyleSheet,Alert} from 'react-native';
+import {Text,View,StyleSheet,Alert,KeyboardAvoidingView,} from 'react-native';
 import TextButton from '../../components/textButton';
 import Input from '../../components/input';
 import { useState } from 'react';
@@ -52,8 +52,9 @@ function Register({navigation})
     return (
         <LoginScreen>
             <Text style={styles.text}>Register</Text>
+            
             <View style={styles.textInput}>
-                <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail}/>
+                <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail} focus={true}/>
                 <Input style={styles.textInput} title="Confirm Email" value={confirmEmail} onChangeText={setConfirmEmail}/>
                 <Input style={styles.textInput} title="Password" value={userPass} onChangeText={setUserPass}/>
                 <Input style={styles.textInput} title="Confirm Password" value={confirmPass} onChangeText={setConfirmPass}/>
@@ -62,6 +63,7 @@ function Register({navigation})
                 <TextButton title="Register" onPress={registrationHandler}/>
                 <TextButton title="Back to Login" onPress={loginNavHandler}/>
             </View>
+            
         </LoginScreen>
     );
 }
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     text:
     {
         //marginTop:"10%",
+        fontFamily: 'PressStart2P',
         color: 'white',
         fontSize: 30,
         fontWeight: 800,

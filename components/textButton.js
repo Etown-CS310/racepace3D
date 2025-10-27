@@ -6,7 +6,8 @@ function TextButton({title, onPress})
         <View style={styles.container}>
             <Button
                 title={title}
-                onPress={onPress}        
+                onPress={onPress}  
+                color='black'
             />
         </View>
     );
@@ -20,11 +21,5 @@ const styles = StyleSheet.create({
         borderRadius:4,
         width:'60%',
     },
-    button:
-    {
-        backgroundColor: 'rgba(197, 1, 1, 1);',
-        color: 'white',
-        width: '200%',
-    }
 
 });

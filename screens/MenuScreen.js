@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
 
 import menuBg from '../assets/images/MenuImage.png';
+import menuBg2 from '../assets/images/title.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
 
@@ -25,7 +26,7 @@ function MenuScreen({ navigation }) {
 
     return(
         <ImageBackground
-            source={ menuBg }
+            source={ menuBg2 }
             style={styles.backgroundImage}
             resizeMode="cover"
         >

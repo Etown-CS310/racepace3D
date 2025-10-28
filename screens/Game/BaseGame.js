@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Animated, ImageBackground, Easing, Pressable, Dimensions } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -17,6 +17,10 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
     const [playerY, setPlayerY] = useState(0);
     // const [score, setScore] = useState(0);
     // const [barrierPassed, setBarrierPassed] = useState(false);
+
+    // screen animation values
+    const screenX = useRef(new Animated.Value(0)).current;
+    const rotateVal = useRef(new Animated.Value(0)).current;
 
     const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -62,6 +66,35 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
             }
         });
     };
+
+useEffect(() => { // screen background animation
+
+    const loopAnim = Animated.loop(
+        Animated.sequence([
+            Animated.timing(screenX, {
+                toValue: -SCREEN_WIDTH,
+                duration: 3050,
+                easing: Easing.linear,
+                useNativeDriver: false,
+            }),
+            Animated.timing(screenX, {
+                toValue: 0,
+                duration: 0,
+                useNativeDriver: false,
+            }),
+        ])
+    );
+        loopAnim.start();
+
+        return () => loopAnim.stop();
+    }, [screenX]);
+
+    useEffect(() => {
+        if (gameOver) {
+            screenX.stopAnimation(); // stops the background animation on game over
+        }
+    }, [gameOver]);
+
 
     useEffect(() => {
         const id = jumpAnimation.addListener(({ value }) => {
@@ -132,46 +165,67 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
     return (
         <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>
             {/* <View><Text> Score: {score} </Text></View> */}
-        <ImageBackground source={background} style={styles.container}>
-            <View style={[styles.floor, { backgroundColor: floorColor }]} />
+            
+        <View style={styles.container}>
+        {/* Scrolling background images */}
+        <Animated.Image
+            source={background}
+            style={[
+                styles.background,
+                { transform: [{ translateX: screenX }] },
+            ]}
+            resizeMode="cover"
+        />
+        <Animated.Image
+            source={background}
+            style={[
+                styles.background,
+                {
+                    position: 'absolute',
+                    left: SCREEN_WIDTH,
+                    transform: [{ translateX: screenX }],
+                },
+            ]}
+            resizeMode="cover"
+        />
 
-            {/* Player */}
-            <Animated.Image
-                source={playerGiF}
-                style={[
-                    styles.player,
-                    {   transform: [{ translateY: jumpAnimation }], 
-                        width: PLAYER.width * 1.3,
-                        height: PLAYER.height * 1.3,
-                    },
-                ]}
-                resizeMode="contain"
-            />
+        {/* Game content goes here */}
+        <View style={[styles.floor, { backgroundColor: floorColor }]} />
 
-            {/* Barrier */}
-            <Animated.Image
-                source={barrierImg}
-                style={[
-                    styles.barrier,
-                    { transform: [{ translateX: barrierX }],
-                        width: BARRIER.width * 1.5,
-                        height: BARRIER.height * 1.5,
-                        },
-                ]}
-                resizeMode="contain"
-            />
-            {/* Game Over */}
-            {gameOver && (
-                <View style={styles.overlay}>
-                    <Text style={styles.gameOverText}>Game Over</Text>
-                    <Pressable style={styles.menuButton}
-                        onPress={() => navigation.replace('Game', {mode: 'selectLvl'})}
-                    >
-                        <Text style={styles.menuButtonText}>Return to Menu</Text>
-                    </Pressable>
-                </View>
-            )}
-        </ImageBackground>
+        {/* Player */}
+        <Animated.Image
+            source={playerGiF}
+            style={[
+                styles.player,
+                { transform: [{ translateY: jumpAnimation }] },
+            ]}
+            resizeMode="contain"
+        />
+
+        {/* Barrier */}
+        <Animated.Image
+            source={barrierImg}
+            style={[
+                styles.barrier,
+                { transform: [{ translateX: barrierX }] },
+            ]}
+            resizeMode="contain"
+        />
+
+        {/* Game Over */}
+        {gameOver && (
+            <View style={styles.overlay}>
+                <Text style={styles.gameOverText}>Game Over</Text>
+                <Pressable
+                    style={styles.menuButton}
+                    onPress={() => navigation.replace('Game', { mode: 'selectLvl' })}
+                >
+                    <Text style={styles.menuButtonText}>Return to Menu</Text>
+                </Pressable>
+            </View>
+        )}
+    </View>
+
         </Pressable>
     );
 }
@@ -227,5 +281,10 @@ const styles = StyleSheet.create({
         fontSize: 36,
         color: 'white',
         fontWeight: 'bold',
+    },
+    background: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
     },
 });

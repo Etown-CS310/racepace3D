@@ -1,25 +1,8 @@
-import { StyleSheet, Pressable, Image, Animated, View } from 'react-native';
-import { useRef } from 'react';
+import { Text, StyleSheet, Pressable, ImageBackground, Animated, View } from 'react-native';
+import { usePressAnimation } from '../hooks/usePressAnimation';
 
-function CharacterPressable({ character, onPress, isSelected }) {
-    const scale = useRef(new Animated.Value(1)).current;
-
-    const handlePressIn = () => {
-        Animated.spring(scale, {
-        toValue: 0.9,
-        useNativeDriver: true,
-        speed: 50,
-        bounciness: 3,
-        }).start();
-    };
-
-    const handlePressOut = () => {
-        Animated.spring(scale, {
-        toValue: 1,
-        useNativeDriver: true,
-        speed: 30,
-        }).start();
-    };
+function CharacterPressable({ character, unlocked, onPress, isSelected }) {
+    const { scale, handlePressIn, handlePressOut } = usePressAnimation();
 
     return (
         <View style={[
@@ -33,12 +16,19 @@ function CharacterPressable({ character, onPress, isSelected }) {
             ]}
         >
             <Pressable
-                onPress={onPress}
+                onPress={() => { if (unlocked) onPress(); }}
                 onPressIn={handlePressIn}
                 onPressOut={handlePressOut}
                 style={styles.characterBox}
             >
-                <Image source={character.img} style={styles.charImage} resizeMode="contain" />
+                <ImageBackground
+                    source={character.img}
+                    style={styles.charImage}
+                    imageStyle={{ opacity: unlocked ? 1 : 0.3 }}
+                    resizeMode="contain"
+                >
+                    <Text style={styles.lock}>{unlocked ? '' : '🔒'}</Text>
+                </ImageBackground>
             </Pressable>
         </Animated.View>
         </View>
@@ -55,7 +45,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderWidth: 3,
         borderColor: 'transparent',
-        width: 80, // adjust to fit grid
+        width: 80,
         height: 120,
         alignItems: 'center',
         justifyContent: 'center',
@@ -73,5 +63,16 @@ const styles = StyleSheet.create({
     charImage: {
         width: '100%',
         height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    lock: {
+        fontFamily: 'PressStart2P',
+        fontSize: 18,
+        color: 'white',
+        textShadowColor: 'black',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+        textAlign: 'center',
     },
 });

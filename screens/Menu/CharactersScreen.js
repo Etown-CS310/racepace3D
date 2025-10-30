@@ -19,6 +19,7 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
             <CharacterPressable
                 key={item.id}
                 character={item}
+                unlocked={item.unlocked}
                 onPress={() => characterHandler(index)}
                 isSelected={currentCharacter === index}
             />

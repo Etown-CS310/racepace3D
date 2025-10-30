@@ -1,25 +1,8 @@
 import { View, StyleSheet, Pressable, Animated, Image } from 'react-native';
-import { useRef } from 'react';
+import { usePressAnimation } from '../hooks/usePressAnimation';
 
 function NavigationPressable({ onPress, source, size=75 }) {
-    const scale = useRef(new Animated.Value(1)).current;
-
-    const handlePressIn = () => {
-        Animated.spring(scale, {
-            toValue: 0.9,
-            useNativeDriver: true,
-            speed: 50,
-            bounciness: 3,
-        }).start();
-    }
-
-    const handlePressOut = () => {
-        Animated.spring(scale, {
-            toValue: 1,
-            useNativeDriver: true,
-            speed: 30,
-        }).start();
-    }
+    const { scale, handlePressIn, handlePressOut } = usePressAnimation();
 
     return (
         <Pressable

@@ -155,7 +155,7 @@ useEffect(() => { // screen background animation
         //     setBarrierPassed(false);
         // }
 
-        // if (score == 15) { // if the player jumps 15 barriers, they win
+        // if (score == 100) { // if the player jumps 15 barriers, they win
         //     setGameRunning(false);
         //     if (onComplete) onComplete(true);
         // }

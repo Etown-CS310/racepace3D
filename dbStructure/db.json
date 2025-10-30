@@ -1,4 +1,15 @@
 {
+    "Users":
+    {
+        "0":
+        {
+            "name":"A user????",
+            "highscore":0,
+            "teamID":"0",
+            "charID":"0"
+        }
+    },
+
     "Teams":
     {
         "0":

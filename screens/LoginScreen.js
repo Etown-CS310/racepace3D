@@ -9,7 +9,7 @@ function LoginScreen({children})
         style={styles.bkimg}
         source={bkimg}
         > 
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-50} style={styles.margContainer}>
+        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-75} style={styles.margContainer}>
             <View style={styles.container}>
                 {children}
             </View>

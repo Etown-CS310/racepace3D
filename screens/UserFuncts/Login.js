@@ -1,10 +1,11 @@
 import { View,Text,StyleSheet,Alert, } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect, } from 'react';
 import { login } from '../../components/dbConnecter';
 
 import Input from '../../components/input';
 import TextButton from '../../components/textButton';
 import LoginScreen from '../LoginScreen';
+import { refreshToken } from '../../components/dbConnecter';
 
 
 
@@ -13,6 +14,16 @@ function Login({navigation})
     const [userEmail, setUserEmail] = useState('');
     const [userPass, setUserPass] = useState('');
     //console.log("LoginScreen");
+
+    useEffect(()=>{
+        async function checkToken()
+        {
+            if(await refreshToken())
+                navigation.navigate('Menu');
+        }
+        checkToken();
+    },[]);
+
 
     async function loginHandler()
     {

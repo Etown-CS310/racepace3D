@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import BaseGame from './BaseGame';
 import barrier from '../../assets/barriers/hurdle_1.png';
 import background from '../../assets/levelbackgrounds/Track_lvl_bg.png';
+import floor from '../../assets/levelfloor/trackGround.png';
 
 export default function Track({ playerCharacter, onComplete, onFail }) {
   return (
@@ -11,7 +12,9 @@ export default function Track({ playerCharacter, onComplete, onFail }) {
         background={background}
         playerGiF={playerCharacter}
         barrierImg={barrier}
-        floorColor='red'
+        floorImg={floor}
+        onComplete={onComplete}
+        onFail={onFail}
       />
     </View>
 

@@ -8,6 +8,7 @@ import Mountain from './Game/Mountain.js';
 import Desert from './Game/Desert.js';
 import Road from './Game/Road.js';
 import Space from './Game/Space.js';
+import BaseGame from './Game/BaseGame.js';
 
 import trackbg from '../assets/images/Trackbg.png';
 import forestbg from '../assets/images/Forestbg.png';
@@ -80,13 +81,6 @@ function GameScreen({ navigation, currentCharacter, chars }) {
         const LvlComponent = lvls[currentLevel].component;
         return(
             <View style={{flex: 1}}>
-                {/* <Text style={styles.title}> Current Level: {lvls[currentLevel].name}</Text> */}
-
-                {/* <LvlComponent /> */}
-
-                {/* <Button title="Complete Level" onPress={completeLevelHandler} /> */}
-                {/* <Button title="Level Failed" onPress={failedLevelHandler} /> */}
-
                 <LvlComponent
                     background={bg}
                     onComplete={completeLevelHandler}

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function BaseGame({ background, playerGiF, barrierImg, floorColor = 'white', onComplete }) {
+export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onComplete }) {
     const navigation = useNavigation();
     // player jump animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
@@ -15,8 +15,9 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorColor
     const [gameRunning, setGameRunning] = useState(true);
     const [gameOver, setGameOver] = useState(false);
     const [playerY, setPlayerY] = useState(0);
-    // const [score, setScore] = useState(0);
-    // const [barrierPassed, setBarrierPassed] = useState(false);
+    const [score, setScore] = useState(0);
+    const [barrierPassed, setBarrierPassed] = useState(false);
+    const [won, setWon] = useState(false);
 
     // screen animation values
     const screenX = useRef(new Animated.Value(0)).current;
@@ -89,12 +90,6 @@ useEffect(() => { // screen background animation
         return () => loopAnim.stop();
     }, [screenX]);
 
-    useEffect(() => {
-        if (gameOver) {
-            screenX.stopAnimation(); // stops the background animation on game over
-        }
-    }, [gameOver]);
-
 
     useEffect(() => {
         const id = jumpAnimation.addListener(({ value }) => {
@@ -108,8 +103,16 @@ useEffect(() => { // screen background animation
     useEffect(() => {
         if (gameOver) {
             barrierX.stopAnimation();
+            screenX.stopAnimation();
         }
     }, [gameOver]);
+
+    useEffect(() => {
+        if (won) {
+            barrierX.stopAnimation();
+            screenX.stopAnimation();
+        }
+    }, [won]);
 
     useEffect(() => {
         barrierAnim();
@@ -144,30 +147,29 @@ useEffect(() => { // screen background animation
         if (horizontalOverlap && verticalOverlap && !gameOver) {
             setGameOver(true);
             setGameRunning(false);
-            if (onComplete) onComplete(false);
-
         } 
-        // if (!barrierPassed && barrierPosX + BARRIER.width < PLAYER.x) { // update score
-        //     setScore(prevScore => prevScore + 1);
-        //     setBarrierPassed(true);
-        // }
-        // if (barrierPosX > SCREEN_WIDTH - 10) {
-        //     setBarrierPassed(false);
-        // }
-
-        // if (score == 100) { // if the player jumps 15 barriers, they win
-        //     setGameRunning(false);
-        //     if (onComplete) onComplete(true);
-        // }
+        if (!barrierPassed && barrierPosX + BARRIER.width < PLAYER.x) { // update score
+            setScore(prevScore => {
+                const newScore = prevScore + 1;
+                if (newScore >= 100) {
+                    setGameRunning(false);
+                    setWon(true);
+                }
+                return newScore;
+            });
+            setBarrierPassed(true);
+        }
+        if (barrierPosX > SCREEN_WIDTH - 10) {
+            setBarrierPassed(false);
+        }
     };
 
     
     return (
-        <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>
-            {/* <View><Text> Score: {score} </Text></View> */}
-            
+        <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>            
         <View style={styles.container}>
         {/* Scrolling background images */}
+        
         <Animated.Image
             source={background}
             style={[
@@ -188,9 +190,13 @@ useEffect(() => { // screen background animation
             ]}
             resizeMode="cover"
         />
-
+    
         {/* Game content goes here */}
-        <View style={[styles.floor, { backgroundColor: floorColor }]} />
+
+        <ImageBackground source={floorImg} style={styles.floor} imageStyle={{ resizeMode: 'stretch' }} />
+
+            <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
+
 
         {/* Player */}
         <Animated.Image
@@ -211,6 +217,7 @@ useEffect(() => { // screen background animation
             ]}
             resizeMode="contain"
         />
+        
 
         {/* Game Over */}
         {gameOver && (
@@ -218,7 +225,18 @@ useEffect(() => { // screen background animation
                 <Text style={styles.gameOverText}>Game Over</Text>
                 <Pressable
                     style={styles.menuButton}
-                    onPress={() => navigation.replace('Game', { mode: 'selectLvl' })}
+                    onPress={() => { if (onComplete) onComplete(false); }}
+                >
+                    <Text style={styles.menuButtonText}>Return to Menu</Text>
+                </Pressable>
+            </View>
+        )}
+        {won && (
+            <View style={styles.overlay}>
+                <Text style={styles.gameOverText}>You Win!</Text>
+                <Pressable
+                    style={styles.menuButton}
+                    onPress={() => { if (onComplete) onComplete(true); }}
                 >
                     <Text style={styles.menuButtonText}>Return to Menu</Text>
                 </Pressable>
@@ -258,12 +276,12 @@ const styles = StyleSheet.create({
         width: 30,
         height: 80,
         position: 'absolute',
-        bottom: 100,
+        bottom: 90,
         left: 0,
     },
     floor: {
         width: '100%',
-        height: 100,
+        height: 110,
         position: 'absolute',
         bottom: 0,
     },
@@ -285,6 +303,18 @@ const styles = StyleSheet.create({
     background: {
         position: 'absolute',
         width: '100%',
-        height: '100%',
+        height: '75%',
+        bottom: 100,
+        
+    },
+    scoreArea: {
+        justifyContent: 'center',
+        alignContents: 'center',  
+        paddingBottom: 20,
+    },
+    scoreText: {
+        fontSize: 30,
+        color: 'black',
+        fontWeight: 'bold',
     },
 });

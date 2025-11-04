@@ -18,11 +18,26 @@ import TeamScreen from './screens/Menu/TeamScreen';
 import Login from './screens/UserFuncts/Login';
 import Register from './screens/UserFuncts/Register';
 
-import { chars } from './data/characters';
+import { getChars } from './data/characters';
 
 const Stack = createNativeStackNavigator();
 
+
+
 export default function App() {
+  const [chars, setChars] = useState([]);
+
+  useEffect(() => 
+    {
+    async function fetchChars() 
+    {
+      const fetchedChars = await getChars();
+      setChars(fetchedChars);
+    }
+    fetchChars();
+    //console.log(chars);
+  },[]);
+
   const [fontsLoaded] = useFonts({
     PressStart2P: require('./assets/fonts/PressStart2P-Regular.ttf'),
   });

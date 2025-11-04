@@ -1,29 +1,4 @@
-{
-    "Users":
-    {
-        "VsjHS2gYswfzhqqozgKlTQvebsT2":
-        {
-            "name":"A user????",
-            "highscore":0,
-            "teamID":0,
-            "charID":"cole"
-        }
-    },
-
-    "Teams":
-    {
-        "0":
-        {
-            "name":"Bob fan club",
-            "captain":"Jerry",
-            "description":"Is this thing on? testing 1 2."
-        }
-        
-    },
-
-    "Characters":
-    [
-        
+[
         {
             "id":"cole",
             "name": "Cole Hocker",
@@ -53,18 +28,10 @@
             "id":"falk",
             "name": "Brian Falk",
             "desc": "Brian Falk is a Division III Cross Country and Track coach at Elizabetown College in Pennsylvania. He always encourages his athletes that \"wherever you are, it gets better from here\"."
+        },
+        {
+            "id":"rando",
+            "name":"Random Hobo",
+            "desc":"Some dude we found off of the street. He was bored"
         }
     ]
-        
-    ,
-    "Friendships":
-    {
-        "0":
-        {
-            "user1id":0,
-            "user2id":1,
-            "status":"Accepted"
-        }
-        
-    }
-}

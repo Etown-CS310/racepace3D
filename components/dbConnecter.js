@@ -8,9 +8,8 @@ import * as SecureStore from 'expo-secure-store';
 export const AuthContext = createContext({
     isLoggedIn: false,
     token: null,
-    login: (token) => {this.token=token; this.isLoggedIn=true;},
-    logout: () => {this.token=null; this.isLoggedIn=false;},
 });
+
 
 async function auth(email,password,mode)
 {
@@ -43,7 +42,7 @@ export async function refreshToken()
             grant_type: 'refresh_token',
             refresh_token: token
         }
-    )
+    );
     //console.log(response.data.id_token);
     AuthContext.token= response.data.id_token;
     AuthContext.isLoggedIn= true;
@@ -53,21 +52,29 @@ export async function refreshToken()
 
 
 export async function login(email, password) 
-    {
+{
         const id = await auth(email, password, 'login');
         if(id!=null)
             return true;
-    }
+}
 
 export async function signUp(email, password) 
-    {
+{
         const id = await auth(email, password, 'signup');
         if(id!=null)
             return true;
-    }
+}
+
+async function waitForToken({ interval = 100 } = {}) {
+  while (true) {
+    if (AuthContext.token) return AuthContext.token;
+    await new Promise((r) => setTimeout(r, interval));
+  }
+}
 
 async function queryDB(token,Purpose)
 {
+    token=await waitForToken();
     const api_url = `https://racepace3d-default-rtdb.firebaseio.com/${Purpose}.json?auth=${token}`;
 
     const response = await axios.get(api_url);
@@ -79,5 +86,22 @@ export async function getTeams()
 {
     const token = AuthContext.token;
     return await queryDB(token,'Teams');
+}
+
+export async function getCharacters()
+{
+    const charData =  await queryDB(AuthContext.token,'Characters');
+    return charData;
+    //console.log(charData);
+}
+
+export async function getFriends()
+{
+
+}
+
+export async function getMe()
+{
+
 }
 

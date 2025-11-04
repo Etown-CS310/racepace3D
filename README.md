@@ -32,3 +32,22 @@ New with this version of racepace will be the ability to join a team with a grou
 
 ### Friends
 Not on a team, but still want to compete for high scores against your friends? then simply send them a friend request and go to your friend page to see there scores, current character, and other customizations they have.
+
+# Installation instructions
+
+- run npm install
+- run npm start or npx expo start
+- run in a simulator or on your phone in the expo app
+
+# Dependencies and APIs
+
+## APIs
+
+currently we use the firebase Authentication API to manage users. 
+And the realtime database APIs 
+
+### current API points
+
+- Login
+- Signup
+- RealTimeDatabase

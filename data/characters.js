@@ -4,8 +4,11 @@ import Grant from '../assets/characters/Grant3D.gif';
 import Jakob from '../assets/characters/Jakob3D.gif';
 import Mo from '../assets/characters/Mo3D.gif';
 import Falk from '../assets/characters/Falk3D.gif';
+import { getCharacters } from '../components/dbConnecter';
 
-export const chars = [
+
+/*export const chars = 
+[
   {
     id: 'cole',
     name: 'Cole Hocker',
@@ -48,4 +51,41 @@ export const chars = [
     img: Falk,
     unlocked: false,
   },
-];
+];*/
+
+export async function getChars()
+{
+  let chars = await getCharacters();
+  //console.log(chars);
+  chars=chars.map((char)=>
+    {
+      char.unlocked= char.id === 'falk' ? false : true;
+      switch(char.id)
+      {
+        case 'cole':
+          char.img= Cole;
+          break;
+        case 'eliud':
+          char.img= Eliud;
+          break;
+        case 'grant':
+          char.img= Grant;
+          break;
+        case 'jakob':
+          char.img= Jakob;
+          break;
+        case 'mo':
+          char.img= Mo;
+          break;
+        case 'falk':
+          char.img= Falk;
+          break;
+        default:
+          char.img= Cole;
+      }
+      //console.log(char);
+      return char;
+    });
+  //console.log(chars);
+  return chars;
+}

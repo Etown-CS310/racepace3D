@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 import menuBg from '../assets/images/MenuImage.png';
 import menuBg2 from '../assets/images/title.png';
@@ -14,6 +15,10 @@ import teamimg from '../assets/buttons/Teams.png';
 function MenuScreen({ navigation }) {
 
     const navigationHandler = (screen) => {
+        if(screen==='Login')
+        {
+            SecureStore.deleteItemAsync('token');
+        }
         navigation.navigate(screen);
     }
 
@@ -22,6 +27,7 @@ function MenuScreen({ navigation }) {
         {screen: 'Highscores', source: highscoreimg},
         {screen: 'Friends', source: friendimg},
         {screen: 'Team', source: teamimg},
+        {screen: 'Login', source: null},
     ];
 
     return(

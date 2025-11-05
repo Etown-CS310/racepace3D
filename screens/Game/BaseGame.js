@@ -21,7 +21,6 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
 
     // screen animation values
     const screenX = useRef(new Animated.Value(0)).current;
-    const rotateVal = useRef(new Animated.Value(0)).current;
 
     const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -176,7 +175,7 @@ useEffect(() => { // screen background animation
                 styles.background,
                 { transform: [{ translateX: screenX }] },
             ]}
-            resizeMode="cover"
+            resizeMode="stretch"
         />
         <Animated.Image
             source={background}
@@ -188,14 +187,14 @@ useEffect(() => { // screen background animation
                     transform: [{ translateX: screenX }],
                 },
             ]}
-            resizeMode="cover"
+            resizeMode="stretch"
         />
     
         {/* Game content goes here */}
-
+    
         <ImageBackground source={floorImg} style={styles.floor} imageStyle={{ resizeMode: 'stretch' }} />
 
-            <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
+        <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
 
 
         {/* Player */}
@@ -273,8 +272,8 @@ const styles = StyleSheet.create({
         left: 60,
     },
     barrier: {
-        width: 30,
-        height: 80,
+        width: 50,
+        height: 100,
         position: 'absolute',
         bottom: 90,
         left: 0,

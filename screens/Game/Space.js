@@ -1,16 +1,23 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
+import BaseGame from './BaseGame';
+import barrier from '../../assets/barriers/spaceBarrier.png';
+import background from '../../assets/levelbackgrounds/Space_lvl_bg.png';
+import floor from '../../assets/levelfloor/spaceGround.png';
 
-function Space() {
+export default function Track({ playerCharacter, onComplete, onFail }) {
   return (
-    <View style={styles.container}>
-      <Text> Space Lvl</Text>
+    <View style={{ flex: 1 }}>
+      <BaseGame
+        background={background}
+        playerGiF={playerCharacter}
+        barrierImg={barrier}
+        floorImg={floor}
+        onComplete={onComplete}
+        onFail={onFail}
+      />
     </View>
+
   );
+
 }
-
-export default Space; 
-
-
-const styles = StyleSheet.create({
-    container: {},
-});

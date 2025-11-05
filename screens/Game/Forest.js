@@ -1,16 +1,23 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
+import BaseGame from './BaseGame';
+import barrier from '../../assets/barriers/forestBarrier.png';
+import background from '../../assets/levelbackgrounds/Forest_lvl_bg.png';
+import floor from '../../assets/levelfloor/forestGround.png';
 
-function Forest() {
+export default function Track({ playerCharacter, onComplete, onFail }) {
   return (
-    <View style={styles.container}>
-      <Text> Forest Lvl</Text>
+    <View style={{ flex: 1 }}>
+      <BaseGame
+        background={background}
+        playerGiF={playerCharacter}
+        barrierImg={barrier}
+        floorImg={floor}
+        onComplete={onComplete}
+        onFail={onFail}
+      />
     </View>
+
   );
+
 }
-
-export default Forest; 
-
-
-const styles = StyleSheet.create({
-    container: {},
-});

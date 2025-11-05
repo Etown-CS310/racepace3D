@@ -192,20 +192,8 @@ useEffect(() => { // screen background animation
         />
     
         {/* Game content goes here */}
-    
 
         <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
-
-
-        {/* Player */}
-        <Animated.Image
-            source={playerGiF}
-            style={[
-                styles.player,
-                { transform: [{ translateY: jumpAnimation }] },
-            ]}
-            resizeMode="contain"
-        />
 
         {/* Floor */}
 
@@ -236,6 +224,16 @@ useEffect(() => { // screen background animation
             style={[
                 styles.barrier,
                 { transform: [{ translateX: barrierX }] },
+            ]}
+            resizeMode="contain"
+        />
+
+        {/* Player */}
+        <Animated.Image
+            source={playerGiF}
+            style={[
+                styles.player,
+                { transform: [{ translateY: jumpAnimation }] },
             ]}
             resizeMode="contain"
         />

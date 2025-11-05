@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onComplete }) {
+export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onComplete, onFail }) {
     const navigation = useNavigation();
     // player jump animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
@@ -144,6 +144,7 @@ useEffect(() => { // screen background animation
             playerBottom > barrierTop;
 
         if (horizontalOverlap && verticalOverlap && !gameOver) {
+            setWon(false);
             setGameOver(true);
             setGameRunning(false);
         } 
@@ -192,7 +193,6 @@ useEffect(() => { // screen background animation
     
         {/* Game content goes here */}
     
-        <ImageBackground source={floorImg} style={styles.floor} imageStyle={{ resizeMode: 'stretch' }} />
 
         <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
 
@@ -207,6 +207,29 @@ useEffect(() => { // screen background animation
             resizeMode="contain"
         />
 
+        {/* Floor */}
+
+        <Animated.Image
+            source={floorImg}
+            style={[
+                styles.floor,
+                { transform: [{ translateX: screenX }] },
+            ]}
+            resizeMode="stretch"
+        />
+        <Animated.Image
+            source={floorImg}
+            style={[
+                styles.floor,
+                {
+                    position: 'absolute',
+                    left: SCREEN_WIDTH,
+                    transform: [{ translateX: screenX }],
+                },
+            ]}
+            resizeMode="stretch"
+        />
+
         {/* Barrier */}
         <Animated.Image
             source={barrierImg}
@@ -216,6 +239,8 @@ useEffect(() => { // screen background animation
             ]}
             resizeMode="contain"
         />
+
+
         
 
         {/* Game Over */}
@@ -224,7 +249,7 @@ useEffect(() => { // screen background animation
                 <Text style={styles.gameOverText}>Game Over</Text>
                 <Pressable
                     style={styles.menuButton}
-                    onPress={() => { if (onComplete) onComplete(false); }}
+                    onPress={() => { if (onFail) onFail(true); }}
                 >
                     <Text style={styles.menuButtonText}>Return to Menu</Text>
                 </Pressable>

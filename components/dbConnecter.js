@@ -65,7 +65,7 @@ export async function signUp(email, password)
             return true;
 }
 
-async function waitForToken({ interval = 100 } = {}) {
+async function waitForToken({ interval = 500 } = {}) {
   while (true) {
     if (AuthContext.token) return AuthContext.token;
     await new Promise((r) => setTimeout(r, interval));

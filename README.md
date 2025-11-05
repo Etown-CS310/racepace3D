@@ -7,12 +7,9 @@ Racepace is a game about running and jumping throughout many different levels, y
 # Game setup
 To set up racepace3D simply clone the repo locally and then run npm install to get the node modules missing. Then simply run npm start in the terminal, connect with your mobile device via the QR code or run the simulator on your computer and experience the game
 
-# Feature Upgrades
+# Current Features So Far
 
-## Game Upgrades
-
-### Different Enemies
-Unlike Racepace on the web, there will be multiple different kinds of enemies coming from all angles and not just sitting on the floor.
+## Game Features
 
 ### Level Selection
 Different levels to play on in the racepace 3D game. These levels will have different enemies based on the different enviornment and biome that the levels are in.
@@ -20,10 +17,27 @@ Different levels to play on in the racepace 3D game. These levels will have diff
 ### Level Unlocking
 The seperate levels will be unlocked through playing through and beating the previous levels.
 
-## Customizaiton Upgrades
+### Basic Game
+Running, Jumping, Winning and Losing are all possible. It's in it's early stages, but working none the less
+
+## Customizaiton Features
 
 ### Customization Unlocking
-Unlock the different characters that Racepace3D has to offer, and equip them through the menu. Also be able to customize your username and tagline.
+Unlock the different characters that Racepace3D has to offer, and equip them through the menu.
+
+
+# Feature Upgrades Yet to implement
+
+## Game Upgrades
+
+### Different Enemies
+Unlike Racepace on the web, there will be multiple different kinds of enemies coming from all angles and not just sitting on the floor.
+
+## Customization upgrades
+
+### Name Customization
+Be able to customize your username and tagline.
+
 
 ## User Upgrades
 
@@ -51,3 +65,10 @@ And the realtime database APIs
 - Login
 - Signup
 - RealTimeDatabase
+
+
+# Team member's roles and contributions
+
+## Asher
+### Databases
+I am working on the database integration for RacePace3D, I have implemented login, and registration. And Implemented characters syncing from the database. And the beginning of the Teams Screen. I am currently working on integrating the users to the realtime database

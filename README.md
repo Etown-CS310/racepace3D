@@ -74,6 +74,10 @@ And the realtime database APIs
 ### Gameplay
 I am in charge of building the gameplay portion of RacePace3D. I did this by creating a BaseGame.js, which is essentially a template for each level. After creating this template, I can edit different aspects of it unique to the individual level. Some of these customizations are background, playerGiF, barrierImg, and floorImg. Each of these items create a completely unique level from the same template.
 
+## Kaiden
+### Navigation
+I am responsible for creating the navigation functionality and multiple different components in RacePace3D. I implemented the level, navigation, and character pressables as well as their animation hook. I also created the character selection screen and am working on populating the other menu screens in RacePace3D.
+
 ## Asher
 ### Databases
-I am working on the database integration for RacePace3D, I have implemented login, and registration. And Implemented characters syncing from the database. And the beginning of the Teams Screen. I am currently working on integrating the users to the realtime database
+I am working on the database integration for RacePace3D, I have implemented login, and registration. And Implemented characters syncing from the database. And the beginning of the Teams Screen. I am currently working on integrating the users to the realtime database.

@@ -11,6 +11,7 @@ import charimg from '../assets/buttons/Characters.png';
 import highscoreimg from '../assets/buttons/Highscores.png';
 import friendimg from '../assets/buttons/Friends.png';
 import teamimg from '../assets/buttons/Teams.png';
+import loginimg from '../assets/buttons/Logout.png';
 
 function MenuScreen({ navigation }) {
 
@@ -27,7 +28,7 @@ function MenuScreen({ navigation }) {
         {screen: 'Highscores', source: highscoreimg},
         {screen: 'Friends', source: friendimg},
         {screen: 'Team', source: teamimg},
-        {screen: 'Login', source: null},
+        {screen: 'Login', source: loginimg},
     ];
 
     return(

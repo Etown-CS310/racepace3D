@@ -5,7 +5,7 @@ import barrier from '../../assets/barriers/desertBarrier.png';
 import background from '../../assets/levelbackgrounds/Desert_lvl_bg.png';
 import floor from '../../assets/levelfloor/desertGround.png';
 
-export default function Track({ playerCharacter, onComplete, onFail }) {
+export default function Track({ playerCharacter, onNext, onExit }) {
   return (
     <View style={{ flex: 1 }}>
       <BaseGame
@@ -13,8 +13,8 @@ export default function Track({ playerCharacter, onComplete, onFail }) {
         playerGiF={playerCharacter}
         barrierImg={barrier}
         floorImg={floor}
-        onComplete={onComplete}
-        onFail={onFail}
+        onNext={onNext}
+        onExit={onExit}
       />
     </View>
 

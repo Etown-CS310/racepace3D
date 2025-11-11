@@ -57,11 +57,19 @@ function GameScreen({ navigation, currentCharacter, chars }) {
                 setUnlockedLevels([...unlockedLevels,nextLevelId]);
             }
         }
+    };
+
+    const exitLevelHandler = (won) => {
+        if (won) {
+            completeLevelHandler();
+        }
         setMode('selectLvl');
     };
 
-    const failedLevelHandler = () => {
-        setMode('selectLvl');
+    const nextLevelHandler = () => {
+        completeLevelHandler();
+        setCurrentLevel(currentLevel + 1);
+        setMode('play');
     };
 
     const currentLevelHandler = (index) => {
@@ -83,11 +91,10 @@ function GameScreen({ navigation, currentCharacter, chars }) {
             <View style={{flex: 1}}>
                 <LvlComponent
                     background={bg}
-                    onComplete={completeLevelHandler}
-                    onFail={failedLevelHandler}
+                    onNext={nextLevelHandler}
+                    onExit={exitLevelHandler}
                     playerCharacter={chars[currentCharacter].img}
                 />
-
             </View>
         );
     } else if (mode === 'selectLvl') {

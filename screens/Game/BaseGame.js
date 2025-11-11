@@ -2,10 +2,15 @@ import { View, Text, StyleSheet, Animated, ImageBackground, Easing, Pressable, D
 import React, { use, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import leftimg from '../../assets/buttons/LeftArrow.png';
+import restartimg from '../../assets/buttons/Refresh.png';
+import nextimg from '../../assets/buttons/NextArrow.png';
+import NavigationPressable from '../../components/NavigationPressable';
 
 
-export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onComplete, onFail }) {
+export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit }) {
     const navigation = useNavigation();
+
     // player jump animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
     const [isJumping, setIsJumping] = useState(false);
@@ -28,8 +33,8 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
     const PLAYER = { x: 60, y: 80, width: 80, height: 80, bottom: 100 };
     const BARRIER = { width: 20, height: 50, bottom: 100 };
 
-    const JumpingAnim = () => { // player jump function
-
+    // Jumping animation
+    const JumpingAnim = () => {
         if (isJumping || !gameRunning) return;
         setIsJumping(true);
         
@@ -51,7 +56,8 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         });
     };
 
-    const barrierAnim = () => { // barrier movement function
+    // Barrier movement animation
+    const barrierAnim = () => {
         if (!gameRunning) return;
         barrierX.setValue(SCREEN_WIDTH + 50);
 
@@ -67,28 +73,26 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         });
     };
 
-useEffect(() => { // screen background animation
-
-    const loopAnim = Animated.loop(
-        Animated.sequence([
-            Animated.timing(screenX, {
-                toValue: -SCREEN_WIDTH,
-                duration: 3050,
-                easing: Easing.linear,
-                useNativeDriver: false,
-            }),
-            Animated.timing(screenX, {
-                toValue: 0,
-                duration: 0,
-                useNativeDriver: false,
-            }),
-        ])
-    );
+    // Screen background animation
+    useEffect(() => {
+        const loopAnim = Animated.loop(
+            Animated.sequence([
+                Animated.timing(screenX, {
+                    toValue: -SCREEN_WIDTH,
+                    duration: 3050,
+                    easing: Easing.linear,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(screenX, {
+                    toValue: 0,
+                    duration: 0,
+                    useNativeDriver: false,
+                }),
+            ])
+        );
         loopAnim.start();
-
         return () => loopAnim.stop();
     }, [screenX]);
-
 
     useEffect(() => {
         const id = jumpAnimation.addListener(({ value }) => {
@@ -114,11 +118,13 @@ useEffect(() => { // screen background animation
     }, [won]);
 
     useEffect(() => {
-        barrierAnim();
-        return () => setGameRunning(false);
-    }, []);
+        if (gameRunning) {
+            barrierAnim();
+        }
+    }, [gameRunning]);
 
-    useEffect(() => { // collision detection
+    // Collision detection
+    useEffect(() => {
         if (!gameRunning) return;
 
         const interval = setInterval(() => {
@@ -164,108 +170,138 @@ useEffect(() => { // screen background animation
         }
     };
 
+    const resetGame = () => {
+        // Reset all values
+        setGameOver(false);
+        setWon(false);
+        setScore(0);
+        setBarrierPassed(false);
+        setGameRunning(true);
+        jumpAnimation.setValue(0);
+        barrierX.setValue(SCREEN_WIDTH + 50);
+        screenX.setValue(0);
+
+        barrierAnim();
+
+        const loopAnim = Animated.loop(
+            Animated.sequence([
+                Animated.timing(screenX, {
+                    toValue: -SCREEN_WIDTH,
+                    duration: 3050,
+                    easing: Easing.linear,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(screenX, {
+                    toValue: 0,
+                    duration: 0,
+                    useNativeDriver: false,
+                }),
+            ])
+        );
+        loopAnim.start();
+    };
     
     return (
         <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>            
-        <View style={styles.container}>
-        {/* Scrolling background images */}
-        
-        <Animated.Image
-            source={background}
-            style={[
-                styles.background,
-                { transform: [{ translateX: screenX }] },
-            ]}
-            resizeMode="stretch"
-        />
-        <Animated.Image
-            source={background}
-            style={[
-                styles.background,
-                {
-                    position: 'absolute',
-                    left: SCREEN_WIDTH,
-                    transform: [{ translateX: screenX }],
-                },
-            ]}
-            resizeMode="stretch"
-        />
-    
-        {/* Game content goes here */}
+            <View style={styles.container}>
+            
+                {/* Scrolling background images */}
+                <Animated.Image
+                    source={background}
+                    style={[
+                        styles.background,
+                        { transform: [{ translateX: screenX }] },
+                    ]}
+                    resizeMode="stretch"
+                />
+                <Animated.Image
+                    source={background}
+                    style={[
+                        styles.background,
+                        {
+                            position: 'absolute',
+                            left: SCREEN_WIDTH,
+                            transform: [{ translateX: screenX }],
+                        },
+                    ]}
+                    resizeMode="stretch"
+                />
+            
+                {/* Game content goes here */}
+                <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
 
-        <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
+                {/* Floor */}
+                <Animated.Image
+                    source={floorImg}
+                    style={[
+                        styles.floor,
+                        { transform: [{ translateX: screenX }] },
+                    ]}
+                    resizeMode="stretch"
+                />
+                <Animated.Image
+                    source={floorImg}
+                    style={[
+                        styles.floor,
+                        {
+                            position: 'absolute',
+                            left: SCREEN_WIDTH,
+                            transform: [{ translateX: screenX }],
+                        },
+                    ]}
+                    resizeMode="stretch"
+                />
 
-        {/* Floor */}
+                {/* Barrier */}
+                <Animated.Image
+                    source={barrierImg}
+                    style={[
+                        styles.barrier,
+                        { transform: [{ translateX: barrierX }] },
+                    ]}
+                    resizeMode="contain"
+                />
 
-        <Animated.Image
-            source={floorImg}
-            style={[
-                styles.floor,
-                { transform: [{ translateX: screenX }] },
-            ]}
-            resizeMode="stretch"
-        />
-        <Animated.Image
-            source={floorImg}
-            style={[
-                styles.floor,
-                {
-                    position: 'absolute',
-                    left: SCREEN_WIDTH,
-                    transform: [{ translateX: screenX }],
-                },
-            ]}
-            resizeMode="stretch"
-        />
+                {/* Player */}
+                <Animated.Image
+                    source={playerGiF}
+                    style={[
+                        styles.player,
+                        { transform: [{ translateY: jumpAnimation }] },
+                    ]}
+                    resizeMode="contain"
+                />
 
-        {/* Barrier */}
-        <Animated.Image
-            source={barrierImg}
-            style={[
-                styles.barrier,
-                { transform: [{ translateX: barrierX }] },
-            ]}
-            resizeMode="contain"
-        />
+                {/* Game Over */}
+                {(gameOver || won) && (
+                    <View style={styles.overlay}>
+                        <Text style={styles.gameOverText}>{won ? "You Win!" : "Game Over"}</Text>
 
-        {/* Player */}
-        <Animated.Image
-            source={playerGiF}
-            style={[
-                styles.player,
-                { transform: [{ translateY: jumpAnimation }] },
-            ]}
-            resizeMode="contain"
-        />
+                        <View style={styles.buttonsContainer}>
+                            {/* Level select */}
+                            <NavigationPressable
+                                onPress={() => { onExit(won ? true : false); }}
+                                source={leftimg}
+                            />
 
+                            {/* Restart level */}
+                            <NavigationPressable
+                                onPress={() => { resetGame(); }}
+                                source={restartimg}
+                            />
 
-        
-
-        {/* Game Over */}
-        {gameOver && (
-            <View style={styles.overlay}>
-                <Text style={styles.gameOverText}>Game Over</Text>
-                <Pressable
-                    style={styles.menuButton}
-                    onPress={() => { if (onFail) onFail(true); }}
-                >
-                    <Text style={styles.menuButtonText}>Return to Menu</Text>
-                </Pressable>
+                            {/* Next level */}
+                            {/* TODO: Replace 'true' with infinite condition */}
+                            {(won || true) && (
+                                <NavigationPressable
+                                    onPress={() => { onNext(); }}
+                                    source={nextimg}
+                                />
+                            )}
+                        </View>
+                    </View>
+                )}
             </View>
-        )}
-        {won && (
-            <View style={styles.overlay}>
-                <Text style={styles.gameOverText}>You Win!</Text>
-                <Pressable
-                    style={styles.menuButton}
-                    onPress={() => { if (onComplete) onComplete(true); }}
-                >
-                    <Text style={styles.menuButtonText}>Return to Menu</Text>
-                </Pressable>
-            </View>
-        )}
-    </View>
-
         </Pressable>
     );
 }
@@ -317,10 +353,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    buttonsContainer: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
     gameOverText: {
-        fontSize: 36,
+        fontFamily: 'PressStart2P',
+        fontSize: 35,
         color: 'white',
-        fontWeight: 'bold',
     },
     background: {
         position: 'absolute',

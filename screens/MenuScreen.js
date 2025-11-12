@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
-import menuBg from '../assets/images/MenuImage.png';
 import menuBg2 from '../assets/images/title.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';

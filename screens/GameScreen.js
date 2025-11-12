@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
-// https://oblador.github.io/react-native-vector-icons/#Ionicons
 
+// level components
 import Track from './Game/Track.js';
 import Forest from './Game/Forest.js';
 import Mountain from './Game/Mountain.js';
 import Desert from './Game/Desert.js';
 import Road from './Game/Road.js';
 import Space from './Game/Space.js';
-import BaseGame from './Game/BaseGame.js';
 
+// level background images
 import trackbg from '../assets/images/Trackbg.png';
 import forestbg from '../assets/images/Forestbg.png';
 import mountainbg from '../assets/images/Mountainbg.png';
@@ -17,12 +17,14 @@ import desertbg from '../assets/images/Desertbg.png';
 import roadbg from '../assets/images/Roadbg.png';
 import spacebg from '../assets/images/Spacebg.png';
 
+// navigation
 import backimg from '../assets/buttons/LeftArrow.png';
-
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';
 
+
+// levels (id, name, component, background)
 const lvls = [
     { id: 'track', name: "Track", component: Track, bg: trackbg },
     { id: 'forest', name: "Forest", component: Forest, bg: forestbg },
@@ -33,14 +35,14 @@ const lvls = [
 ];
 
 function GameScreen({ navigation, currentCharacter, chars }) {
-
     const route = useRoute();
     const selectedMode = route.params?.mode || 'selectLvl';
     const [currentLevel, setCurrentLevel] = useState(0);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
     const [mode, setMode] = useState(selectedMode); // in the game or between levels (play or selectLvl)
+    const [beaten, setBeaten] = useState([]); // is level beaten
 
-    const LvlComponent = lvls[currentLevel].component;
+    // const LvlComponent = lvls[currentLevel].component; - is this needed? 
 
     useEffect(() => {
         if (route.params?.mode) {
@@ -49,6 +51,8 @@ function GameScreen({ navigation, currentCharacter, chars }) {
     }, [route.params?.mode]);
 
     const completeLevelHandler = () => {
+
+        // unlocks next level if there is one
         const nextLevel = currentLevel + 1;
         if (nextLevel < lvls.length) {
             const nextLevelId = lvls[nextLevel].id;
@@ -57,6 +61,15 @@ function GameScreen({ navigation, currentCharacter, chars }) {
                 setUnlockedLevels([...unlockedLevels,nextLevelId]);
             }
         }
+        // adds level completed to be beaten lvl list
+        const thisLvlId = lvls[currentLevel].id;
+        setBeaten(function (previousLevels) {
+            if (previousLevels.includes(thisLvlId)) {
+                return previousLevels;
+            } else {
+                return [...previousLevels, thisLvlId];
+            }
+        });
     };
 
     const exitLevelHandler = (won) => {
@@ -72,21 +85,30 @@ function GameScreen({ navigation, currentCharacter, chars }) {
         setMode('play');
     };
 
+    const failedLevelHandler = () => {
+        setMode('selectLvl');
+    };
+
+    // sets the current level when its selected
     const currentLevelHandler = (index) => {
         setCurrentLevel(index);
     };
 
+    // sets mode between play and selectLvl
     const setModeHandler = (selectedMode) => {
         setMode(selectedMode);
     };
 
+    // navigates back to main menu
     const menuHandler = () => {
         navigation.goBack();
     };
 
+    // either displays a level or the level selection screen
     if (mode === 'play') {
         const bg = lvls[currentLevel].bg;
         const LvlComponent = lvls[currentLevel].component;
+        const isFreePlay = beaten.includes(lvls[currentLevel].id);
         return(
             <View style={{flex: 1}}>
                 <LvlComponent
@@ -94,13 +116,16 @@ function GameScreen({ navigation, currentCharacter, chars }) {
                     onNext={nextLevelHandler}
                     onExit={exitLevelHandler}
                     playerCharacter={chars[currentCharacter].img}
+                    freePlay={isFreePlay}
                 />
             </View>
         );
     } else if (mode === 'selectLvl') {
         return (
+
+            // background image goes here
             <ImageBackground
-                source={lvls[currentLevel].bg} // background image goes here
+                source={lvls[currentLevel].bg}
                 style={styles.backgroundImage}
                 imageStyle={{ opacity: 0.75 }}
                 resizeMode="cover"
@@ -149,6 +174,10 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         fontSize: 25,
         marginBottom: 20,
+        color: 'white',
+        textShadowColor: 'black',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
     },
 
     levelList: {

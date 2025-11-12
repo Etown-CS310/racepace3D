@@ -1,39 +1,34 @@
-import { View, Text, StyleSheet, Animated, ImageBackground, Easing, Pressable, Dimensions } from 'react-native';
-import React, { use, useEffect, useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Animated, Easing, Pressable, Dimensions, ImageBackground } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 
 import leftimg from '../../assets/buttons/LeftArrow.png';
 import restartimg from '../../assets/buttons/Refresh.png';
 import nextimg from '../../assets/buttons/NextArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 
-
-export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit }) {
-    const navigation = useNavigation();
+export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit, gameEndBackground, freePlay = false }) {
 
     // player jump animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
     const [isJumping, setIsJumping] = useState(false);
-
+    
     // barrier animation
     const barrierX = useRef(new Animated.Value(400)).current;
     const [gameRunning, setGameRunning] = useState(true);
     const [gameOver, setGameOver] = useState(false);
-    const [playerY, setPlayerY] = useState(0);
     const [score, setScore] = useState(0);
     const [barrierPassed, setBarrierPassed] = useState(false);
     const [won, setWon] = useState(false);
 
     // screen animation values
     const screenX = useRef(new Animated.Value(0)).current;
-
     const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
     // dimentions for players and barriers for collision
     const PLAYER = { x: 60, y: 80, width: 80, height: 80, bottom: 100 };
     const BARRIER = { width: 20, height: 50, bottom: 100 };
 
-    // Jumping animation
+    // player jump animation
     const JumpingAnim = () => {
         if (isJumping || !gameRunning) return;
         setIsJumping(true);
@@ -56,14 +51,14 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         });
     };
 
-    // Barrier movement animation
+    // barrier movement animation
     const barrierAnim = () => {
         if (!gameRunning) return;
-        barrierX.setValue(SCREEN_WIDTH + 50);
+        barrierX.setValue(SCREEN_WIDTH);
 
         Animated.timing(barrierX, {
-            toValue: -BARRIER.width - 50,
-            duration: 3500,
+            toValue: -BARRIER.width,
+            duration: 3120,
             easing: Easing.linear,
             useNativeDriver: false,
         }).start(({finished}) => {
@@ -73,7 +68,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         });
     };
 
-    // Screen background animation
+    // screen background animation
     useEffect(() => {
         const loopAnim = Animated.loop(
             Animated.sequence([
@@ -95,15 +90,6 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
     }, [screenX]);
 
     useEffect(() => {
-        const id = jumpAnimation.addListener(({ value }) => {
-            setPlayerY(value);
-        });
-        return () => {
-            jumpAnimation.removeListener(id);
-        };
-    }, []);
-
-    useEffect(() => {
         if (gameOver) {
             barrierX.stopAnimation();
             screenX.stopAnimation();
@@ -123,7 +109,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         }
     }, [gameRunning]);
 
-    // Collision detection
+    // collision detection
     useEffect(() => {
         if (!gameRunning) return;
 
@@ -153,11 +139,14 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
             setWon(false);
             setGameOver(true);
             setGameRunning(false);
-        } 
-        if (!barrierPassed && barrierPosX + BARRIER.width < PLAYER.x) { // update score
+        }
+
+        // update score
+        if (!barrierPassed && (barrierPosX + BARRIER.width < PLAYER.x)) {
             setScore(prevScore => {
                 const newScore = prevScore + 1;
-                if (newScore >= 100) {
+
+                if (!freePlay && newScore >= 100) {
                     setGameRunning(false);
                     setWon(true);
                 }
@@ -201,66 +190,59 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         loopAnim.start();
     };
     
+
     return (
         <Pressable onPressIn={JumpingAnim} style={{ flex: 1 }}>            
-            <View style={styles.container}>
-            
-                {/* Scrolling background images */}
-                <Animated.Image
-                    source={background}
-                    style={[
-                        styles.background,
-                        { transform: [{ translateX: screenX }] },
-                    ]}
-                    resizeMode="stretch"
-                />
-                <Animated.Image
-                    source={background}
-                    style={[
-                        styles.background,
-                        {
-                            position: 'absolute',
-                            left: SCREEN_WIDTH,
-                            transform: [{ translateX: screenX }],
-                        },
-                    ]}
-                    resizeMode="stretch"
-                />
-            
-                {/* Game content goes here */}
-                <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
+        <View style={styles.container}>
 
-                {/* Floor */}
-                <Animated.Image
-                    source={floorImg}
-                    style={[
-                        styles.floor,
-                        { transform: [{ translateX: screenX }] },
-                    ]}
-                    resizeMode="stretch"
-                />
-                <Animated.Image
-                    source={floorImg}
-                    style={[
-                        styles.floor,
-                        {
-                            position: 'absolute',
-                            left: SCREEN_WIDTH,
-                            transform: [{ translateX: screenX }],
-                        },
-                    ]}
-                    resizeMode="stretch"
-                />
+        {/* Background */}
+        <Animated.Image
+            source={background}
+            style={[
+                styles.background,
+                { transform: [{ translateX: screenX }] },
+            ]}
+            resizeMode="stretch"
+        />
 
-                {/* Barrier */}
-                <Animated.Image
-                    source={barrierImg}
-                    style={[
-                        styles.barrier,
-                        { transform: [{ translateX: barrierX }] },
-                    ]}
-                    resizeMode="contain"
-                />
+        <Animated.Image
+            source={background}
+            style={[
+                styles.background,
+                {
+                    position: 'absolute',
+                    left: SCREEN_WIDTH,
+                    transform: [{ translateX: screenX }],
+                },
+            ]}
+            resizeMode="stretch"
+        />
+
+        {/* Floor */}
+        <Animated.Image
+            source={floorImg}
+            style={[
+                styles.floor,
+                { transform: [{ translateX: screenX }] },
+            ]}
+            resizeMode="stretch"
+        />
+
+        <Animated.Image
+            source={floorImg}
+            style={[
+                styles.floor,
+                {
+                    position: 'absolute',
+                    left: SCREEN_WIDTH,
+                    transform: [{ translateX: screenX }],
+                },
+            ]}
+            resizeMode="stretch"
+        />
+
+        {/* Score */}
+        <View style={styles.scoreArea}><Text style={styles.scoreText}> Score: {score} </Text></View>
 
                 {/* Player */}
                 <Animated.Image
@@ -271,6 +253,69 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                     ]}
                     resizeMode="contain"
                 />
+
+        {/* Barrier */}
+        <Animated.Image
+            source={barrierImg}
+            style={[
+                styles.barrier,
+                { transform: [{ translateX: barrierX }] },
+            ]}
+            resizeMode="contain"
+        />
+        
+        {/* Game Over */}
+        {(gameOver || won) && (
+            <ImageBackground
+                source={gameEndBackground}
+                style={styles.overlay}
+            >
+                <View style={styles.overlay}>
+                        <Text style={styles.gameOverText}>{won ? "You Win!" : "Game Over"}</Text>
+
+                        <View style={styles.buttonsContainer}>
+                            {/* Level select */}
+                            <NavigationPressable
+                                onPress={() => { onExit(won ? true : false); }}
+                                source={leftimg}
+                            />
+
+                            {/* Restart level */}
+                            <NavigationPressable
+                                onPress={() => { resetGame(); }}
+                                source={restartimg}
+                            />
+
+                            {/* Next level */}
+                            {/* TODO: Replace 'true' with infinite condition */}
+                            {(won || true) && (
+                                <NavigationPressable
+                                    onPress={() => { onNext(); }}
+                                    source={nextimg}
+                                />
+                            )}
+                        </View>
+                    </View>
+            </ImageBackground>
+        )}
+
+        {won && (
+            <ImageBackground
+                source={gameEndBackground}
+                style={styles.overlay}
+            >
+                <View style={styles.overlay}>
+                    <Text style={styles.gameOverText}> You Win! </Text>
+                    <Pressable
+                        style={styles.menuButton}
+                        onPress={() => { if (onComplete) onComplete(); }}
+                    >
+                        <Text style={styles.menuButtonText}> Return to Menu </Text>
+                    </Pressable>
+                </View>
+            </ImageBackground>
+        )}
+    </View>
 
                 {/* Game Over */}
                 {(gameOver || won) && (
@@ -300,23 +345,26 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                             )}
                         </View>
                     </View>
-                )}
-            </View>
+                )} 
         </Pressable>
     );
 }
 
 const styles = StyleSheet.create({
     menuButton: {
-        marginTop: 20,
+        marginTop: 40,
         padding: 10,
         backgroundColor: 'white',
         borderRadius: 5,
     },
     menuButtonText: {
+        fontFamily: 'PressStart2P',
         fontSize: 16,
-        fontWeight: 'bold',
         color: 'black',
+        textShadowColor: 'lightgrey',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+        textAlign: 'center',
     },
     container: {
         flex: 1,
@@ -331,8 +379,8 @@ const styles = StyleSheet.create({
         left: 60,
     },
     barrier: {
-        width: 50,
-        height: 100,
+        width: 30,
+        height: 80,
         position: 'absolute',
         bottom: 90,
         left: 0,
@@ -360,15 +408,19 @@ const styles = StyleSheet.create({
     },
     gameOverText: {
         fontFamily: 'PressStart2P',
-        fontSize: 35,
+        fontSize: 36,
         color: 'white',
+        fontWeight: 'bold',
+        textShadowColor: 'black',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+        textAlign: 'center',
     },
     background: {
         position: 'absolute',
         width: '100%',
         height: '75%',
         bottom: 100,
-        
     },
     scoreArea: {
         justifyContent: 'center',
@@ -376,8 +428,12 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     scoreText: {
+        fontFamily: 'PressStart2P',
         fontSize: 30,
-        color: 'black',
+        color: 'white',
         fontWeight: 'bold',
+        textShadowColor: 'black',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
     },
 });

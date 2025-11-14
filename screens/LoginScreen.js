@@ -1,7 +1,7 @@
 import { StyleSheet,ImageBackground,View,KeyboardAvoidingView, } from 'react-native';
 import bkimg from '../assets/images/Trackbg.png';
 
-function LoginScreen({children}) 
+function LoginScreen({children, width=350}) 
 {
     
     return(
@@ -9,8 +9,8 @@ function LoginScreen({children})
         style={styles.bkimg}
         source={bkimg}
         > 
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-75} style={styles.margContainer}>
-            <View style={styles.container}>
+        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={-70} style={styles.margContainer}>
+            <View style={[styles.container,{width:width}]}>
                 {children}
             </View>
         </KeyboardAvoidingView>
@@ -31,7 +31,6 @@ const styles = StyleSheet.create(
     {
         margin:'auto',
         backgroundColor: 'rgba(190, 190, 190, 0.7);',
-        width: 350,
         alignItems: 'center',
         borderRadius: 10,
         padding: 20,

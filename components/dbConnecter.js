@@ -8,6 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 export const AuthContext = createContext({
     isLoggedIn: false,
     token: null,
+    uid: null,
 });
 
 
@@ -22,9 +23,10 @@ async function auth(email,password,mode)
         password: password,
         returnSecureToken: true
     });
-    //console.log(response.data);
+    console.log(response.data);
     AuthContext.token= response.data.idToken;
     AuthContext.isLoggedIn= true;
+    AuthContext.uid= response.data.localId;
     await SecureStore.setItemAsync('token',response.data.refreshToken);
     //console.log(await SecureStore.getItemAsync('token'));
     return response.data.idToken;
@@ -43,9 +45,10 @@ export async function refreshToken()
             refresh_token: token
         }
     );
-    //console.log(response.data.id_token);
+    //console.log(response.data.user_id);
     AuthContext.token= response.data.id_token;
     AuthContext.isLoggedIn= true;
+    AuthContext.uid= response.data.user_id;
     await SecureStore.setItemAsync('token',response.data.refresh_token);
     return true;
 }
@@ -78,6 +81,14 @@ async function queryDB(token,Purpose)
     const api_url = `https://racepace3d-default-rtdb.firebaseio.com/${Purpose}.json?auth=${token}`;
 
     const response = await axios.get(api_url);
+    return response.data;
+}
+
+async function postDB(token,Purpose,data)
+{
+    const api_url = `https://racepace3d-default-rtdb.firebaseio.com/${Purpose}.json?auth=${token}`;
+
+    const response = await axios.put(api_url,data);
     //console.log(response.data);
     return response.data;
 }
@@ -102,6 +113,30 @@ export async function getFriends()
 
 export async function getMe()
 {
+    const me=await queryDB(AuthContext.token,'Users/'+AuthContext.uid);
+    if(me==null)
+    {
+        //console.log("Creating user");
+        const newMe={
+            "charID":"cole",
+            "highScore":0,
+            "username":"Template",
+            "teamID":-1,
+            "friendships":[],
+            "unlockedChars":["cole","eliud","grant","jakob","mo"],
+            "completedTracks":[]
+            };
 
+        postDB(AuthContext.token,'Users/'+AuthContext.uid,
+            newMe);
+        return newMe;
+    }
+    //console.log(me);
+    return me;
+}
+
+export async function getSinglePerson(uid) 
+{
+    return await queryDB(AuthContext.token,'Users/'+uid);
 }
 

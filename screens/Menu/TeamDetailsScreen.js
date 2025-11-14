@@ -1,37 +1,33 @@
 import { StyleSheet, Text, View, ImageBackground,ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
-
-import { getTeams } from '../../components/dbConnecter';
+import { getSinglePerson } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/MenuImage.png';
 
 import backimg from '../../assets/buttons/LeftArrow.png';
 
-import TeamButton from '../../components/TeamButton';
-
 import NavigationPressable from '../../components/NavigationPressable';
 
-function TeamScreen({ navigation }) {
+function TeamScreen({ navigation, route }) {
     const menuHandler = () => {
         navigation.goBack();
     };
 
-    const [teams, setTeams] = useState([]);
+    const [members, setMembers] = useState(route.params.team.members);
+    
+        useEffect(() => {
+            async function fetchMembers() {
+                setMembers(await members.map( async (member)=>{
+                    const memberData = await getSinglePerson(member);
+                    return memberData.username;
+                }));
+            }
+            
+            fetchMembers();
+            
+        }, []);
 
-    useEffect(() => {
-        async function fetchTeams() {
-            const fetchedTeams = await getTeams();
-            setTeams(fetchedTeams);
-        }
-        fetchTeams();
-    }, []);
-
-
-    function teamPressHandler()
-    {
-        //console.log(this.selTeam);
-        navigation.navigate('TeamDetailsScreen', { team: this.selTeam });
-    }
+    //console.log(route.params.team);
     
     return (
         <ImageBackground
@@ -42,9 +38,13 @@ function TeamScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.title}>Team Screen</Text>
                 <ScrollView style={styles.scrollContainer}>
-                {   teams.map((team,index) =>{
+                    <Text style={styles.text}>Team Name: {route.params.team.name}</Text>
+                    <Text style={styles.text}>Description: {route.params.team.description}</Text>
+                    <Text style={styles.text}>Members:</Text>
+                    {members.map((member,index) =>{
                         return (
-                            <TeamButton key={index} name={team.name} memberCount={team.members.length} onPress={teamPressHandler.bind({ "selTeam":team})}/>
+                            // if officers get implemented ☆
+                            <Text key={index} style={styles.text}>- {member} {route.params.team.members[index]===route.params.team.captain ? "★" : ""}</Text>
                         );
                     })}
                 </ScrollView>
@@ -80,11 +80,8 @@ const styles = StyleSheet.create({
     scrollContainer:
     {
         margin:'auto',
-        //borderWidth: '2',
-        //backgroundColor: 'rgba(190, 190, 190, 0.7);',
         width: '90%',
         textAlign: 'center',
-        //alignItems: 'center',
         borderRadius: 10,
         padding: 20,
     },

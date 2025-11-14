@@ -4,7 +4,7 @@ import Grant from '../assets/characters/Grant3D.gif';
 import Jakob from '../assets/characters/Jakob3D.gif';
 import Mo from '../assets/characters/Mo3D.gif';
 import Falk from '../assets/characters/Falk3D.gif';
-import { getCharacters } from '../components/dbConnecter';
+import { getCharacters, getMe } from '../components/dbConnecter';
 
 
 /*export const chars = 
@@ -56,10 +56,13 @@ import { getCharacters } from '../components/dbConnecter';
 export async function getChars()
 {
   let chars = await getCharacters();
+  let unlockedChars= await getMe();
+  unlockedChars=unlockedChars.unlockedChars;
+  //console.log(lockedChars);
   //console.log(chars);
   chars=chars.map((char)=>
     {
-      char.unlocked= char.id === 'falk' ? false : true;
+      char.unlocked= unlockedChars.includes(char.id) ? true : false;
       switch(char.id)
       {
         case 'cole':

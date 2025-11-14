@@ -49,6 +49,7 @@ function Login({navigation})
 
     return(
         <LoginScreen>
+            
                 <Text style={styles.text}>Login</Text>
                 <View style={styles.textInput}>
                     <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail} focus={true}/>

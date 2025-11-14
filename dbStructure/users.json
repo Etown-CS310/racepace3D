@@ -1,0 +1,11 @@
+{
+    "uid":{
+        "charID":"cole",
+        "highScore":0,
+        "username":"Template",
+        "teamID":-1,
+        "friendships":[],
+        "lockedChars":["falk"],
+        "completedTracks":[]
+    }
+}

@@ -266,10 +266,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         
         {/* Game Over */}
         {(gameOver || won) && (
-            <ImageBackground
-                source={gameEndBackground}
-                style={styles.overlay}
-            >
+            
                 <View style={styles.overlay}>
                         <Text style={styles.gameOverText}>{won ? "You Win!" : "Game Over"}</Text>
 
@@ -296,56 +293,8 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                             )}
                         </View>
                     </View>
-            </ImageBackground>
         )}
-
-        {won && (
-            <ImageBackground
-                source={gameEndBackground}
-                style={styles.overlay}
-            >
-                <View style={styles.overlay}>
-                    <Text style={styles.gameOverText}> You Win! </Text>
-                    <Pressable
-                        style={styles.menuButton}
-                        onPress={() => { if (onComplete) onComplete(); }}
-                    >
-                        <Text style={styles.menuButtonText}> Return to Menu </Text>
-                    </Pressable>
-                </View>
-            </ImageBackground>
-        )}
-    </View>
-
-                {/* Game Over */}
-                {(gameOver || won) && (
-                    <View style={styles.overlay}>
-                        <Text style={styles.gameOverText}>{won ? "You Win!" : "Game Over"}</Text>
-
-                        <View style={styles.buttonsContainer}>
-                            {/* Level select */}
-                            <NavigationPressable
-                                onPress={() => { onExit(won ? true : false); }}
-                                source={leftimg}
-                            />
-
-                            {/* Restart level */}
-                            <NavigationPressable
-                                onPress={() => { resetGame(); }}
-                                source={restartimg}
-                            />
-
-                            {/* Next level */}
-                            {/* TODO: Replace 'true' with infinite condition */}
-                            {(won || true) && (
-                                <NavigationPressable
-                                    onPress={() => { onNext(); }}
-                                    source={nextimg}
-                                />
-                            )}
-                        </View>
-                    </View>
-                )} 
+        </View>  
         </Pressable>
     );
 }

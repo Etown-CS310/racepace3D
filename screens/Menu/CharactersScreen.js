@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, FlatList } from 'react-native';
 import { useState } from 'react';
+import { ScrollView } from 'react-native';
 
 import menuBg from '../../assets/images/MenuImage.png';
 
@@ -32,6 +33,7 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
             style={styles.bgImage}
             resizeMode="cover"
         >
+
             <View style={styles.container}>
                 <Text style={styles.title}>Select Character</Text>
 
@@ -49,8 +51,10 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
                 </View>
 
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
-                    <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
+                        <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
+                    <ScrollView>
+                        <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
+                    </ScrollView>
                 </View>
             </View>
             <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
@@ -65,6 +69,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: 20,
+        height: '100%',
+        width: '100%',
     },
 
     listWrapper: {

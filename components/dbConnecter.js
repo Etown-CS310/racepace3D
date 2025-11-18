@@ -105,15 +105,30 @@ export async function getCharacters()
     return charData;
     //console.log(charData);
 }
+/*
+
+Fix the weird issue with wiping out the user data in the database. Probally something to do with not awaiting somewhere
+
+*/
 
 export async function getFriends()
 {
+    const me= await getMe();
+    
+    const friends=await  Promise.all(me.friendships.map(async (friendID)=>{
+        const friendData=await getSinglePerson(friendID.uid);
+        friendData.status=friendID.status;
+        return friendData;
+    }));
+    //console.log(friends);
+    return friends;
 
 }
 
 export async function getMe()
 {
     const me=await queryDB(AuthContext.token,'Users/'+AuthContext.uid);
+    console.log(me);
     if(me==null)
     {
         //console.log("Creating user");
@@ -127,7 +142,7 @@ export async function getMe()
             "completedTracks":[]
             };
 
-        postDB(AuthContext.token,'Users/'+AuthContext.uid,
+        await postDB(AuthContext.token,'Users/'+AuthContext.uid,
             newMe);
         return newMe;
     }
@@ -140,3 +155,7 @@ export async function getSinglePerson(uid)
     return await queryDB(AuthContext.token,'Users/'+uid);
 }
 
+export async function joinTeam(teamID)
+{
+
+}

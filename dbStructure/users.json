@@ -1,11 +1,51 @@
 {
-    "uid":{
-        "charID":"cole",
-        "highScore":0,
-        "username":"Template",
-        "teamID":-1,
-        "friendships":[],
-        "lockedChars":["falk"],
-        "completedTracks":[]
-    }
+  "2L7YC8DsmHdQAtvoMKiNl9bEopR2": {
+    "charID": "cole",
+    "highScore": 0,
+    "teamID": -1,
+    "unlockedChars": [
+      "cole",
+      "eliud",
+      "grant",
+      "jakob",
+      "mo"
+    ],
+    "username": "Template"
+  },
+  "VsjHS2gYswfzhqqozgKlTQvebsT2": {
+    "charID": "cole",
+    "highScore": 0,
+    "teamID": -1,
+    "unlockedChars": [
+      "cole",
+      "eliud",
+      "grant",
+      "jakob",
+      "mo"
+    ],
+    "friendships":
+    [
+      {"uid":"uid","status":"accepted"},
+      {"uid":"2L7YC8DsmHdQAtvoMKiNl9bEopR2","status":"pending"}
+    ],
+    "username": "Asher"
+  },
+  "uid": {
+    "charID": "cole",
+    "highScore": 0,
+    "unlockedChars": [
+      "cole",
+      "eliud",
+      "grant",
+      "jakob",
+      "mo"
+    ],
+    "friendships":
+    [
+      {"uid":"VsjHS2gYswfzhqqozgKlTQvebsT2","status":"accepted"},
+      {"uid":"2L7YC8DsmHdQAtvoMKiNl9bEopR2","status":"pending"}
+    ],
+    "teamID": -1,
+    "username": "Template"
+  }
 }

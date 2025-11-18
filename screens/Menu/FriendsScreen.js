@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { useEffect, useState } from 'react';
+import { getFriends } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
@@ -12,6 +14,18 @@ function FriendsScreen({ navigation }) {
         navigation.goBack();
     };
 
+    const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        async function fetchFriends() {
+            const friendsData = await getFriends();
+            console.log(friendsData);
+            setFriends(friendsData);
+        }
+        fetchFriends();
+        
+    },[]);
+    
     return (
         <ImageBackground
             source={ menuBg }

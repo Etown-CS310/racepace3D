@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import BaseGame from './BaseGame';
-import barrier from '../../assets/barriers/spaceBarrier.png';
+import barrier from '../../assets/barriers/spaceBarrier.gif';
 import background from '../../assets/levelbackgrounds/Space_lvl_bg.png';
 import floor from '../../assets/levelfloor/spaceGround.png';
 import spacebg from '../../assets/images/Spacebg.png';

@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import BaseGame from './BaseGame';
-import barrier from '../../assets/barriers/mountainBarrier.png';
+import barrier from '../../assets/barriers/mountainBarrier.gif';
 import background from '../../assets/levelbackgrounds/Mountain_lvl_bg.png';
 import floor from '../../assets/levelfloor/mountainGround.png';
 import mountainbg from '../../assets/images/Mountainbg.png';

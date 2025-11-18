@@ -12,6 +12,8 @@ import friendimg from '../assets/buttons/Friends.png';
 import teamimg from '../assets/buttons/Teams.png';
 import loginimg from '../assets/buttons/Logout.png';
 
+import { LAYOUT } from '../constants/layout';
+
 function MenuScreen({ navigation }) {
 
     const navigationHandler = (screen) => {
@@ -39,13 +41,14 @@ function MenuScreen({ navigation }) {
             <View style={styles.container}>
 
                 <Text style={styles.title}> RacePace3D</Text>
-                <NavigationPressable onPress={() => navigationHandler('Game')} source={startimg} size={150}/>
+                <NavigationPressable style={LAYOUT.button} onPress={() => navigationHandler('Game')} source={startimg} size={150}/>
             </View>
 
             <View style={styles.buttonsContainer}>
                 {buttons.map((btn) => (
                     <NavigationPressable
                         key={btn.screen}
+                        style={LAYOUT.button}
                         onPress={() => navigationHandler(btn.screen)}
                         source={btn.source}
                     />

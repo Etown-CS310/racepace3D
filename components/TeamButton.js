@@ -1,17 +1,15 @@
 import {Text,View,StyleSheet} from 'react-native';
 import NavigationPressable from './NavigationPressable';
-import ViewTeam from '../assets/buttons/ViewTeam.png';
+import ViewTeam from '../assets/buttons/View.png';
+import { LAYOUT } from '../constants/layout';
 
 
-function TeamButton({name,onPress,memberCount=1})
-{
-    return(
+function TeamButton({name,onPress,memberCount=1}) {
+    return (
         <View style={styles.container}>
             <Text>{name}</Text>
             <Text>Members: {memberCount}</Text>
-            <View style={styles.button}>
-                <NavigationPressable source={ViewTeam} onPress={onPress} size={45} />
-            </View>
+            <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.button} />
         </View>
     );
 }
@@ -19,21 +17,13 @@ function TeamButton({name,onPress,memberCount=1})
 export default TeamButton;
 
 const styles=StyleSheet.create({
-
-    container:
-    {
+    container: {
         flexDirection:'row',
         justifyContent:'space-evenly',
         alignItems:'center',
         margin:1,
-        border:'2px solid black',
+        // border:'2px solid black',
         backgroundColor:'rgba(200,200,200,0.7)',
         borderRadius:6,
     },
-    button:
-    {
-        width:100
-    },
-
-
 });

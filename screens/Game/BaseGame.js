@@ -6,6 +6,8 @@ import restartimg from '../../assets/buttons/Refresh.png';
 import nextimg from '../../assets/buttons/NextArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 
+import { LAYOUT } from '../../constants/layout';
+
 export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit, gameEndBackground, freePlay = false }) {
 
     // player jump animation
@@ -275,12 +277,14 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                             <NavigationPressable
                                 onPress={() => { onExit(won ? true : false); }}
                                 source={leftimg}
+                                style={LAYOUT.button}
                             />
 
                             {/* Restart level */}
                             <NavigationPressable
                                 onPress={() => { resetGame(); }}
                                 source={restartimg}
+                                style={LAYOUT.button}
                             />
 
                             {/* Next level */}
@@ -289,6 +293,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                                 <NavigationPressable
                                     onPress={() => { onNext(); }}
                                     source={nextimg}
+                                    style={LAYOUT.button}
                                 />
                             )}
                         </View>

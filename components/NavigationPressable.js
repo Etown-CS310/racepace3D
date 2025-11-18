@@ -1,12 +1,12 @@
 import { View, StyleSheet, Pressable, Animated, Image } from 'react-native';
 import { usePressAnimation } from '../hooks/usePressAnimation';
 
-function NavigationPressable({ onPress, source, size=75 }) {
+function NavigationPressable({ onPress, source, size=75, style={} }) {
     const { scale, handlePressIn, handlePressOut } = usePressAnimation();
 
     return (
         <Pressable
-            style={[styles.button, { width: size, height: size }]}
+            style={[style, { width: size, height: size }]}
             onPress={onPress}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
@@ -23,10 +23,6 @@ function NavigationPressable({ onPress, source, size=75 }) {
 export default NavigationPressable;
 
 const styles = StyleSheet.create({
-    button: {
-        margin: 20
-    },
-    
     bgImage: {
         width: '100%',
         height: '100%',

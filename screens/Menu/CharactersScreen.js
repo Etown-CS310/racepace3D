@@ -9,6 +9,8 @@ import backimg from '../../assets/buttons/LeftArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 import CharacterPressable from '../../components/CharacterPressable';
 
+import { LAYOUT } from '../../constants/layout';
+
 function CharactersScreen({ navigation, currentCharacter, characterHandler, chars }) {
 
     const menuHandler = () => {
@@ -51,13 +53,11 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
                 </View>
 
                 <View style={styles.detailsContainer}>
-                        <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
-                    <ScrollView>
-                        <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
-                    </ScrollView>
+                    <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
+                    <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
                 </View>
             </View>
-            <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
+            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
         </ImageBackground>
     );
 }
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
 
     listWrapper: {
-        flex: 2,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingTop: 20,
     },
 
     title: {

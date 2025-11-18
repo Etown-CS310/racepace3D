@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
 import menuBg from '../../assets/images/MenuImage.png';
-
 import backimg from '../../assets/buttons/LeftArrow.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
+
+import { LAYOUT } from '../../constants/layout';
 
 function HighscoresScreen({ navigation }) {
     const menuHandler = () => {
@@ -20,7 +21,7 @@ function HighscoresScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.title}>Highscores Screen</Text>
             </View>
-            <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
+            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
         </ImageBackground>
     );
 }

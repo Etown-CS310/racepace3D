@@ -23,6 +23,7 @@ import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';
 
+import { LAYOUT } from '../constants/layout';
 
 // levels (id, name, component, background)
 const lvls = [
@@ -133,27 +134,29 @@ function GameScreen({ navigation, currentCharacter, chars }) {
                 <View style={styles.container}>
                     <Text style={styles.title}> Select Level</Text>
 
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.levelList}
-                    >
-                        {lvls.map((level, index) => {
-                            const unlocked = unlockedLevels.includes (level.id);
-                            return (
-                                <LevelPressable
-                                    key={level.id}
-                                    level={level}
-                                    index={index}
-                                    unlocked={unlocked}
-                                    onCurrentLevel={currentLevelHandler}
-                                    onSetMode={setModeHandler}
-                                />
-                            );
-                        })}
-                    </ScrollView>
+                    <View style={styles.scrollContainer}>
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.levelList}
+                        >
+                            {lvls.map((level, index) => {
+                                const unlocked = unlockedLevels.includes (level.id);
+                                return (
+                                    <LevelPressable
+                                        key={level.id}
+                                        level={level}
+                                        index={index}
+                                        unlocked={unlocked}
+                                        onCurrentLevel={currentLevelHandler}
+                                        onSetMode={setModeHandler}
+                                    />
+                                );
+                            })}
+                        </ScrollView>
+                    </View>
                 </View>
-                <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
+                <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
             </ImageBackground>
         );
     }
@@ -166,8 +169,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',    
-        paddingTop: 40,
+        alignItems: 'center',
+        paddingBottom: 20,
     },
 
     title: {
@@ -180,11 +183,17 @@ const styles = StyleSheet.create({
         textShadowRadius: 2,
     },
 
-    levelList: {
-        marginTop: 30,
+    scrollContainer: {
+        width: '100%',
         alignItems: 'center',
-        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+
+    levelList: {
+        alignItems: 'center',
         paddingHorizontal: 10,
+        flexGrow: 1,
+        justifyContent: 'center', // This centers when content is smaller than container
     },
 
     grid: {

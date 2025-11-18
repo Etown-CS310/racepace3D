@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { getTeams } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/MenuImage.png';
-
 import backimg from '../../assets/buttons/LeftArrow.png';
 
 import TeamButton from '../../components/TeamButton';
-
 import NavigationPressable from '../../components/NavigationPressable';
+
+import { LAYOUT } from '../../constants/layout';
 
 function TeamScreen({ navigation }) {
     const menuHandler = () => {
@@ -49,7 +49,7 @@ function TeamScreen({ navigation }) {
                     })}
                 </ScrollView>
             </View>
-            <NavigationPressable style={{alignSelf: 'flex-start'}} onPress={menuHandler} source={backimg} />
+            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
         </ImageBackground>
     );
 }

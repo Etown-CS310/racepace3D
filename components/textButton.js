@@ -1,25 +1,44 @@
-import {View,Button, StyleSheet } from 'react-native';
+import { View, Text, Pressable, Animated, StyleSheet } from 'react-native';
+import { usePressAnimation } from '../hooks/usePressAnimation';
 
-function TextButton({title, onPress})
-{
-    return(
-        <View style={styles.container}>
-            <Button
-                title={title}
-                onPress={onPress}  
-                color='black'
-            />
-        </View>
+function TextButton({ title, onPress }) {
+    const { scale, handlePressIn, handlePressOut } = usePressAnimation();
+
+    return (
+        <Animated.View style={[styles.container, { transform: [{ scale }] }]}>
+            <Pressable 
+                style={styles.pressable}
+                onPress={onPress} 
+                onPressIn={handlePressIn} 
+                onPressOut={handlePressOut}
+            >
+                <Text style={styles.text}>
+                    {title}
+                </Text>
+            </Pressable>
+        </Animated.View>
     );
 }
+
 export default TextButton;
 
 const styles = StyleSheet.create({
-    container:
-    {
-        backgroundColor:'#EEE',
-        borderRadius:4,
-        width:'60%',
+    container: {
+        flex: 1,
     },
 
+    pressable: {
+        backgroundColor: 'black',
+        padding: 10,
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
+
+    text: {
+        fontFamily: 'PressStart2P',
+        fontSize: 12,
+        color: 'white',
+    },
 });

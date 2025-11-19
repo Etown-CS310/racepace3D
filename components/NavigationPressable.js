@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable, Animated, Image } from 'react-native';
 import { usePressAnimation } from '../hooks/usePressAnimation';
 
-function NavigationPressable({ onPress, source, size=75, style={} }) {
+function NavigationPressable({ onPress, source, size=75, style }) {
     const { scale, handlePressIn, handlePressOut } = usePressAnimation();
 
     return (

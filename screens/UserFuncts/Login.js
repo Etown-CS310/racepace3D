@@ -1,4 +1,4 @@
-import { View,Text,StyleSheet,Alert, } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import { useState, useEffect, } from 'react';
 import { login } from '../../components/dbConnecter';
 
@@ -7,27 +7,20 @@ import TextButton from '../../components/textButton';
 import LoginScreen from '../LoginScreen';
 import { refreshToken } from '../../components/dbConnecter';
 
-
-
-function Login({navigation})
-{
+function Login({navigation}) {
     const [userEmail, setUserEmail] = useState('');
     const [userPass, setUserPass] = useState('');
     //console.log("LoginScreen");
 
     useEffect(()=>{
-        async function checkToken()
-        {
-            if(await refreshToken())
+        async function checkToken() {
+            if (await refreshToken())
                 navigation.navigate('Menu');
         }
         checkToken();
     },[]);
 
-
-    async function loginHandler()
-    {
-        
+    async function loginHandler() {
         //console.log(userEmail,userPass);
         //console.log("here");
         const response= await login(userEmail,userPass);
@@ -38,62 +31,50 @@ function Login({navigation})
             navigation.navigate('Menu');
             }
         else
-            Alert.alert("Login Failed","Incorrect email or password",[{text:"OK"}]);
-            
+            Alert.alert("Login Failed","Incorrect email or password",[{text:"OK"}]);    
     }
 
-    function regNavHandler()
-    {
+    function regNavHandler() {
         navigation.navigate('Register');
     }
 
-    return(
+    return (
         <LoginScreen>
-            
-                <Text style={styles.text}>Login</Text>
-                <View style={styles.textInput}>
-                    <Input style={styles.textInput} title="Email" value={userEmail} onChangeText={setUserEmail} focus={true}/>
-                    <Input style={styles.textInput} title="Password" value={userPass} onChangeText={setUserPass}/>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <TextButton title="Login" onPress={loginHandler}/>
-                    <TextButton title="Sign up" onPress={regNavHandler} />
-                </View>
+            <Text style={styles.text}>Login</Text>
+            <View style={styles.textContainer}>
+                <Input title="Email" value={userEmail} onChangeText={setUserEmail} focus={true}/>
+                <Input title="Password" value={userPass} onChangeText={setUserPass}/>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TextButton title="Login" onPress={loginHandler}/>
+                <TextButton title="Sign up" onPress={regNavHandler} />
+            </View>
         </LoginScreen>
     );
-
-
 }
 
 export default Login;
 
 const styles = StyleSheet.create({
-    text:
-    {
+    text: {
         fontFamily: 'PressStart2P',
-        //marginTop:"10%",
         color: 'white',
         fontSize: 30,
-        fontWeight: 800,
-        shadowColor: 'black',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 1,
-        shadowRadius: 3,
         textAlign: 'center',
+        marginBottom: 15,
     },
-    textInput:
-    {
-        width: 250,
-        textAlign: 'center',
+
+    textContainer: {
+        width: '80%',
+        gap: 15,
     },
     
-    buttonContainer:
-    {
-        flexDirection: 'column',
+    buttonContainer: {
+        flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop:10,
-        width:'80%',
+        width: '80%',
         alignItems: 'center',
-        height:100,
+        gap: 15,
+        marginTop: 15,
     },
 });

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
-import menuBg from '../../assets/images/MenuImage.png';
+import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',    
         paddingTop: 40,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
     },
 
     title: {

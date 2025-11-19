@@ -1,8 +1,6 @@
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, FlatList } from 'react-native';
-import { useState } from 'react';
-import { ScrollView } from 'react-native';
 
-import menuBg from '../../assets/images/MenuImage.png';
+import menuBg from '../../assets/images/title.png';
 
 import backimg from '../../assets/buttons/LeftArrow.png';
 
@@ -71,6 +69,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         height: '100%',
         width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 
     listWrapper: {

@@ -107,7 +107,10 @@ function GameScreen({ navigation, currentCharacter, chars }) {
 
     // either displays a level or the level selection screen
     if (mode === 'play') {
-        const bg = lvls[currentLevel].bg;
+        let bg;
+        if (lvls[currentLevel].bg == null) bg = lvls[currentLevel - 1].bg; // after beating space, there is no next level, so use previous bg
+        else bg = lvls[currentLevel].bg;
+        
         const LvlComponent = lvls[currentLevel].component;
         const isFreePlay = beaten.includes(lvls[currentLevel].id);
         return(

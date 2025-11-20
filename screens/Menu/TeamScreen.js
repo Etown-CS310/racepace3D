@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View, ImageBackground,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { getTeams } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
+import newimg from '../../assets/buttons/New.png';
 
 import TeamButton from '../../components/TeamButton';
 import NavigationPressable from '../../components/NavigationPressable';
 
-import { LAYOUT } from '../../constants/layout';
+import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 function TeamScreen({ navigation }) {
     const menuHandler = () => {
@@ -27,10 +28,19 @@ function TeamScreen({ navigation }) {
     }, []);
 
 
-    function teamPressHandler()
-    {
+    function teamPressHandler() {
         //console.log(this.selTeam);
         navigation.navigate('TeamDetailsScreen', { team: this.selTeam });
+    }
+
+    function renderTeam({ item }) {
+        return (
+            <TeamButton
+                name={item.name}
+                memberCount={item.members.length}
+                onPress={teamPressHandler.bind({ selTeam: item })}
+            />
+        );
     }
     
     return (
@@ -40,20 +50,24 @@ function TeamScreen({ navigation }) {
             resizeMode="cover"
         >
             <View style={styles.container}>
-                <Text style={styles.title}>Team Screen</Text>
-                <ScrollView style={styles.scrollContainer}>
-                {   teams.map((team,index) =>{
-                        return (
-                            <TeamButton key={index} name={team.name} memberCount={team.members.length} onPress={teamPressHandler.bind({ "selTeam":team})}/>
-                        );
-                    })}
-                </ScrollView>
+                <Text style={styles.title}>Teams</Text>
+                <FlatList
+                    data={teams}
+                    renderItem={renderTeam}
+                    keyExtractor={(item) => item.id}
+                    numColumns={2}
+                    // columnWrapperStyle={styles.row}
+                    // contentContainerStyle={styles.grid}
+                    showsVerticalScrollIndicator={false}
+                    scrollEnabled={true}
+                />
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
+            {/* TODO: Create a new team */}
+            <NavigationPressable style={styles.newButton} onPress={null} source={newimg} />
         </ImageBackground>
     );
 }
-
 
 export default TeamScreen;
 
@@ -64,13 +78,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',    
         paddingTop: 40,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
+        backgroundColor: COLORS.overlay,
     },
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 25,
+        fontSize: FONT_SIZES.title,
         marginBottom: 20,
         color: 'white',
     },
@@ -79,20 +92,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    scrollContainer:
-    {
-        margin:'auto',
-        //borderWidth: '2',
-        //backgroundColor: 'rgba(190, 190, 190, 0.7);',
-        width: '90%',
-        textAlign: 'center',
-        //alignItems: 'center',
-        borderRadius: 10,
-        padding: 20,
+
+    newButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
     },
-    text:
-    {
-        color:'white',
-        fontWeight:500,
+
+    grid: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
+
+    row: {
+        justifyContent: 'center',
     },
 });

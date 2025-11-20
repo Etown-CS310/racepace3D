@@ -7,7 +7,7 @@ import backimg from '../../assets/buttons/LeftArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 import CharacterPressable from '../../components/CharacterPressable';
 
-import { LAYOUT } from '../../constants/layout';
+import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 function CharactersScreen({ navigation, currentCharacter, characterHandler, chars }) {
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         height: '100%',
         width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: COLORS.overlay,
     },
 
     listWrapper: {
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 25,
+        fontSize: FONT_SIZES.title,
         marginBottom: 20,
         color: 'white',
         textAlign: 'center',
@@ -94,14 +94,14 @@ const styles = StyleSheet.create({
 
     subtitle: {
         fontFamily: 'PressStart2P',
-        fontSize: 20,
-        marginBottom: 10,
+        fontSize: FONT_SIZES.header,
+        marginBottom: 5,
         color: 'white',
     },
 
     text: {
         fontFamily: 'PressStart2P',
-        fontSize: 12,
+        fontSize: FONT_SIZES.medium,
         marginHorizontal: 200,
         color: 'white',
         lineHeight: 18,

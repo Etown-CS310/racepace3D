@@ -5,7 +5,7 @@ import backimg from '../../assets/buttons/LeftArrow.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 
-import { LAYOUT } from '../../constants/layout';
+import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 function FriendsScreen({ navigation }) {
     const menuHandler = () => {
@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',    
         paddingTop: 40,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: COLORS.overlay,
 
     },
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 25,
+        fontSize: FONT_SIZES.title,
         marginBottom: 20,
         color: 'white',
     },

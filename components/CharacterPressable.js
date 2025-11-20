@@ -1,5 +1,6 @@
 import { Text, StyleSheet, Pressable, ImageBackground, Animated, View } from 'react-native';
 import { usePressAnimation } from '../hooks/usePressAnimation';
+import { FONT_SIZES } from '../constants/theme';
 
 function CharacterPressable({ character, unlocked, onPress, isSelected }) {
     const { scale, handlePressIn, handlePressOut } = usePressAnimation();
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     },
     lock: {
         fontFamily: 'PressStart2P',
-        fontSize: 18,
+        fontSize: FONT_SIZES.large,
         color: 'white',
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },

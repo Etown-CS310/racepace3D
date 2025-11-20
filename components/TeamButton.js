@@ -1,14 +1,16 @@
-import {Text,View,StyleSheet} from 'react-native';
+import { Text, View, StyleSheet} from 'react-native';
 import NavigationPressable from './NavigationPressable';
 import ViewTeam from '../assets/buttons/View.png';
-import { LAYOUT } from '../constants/layout';
 
+import { COLORS, FONT_SIZES, LAYOUT } from '../constants/';
 
-function TeamButton({name,onPress,memberCount=1}) {
+function TeamButton({ name, onPress, memberCount=1 }) {
     return (
         <View style={styles.container}>
-            <Text>{name}</Text>
-            <Text>Members: {memberCount}</Text>
+            <View style={styles.textContainer}>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.text}>Members: {memberCount}</Text>
+            </View>
             <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.button} />
         </View>
     );
@@ -18,12 +20,32 @@ export default TeamButton;
 
 const styles=StyleSheet.create({
     container: {
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-        alignItems:'center',
-        margin:1,
-        // border:'2px solid black',
-        backgroundColor:'rgba(200,200,200,0.7)',
-        borderRadius:6,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        backgroundColor: COLORS.wrapper,
+        borderRadius: 6,
+        width: 300,
+        height: 80,
+    },
+
+    textContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        flex: 1,
+    },
+
+    name: {
+        fontFamily: 'PressStart2P',
+        fontSize: FONT_SIZES.large,
+        margin: 5,
+    },
+
+    text: {
+        fontFamily: 'PressStart2P',
+        fontSize: FONT_SIZES.medium,
+        margin: 5,
     },
 });

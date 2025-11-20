@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect, } from 'react';
+import { useEffect, useCallback } from 'react';
 import * as NavigationBar from 'expo-navigation-bar';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { useFonts } from 'expo-font';
 import { useState } from 'react';
@@ -23,25 +24,23 @@ import { getChars } from './data/characters';
 
 const Stack = createNativeStackNavigator();
 
-
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [chars, setChars] = useState([]);
-
-  useEffect(() => 
-    {
-    async function fetchChars() 
-    {
-      const fetchedChars = await getChars();
-      setChars(fetchedChars);
-    }
-    fetchChars();
-    //console.log(chars);
-  },[]);
+  const [currentCharacter, setCurrentCharacter] = useState(0);
 
   const [fontsLoaded] = useFonts({
     PressStart2P: require('./assets/fonts/PressStart2P-Regular.ttf'),
   });
+
+  useEffect(() => {
+    async function fetchChars() {
+      const fetchedChars = await getChars();
+      setChars(fetchedChars);
+    }
+    fetchChars();
+  }, []);
 
   // Hide Android navigation bar
   useEffect(() => {
@@ -49,51 +48,60 @@ export default function App() {
     NavigationBar.setBehaviorAsync("immersive");
   }, []);
 
-  const [currentCharacter, setCurrentCharacter] = useState(0);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  // Don't render app until fonts loaded
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const characterHandler = (index) => {
     setCurrentCharacter(index);
   };
 
-    return (
-      <>
-    <StatusBar hidden={true} />
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-        gestureEnabled: false,
-        animation: 'none',
-        detachPreviousScreen: false,
-      }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Menu" component={MenuScreen} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Game">
-          {(props) => (
-            <GameScreen
-              {...props}
-              currentCharacter={currentCharacter}
-              chars={chars}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="Characters">
-          {(props) => (
-            <CharactersScreen
-              {...props}
-              currentCharacter={currentCharacter}
-              characterHandler={characterHandler}
-              chars={chars}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="Highscores" component={HighscoresScreen} />
-        <Stack.Screen name="Friends" component={FriendsScreen} />
-        <Stack.Screen name="Team" component={TeamScreen} />
-        <Stack.Screen name="TeamDetailsScreen" component={TeamDetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    </>
+  return (
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <StatusBar hidden={true} />
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+          headerShown: false,
+          gestureEnabled: false,
+          animation: 'none',
+          detachPreviousScreen: false,
+        }}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Menu" component={MenuScreen} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Game">
+            {(props) => (
+              <GameScreen
+                {...props}
+                currentCharacter={currentCharacter}
+                chars={chars}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Characters">
+            {(props) => (
+              <CharactersScreen
+                {...props}
+                currentCharacter={currentCharacter}
+                characterHandler={characterHandler}
+                chars={chars}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Highscores" component={HighscoresScreen} />
+          <Stack.Screen name="Friends" component={FriendsScreen} />
+          <Stack.Screen name="Team" component={TeamScreen} />
+          <Stack.Screen name="TeamDetailsScreen" component={TeamDetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 

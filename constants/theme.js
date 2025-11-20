@@ -1,14 +1,18 @@
 export const COLORS = {
-    primary: '#3498db',
-    secondary: '#2ecc71',
+    wrapper: 'rgba(190, 190, 190, 0.7)',
+    overlay: 'rgba(0, 0, 0, 0.5)',
+    textInput: '#888',
+    textInputFocused: '#aaa',
 };
 
 export const FONT_SIZES = {
     small: 12,
-    medium: 16,
+    medium: 15,
     large: 20,
+    header: 25,
+    title: 35,
 };
 
-export const FONT_FAMILIES = {
-    main: 'PressStart2P',
-};
+// export const FONT_FAMILIES = {
+//     main: 'PressStart2P',
+// };

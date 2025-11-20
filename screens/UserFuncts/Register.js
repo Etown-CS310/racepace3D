@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { signUp } from '../../components/dbConnecter';
 import LoginScreen from '../LoginScreen';
 
+import { FONT_SIZES } from '../../constants/theme';
+
 function Register({navigation}) {
     const [userEmail, setUserEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'PressStart2P',
         color: 'white',
-        fontSize: 30,
+        fontSize: FONT_SIZES.title,
         textAlign: 'center',
         marginBottom: 15,
     },

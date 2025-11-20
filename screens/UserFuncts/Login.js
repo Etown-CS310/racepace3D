@@ -7,6 +7,8 @@ import TextButton from '../../components/textButton';
 import LoginScreen from '../LoginScreen';
 import { refreshToken } from '../../components/dbConnecter';
 
+import { FONT_SIZES } from '../../constants/theme';
+
 function Login({navigation}) {
     const [userEmail, setUserEmail] = useState('');
     const [userPass, setUserPass] = useState('');
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'PressStart2P',
         color: 'white',
-        fontSize: 30,
+        fontSize: FONT_SIZES.title,
         textAlign: 'center',
         marginBottom: 15,
     },

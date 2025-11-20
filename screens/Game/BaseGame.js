@@ -6,7 +6,7 @@ import restartimg from '../../assets/buttons/Refresh.png';
 import nextimg from '../../assets/buttons/NextArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 
-import { LAYOUT } from '../../constants/layout';
+import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit, gameEndBackground, freePlay = false }) {
 
@@ -311,15 +311,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 5,
     },
-    menuButtonText: {
-        fontFamily: 'PressStart2P',
-        fontSize: 16,
-        color: 'black',
-        textShadowColor: 'lightgrey',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-        textAlign: 'center',
-    },
+    // menuButtonText: {
+    //     fontFamily: 'PressStart2P',
+    //     fontSize: 16,
+    //     color: 'black',
+    //     textShadowColor: 'lightgrey',
+    //     textShadowOffset: { width: 1, height: 1 },
+    //     textShadowRadius: 2,
+    //     textAlign: 'center',
+    // },
     container: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: COLORS.overlay,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -362,12 +362,8 @@ const styles = StyleSheet.create({
     },
     gameOverText: {
         fontFamily: 'PressStart2P',
-        fontSize: 36,
+        fontSize: FONT_SIZES.title,
         color: 'white',
-        fontWeight: 'bold',
-        textShadowColor: 'black',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
         textAlign: 'center',
     },
     background: {
@@ -383,9 +379,8 @@ const styles = StyleSheet.create({
     },
     scoreText: {
         fontFamily: 'PressStart2P',
-        fontSize: 30,
+        fontSize: FONT_SIZES.header,
         color: 'white',
-        fontWeight: 'bold',
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,

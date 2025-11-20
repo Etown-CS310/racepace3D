@@ -1,8 +1,16 @@
 import { View, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
+import Visible from '../assets/buttons/View.png';
+import NavigationPressable from './NavigationPressable';
+
+import { COLORS, FONT_SIZES } from '../constants/theme';
+
 function Input({ title, value,onChangeText, focus }){
     const [isFocused, setIsFocused] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const isPasswordField = title === "Password" || title === "Confirm Password";
 
     return(
         <View style={[styles.container, isFocused && styles.containerFocused]}>
@@ -11,13 +19,16 @@ function Input({ title, value,onChangeText, focus }){
                 placeholder={title}
                 value={value}
                 onChangeText={onChangeText}
-                secureTextEntry={title === "Password" || title=== "Confirm Password"} 
+                secureTextEntry={!isPasswordVisible && isPasswordField}
                 autoCorrect={false}       
                 autoFocus={focus}
                 disableFullscreenUI={true}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
             />
+            {isPasswordField && (
+                <NavigationPressable source={Visible} onPress={() => setIsPasswordVisible(!isPasswordVisible)} size={25} style={styles.toggleButton} />
+            )}
         </View>
     );
 }
@@ -27,17 +38,18 @@ export default Input;
 const styles = StyleSheet.create({
     textInput: {
         fontFamily: 'PressStart2P',
-        fontSize: 12,
+        fontSize: FONT_SIZES.small,
         paddingHorizontal: 10,
         paddingVertical: 12,
-        backgroundColor: '#888',
+        paddingRight: 45,
+        backgroundColor: COLORS.textInput,
         textAlignVertical: 'center',
         lineHeight: 18,
         includeFontPadding: false,
     },
 
     textInputFocused: {
-        backgroundColor: '#aaa',
+        backgroundColor: COLORS.textInputFocused,
     },
 
     container: {
@@ -47,5 +59,14 @@ const styles = StyleSheet.create({
 
     containerFocused: {
         borderColor: 'yellow',
+    },
+
+    toggleButton: {
+        position: 'absolute',
+        right: 6,
+        top: 6,
+        bottom: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

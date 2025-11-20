@@ -23,7 +23,7 @@ import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';
 
-import { LAYOUT } from '../constants/layout';
+import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 
 // levels (id, name, component, background)
 const lvls = [
@@ -131,7 +131,6 @@ function GameScreen({ navigation, currentCharacter, chars }) {
             <ImageBackground
                 source={lvls[currentLevel].bg}
                 style={styles.backgroundImage}
-                imageStyle={{ opacity: 0.75 }}
                 resizeMode="cover"
             >
                 <View style={styles.container}>
@@ -174,16 +173,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 20,
+        backgroundColor: COLORS.overlay,
     },
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 25,
-        marginBottom: 20,
+        fontSize: FONT_SIZES.title,
+        marginBottom: 10,
         color: 'white',
-        textShadowColor: 'black',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
     },
 
     scrollContainer: {
@@ -196,31 +193,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
         flexGrow: 1,
-        justifyContent: 'center', // This centers when content is smaller than container
-    },
-
-    grid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         justifyContent: 'center',
-    },
-
-    levelBox: {
-        width: 100,
-        height: 175,
-        margin: 10,
-        borderRadius: 10,
-        overflow: 'hidden',
-    },
-
-    levelText: {
-        fontFamily: 'PressStart2P',
-        fontSize: 18,
-        color: 'white',
-        textShadowColor: 'black',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-        textAlign: 'center',
     },
 
     backgroundImage: {

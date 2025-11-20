@@ -12,7 +12,7 @@ import friendimg from '../assets/buttons/Friends.png';
 import teamimg from '../assets/buttons/Teams.png';
 import loginimg from '../assets/buttons/Logout.png';
 
-import { LAYOUT } from '../constants/layout';
+import { FONT_SIZES, LAYOUT } from '../constants/';
 
 function MenuScreen({ navigation }) {
 
@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: 'PressStart2P',
-        fontSize: 35,
+        fontSize: FONT_SIZES.title,
         color: 'white',
-        paddingBottom: 10, // title will fit on screen
+        paddingBottom: 10,
         marginBottom: 10,
     },
 
@@ -88,10 +88,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-    },
-
-    lowbutton: {
-        width: 10,
-        height: 10,
     },
 });

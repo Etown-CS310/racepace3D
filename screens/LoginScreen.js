@@ -1,6 +1,8 @@
 import { StyleSheet, ImageBackground, View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import bkimg from '../assets/images/Trackbg.png';
 
+import { COLORS } from '../constants/theme';
+
 function LoginScreen({children, width='50%'}) {
     return (
         <ImageBackground 
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        backgroundColor: 'rgba(190, 190, 190, 0.7)',
+        backgroundColor: COLORS.wrapper,
         alignItems: 'center',
         borderRadius: 10,
         padding: 20,

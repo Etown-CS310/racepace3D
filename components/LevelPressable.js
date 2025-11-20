@@ -1,5 +1,6 @@
 import { StyleSheet, Text, Pressable, ImageBackground, Animated } from 'react-native';
 import { usePressAnimation } from '../hooks/usePressAnimation';
+import { FONT_SIZES } from '../constants/theme';
 
 function LevelPressable({ id, level, index, unlocked, onCurrentLevel, onSetMode }) {
     const { scale, handlePressIn, handlePressOut } = usePressAnimation();
@@ -10,22 +11,22 @@ function LevelPressable({ id, level, index, unlocked, onCurrentLevel, onSetMode 
                 key={id}
                 style={styles.levelBox}
                 onPress={() => {
-                if (unlocked) {
-                    onCurrentLevel(index);
-                    onSetMode('play');
-                }
+                    if (unlocked) {
+                        onCurrentLevel(index);
+                        onSetMode('play');
+                    }
                 }}
                 onPressIn={handlePressIn}
                 onPressOut={handlePressOut}
             >
                 <ImageBackground
-                source={level.bg} // level image goes here
-                style={styles.bgImage}
-                imageStyle={{ opacity: unlocked ? 1 : 0.3 }} // dim if locked
+                    source={level.bg} // level image goes here
+                    style={styles.bgImage}
+                    imageStyle={{ opacity: unlocked ? 1 : 0.5 }} // dim if locked
                 >
-                <Text style={styles.levelText}>
-                    {level.name} {unlocked ? '' : '\n🔒'}
-                </Text>
+                    <Text style={styles.levelText}>
+                        {level.name} {unlocked ? '' : '\n🔒'}
+                    </Text>
                 </ImageBackground>
             </Pressable>
         </Animated.View>
@@ -42,14 +43,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
     },
+
     bgImage: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
+
     levelText: {
         fontFamily: 'PressStart2P',
-        fontSize: 18,
+        fontSize: FONT_SIZES.large,
         color: 'white',
         textShadowColor: 'black',
         textShadowOffset: { width: 1, height: 1 },

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZES.small,
         height: 36,
         paddingHorizontal: 10,
-        paddingVertical: Platform.OS === 'ios' ? 14 : 12,
+        paddingVertical: Platform.OS === 'ios' ? 10 : 12,
         paddingRight: 36,
         backgroundColor: COLORS.textInput,
         ...(Platform.OS === 'android' && {

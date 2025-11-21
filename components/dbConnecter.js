@@ -23,7 +23,7 @@ async function auth(email,password,mode)
         password: password,
         returnSecureToken: true
     });
-    console.log(response.data);
+    //console.log(response.data);
     AuthContext.token= response.data.idToken;
     AuthContext.isLoggedIn= true;
     AuthContext.uid= response.data.localId;
@@ -166,7 +166,7 @@ export async function requestFriendship(friendUID)
 
 export async function acceptFriendship(friendUID)
 {
-    console.log("Accepting friendship with "+friendUID);
+    //console.log("Accepting friendship with "+friendUID);
     const friendData=await getSinglePerson(friendUID);
     const myData=await getMe();
     //console.log(friendData,myData);
@@ -192,6 +192,33 @@ export async function acceptFriendship(friendUID)
 
     return 0;
 
+}
+
+async function denyFriendship(friendUID)
+{
+    const friendData=await getSinglePerson(friendUID);
+    const myData=await getMe();
+    
+    if(friendData==null || myData==null)
+        return 2;
+
+    const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
+        myData.friendships.map((friend) => {
+            if(friend.uid===AuthContext.uid)
+                return {"uid":AuthContext.uid,"status":"accepted"};
+            return friend;
+        }));
+    const myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',
+        myData.friendships.map((friend) => {
+            if(friend.uid===friendUID)
+                return {"uid":friend.uid,"status":"accepted"};
+            return friend;
+        }));
+    
+    if(friendResponse==null || myResponse==null)
+        return 1;
+
+    return 0;
 }
 
 export async function getMe()

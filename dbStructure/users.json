@@ -26,8 +26,7 @@
     ],
     "friendships":
     [
-      {"uid":"uid","status":"accepted"},
-      {"uid":"2L7YC8DsmHdQAtvoMKiNl9bEopR2","status":"pending"}
+      {"uid":"uid","status":"accepted"}
     ],
     "username": "Asher"
   },

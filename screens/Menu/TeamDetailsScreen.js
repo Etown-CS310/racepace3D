@@ -17,15 +17,15 @@ function TeamScreen({ navigation, route }) {
 
     const [members, setMembers] = useState(route.params.team.members);
     
-        // useEffect(() => {
-        //     async function fetchMembers() {
-        //         setMembers(await members.map( async (member)=>{
-        //             const memberData = await getSinglePerson(member);
-        //             return memberData.username;
-        //         }));
-        //     }
-        //     fetchMembers();
-        // }, []);
+        useEffect(() => {
+            async function fetchMembers() {
+                setMembers(await members.map( async (member)=>{
+                    const memberData = await getSinglePerson(member);
+                    return memberData.username;
+                }));
+            }
+            fetchMembers();
+        }, []);
 
     //console.log(route.params.team);
     

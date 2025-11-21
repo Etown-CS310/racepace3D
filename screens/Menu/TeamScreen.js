@@ -54,7 +54,7 @@ function TeamScreen({ navigation }) {
                 <FlatList
                     data={teams}
                     renderItem={renderTeam}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.captain}
                     numColumns={2}
                     // columnWrapperStyle={styles.row}
                     // contentContainerStyle={styles.grid}

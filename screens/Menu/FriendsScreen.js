@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground,ScrollView,Alert,Button } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getFriends,requestFriendship,acceptFriendship,AuthContext } from '../../components/dbConnecter';
+import { getFriends,requestFriendship,AuthContext,acceptFriendship } from '../../components/dbConnecter';
 
 import PlayerCard from '../../components/PlayerCard';
 
@@ -47,7 +47,7 @@ function FriendsScreen({ navigation }) {
     async function acceptFriendHandler()
     {
         //console.log(this.fuid);
-        const response=await acceptFriendship(fuid);
+        const response=await acceptFriendship(this.fuid);
 
         if(response===0)
             Alert.alert('Friendship Accepted','You are now friends!');
@@ -73,7 +73,6 @@ function FriendsScreen({ navigation }) {
                 <Text style={styles.title}>Friends Screen</Text>
                 
             </View>
-            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
             <ScrollView>
             {friends.map((friend) => (
                 <View key={friend.username}>

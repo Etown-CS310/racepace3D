@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { useState } from 'react';
 
 import Visible from '../assets/buttons/View.png';
@@ -39,13 +39,15 @@ const styles = StyleSheet.create({
     textInput: {
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.small,
+        height: 36,
         paddingHorizontal: 10,
-        paddingVertical: 12,
-        paddingRight: 45,
+        paddingVertical: Platform.OS === 'ios' ? 14 : 12,
+        paddingRight: 36,
         backgroundColor: COLORS.textInput,
-        textAlignVertical: 'center',
-        lineHeight: 18,
-        includeFontPadding: false,
+        ...(Platform.OS === 'android' && {
+            textAlignVertical: 'center',
+            includeFontPadding: false,
+        }),
     },
 
     textInputFocused: {

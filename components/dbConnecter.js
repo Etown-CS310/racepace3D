@@ -118,6 +118,7 @@ export async function getFriends()
     const friends=await  Promise.all(me.friendships.map(async (friendID)=>{
         const friendData=await getSinglePerson(friendID.uid);
         friendData.status=friendID.status;
+        friendData.uid=friendID.uid;
         return friendData;
     }));
     //console.log(friends);
@@ -125,10 +126,78 @@ export async function getFriends()
 
 }
 
+export async function requestFriendship(friendUID)
+{
+    if(friendUID===AuthContext.uid || friendUID.length===0)
+        return 1;
+    const friendData=await getSinglePerson(friendUID);
+    const myData=await getMe();
+    
+    if(friendData==null || myData==null)
+        return 2;
+    
+    //console.log(friendData.friendships);
+    //console.log(myData.friendships);
+
+
+
+    let myResponse,friendResponse;
+
+    if(friendData.friendships===undefined)
+        friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',[{"uid":AuthContext.uid,"status":"pending"}]);
+    else
+    {
+        if(friendData.friendships.some((friend) => friend.uid===AuthContext.uid))
+            return 3;
+        friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',[ ...friendData.friendships, {"uid":AuthContext.uid,"status":"pending"}]);
+    }
+
+    //console.log(friendResponse);
+
+    if(myData.friendships===undefined)
+        myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',[{"uid":friendUID,"status":"requested"}]);
+    else
+    {
+        myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',[ ...myData.friendships, {"uid":friendUID,"status":"requested"}]);
+    }
+    //console.log(myResponse);
+    return 0;
+}
+
+export async function acceptFriendship(friendUID)
+{
+    console.log("Accepting friendship with "+friendUID);
+    const friendData=await getSinglePerson(friendUID);
+    const myData=await getMe();
+    //console.log(friendData,myData);
+    
+    if(friendData==null || myData==null)
+        return 2;
+
+    const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
+        myData.friendships.map((friend) => {
+            if(friend.uid===AuthContext.uid)
+                return {"uid":AuthContext.uid,"status":"accepted"};
+            return friend;
+        }));
+    const myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',
+        myData.friendships.map((friend) => {
+            if(friend.uid===friendUID)
+                return {"uid":friend.uid,"status":"accepted"};
+            return friend;
+        }));
+    
+    if(friendResponse==null || myResponse==null)
+        return 1;
+
+    return 0;
+
+}
+
 export async function getMe()
 {
     const me=await queryDB(AuthContext.token,'Users/'+AuthContext.uid);
-    console.log(me);
+    //console.log(me);
     if(me==null)
     {
         //console.log("Creating user");
@@ -142,8 +211,8 @@ export async function getMe()
             "completedTracks":[]
             };
 
-        await postDB(AuthContext.token,'Users/'+AuthContext.uid,
-            newMe);
+        /*await postDB(AuthContext.token,'Users/'+AuthContext.uid,
+            newMe);*/
         return newMe;
     }
     //console.log(me);
@@ -159,3 +228,4 @@ export async function joinTeam(teamID)
 {
 
 }
+

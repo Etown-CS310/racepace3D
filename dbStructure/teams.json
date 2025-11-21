@@ -1,8 +1,32 @@
 [
     {
         "captain":"VsjHS2gYswfzhqqozgKlTQvebsT2",
-        "descrtiption":"Is this thing on? testing 12",
-        "name":"Test Team",
-        "members":["VsjHS2gYswfzhqqozgKlTQvebsT2"]
+        "descrtiption":"It's Just Crazy Enough to work",
+        "name":"Ocean's 2^4",
+        "members":["VsjHS2gYswfzhqqozgKlTQvebsT2","uid"]
+    },
+    {
+        "captain":"PZnwO0Nks0TDPhto5eMTUZMMjkn1",
+        "descrtiption":"Team of champions",
+        "name":"Silver Team",
+        "members":["PZnwO0Nks0TDPhto5eMTUZMMjkn1"]
+    },
+    {
+        "captain":"2L7YC8DsmHdQAtvoMKiNl9bEopR2",
+        "descrtiption":"This is a filler team",
+        "name":"Kaiden's team",
+        "members":["2L7YC8DsmHdQAtvoMKiNl9bEopR2"]
+    },
+    {
+        "captain":"vam0IT8jJCeaPnm6hRWMYqhSAGa2",
+        "descrtiption":"The Etown Cross Country Team in Racepace3D",
+        "name":"Etown Team",
+        "members":["vam0IT8jJCeaPnm6hRWMYqhSAGa2","2L7YC8DsmHdQAtvoMKiNl9bEopR2"]
+    },
+    {
+        "captain":"uid",
+        "descrtiption":"Select * from users",
+        "name":"Everybody",
+        "members":["2L7YC8DsmHdQAtvoMKiNl9bEopR2","PZnwO0Nks0TDPhto5eMTUZMMjkn1","uid","vam0IT8jJCeaPnm6hRWMYqhSAGa2","VsjHS2gYswfzhqqozgKlTQvebsT2"]
     }
 ]

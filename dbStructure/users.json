@@ -10,18 +10,19 @@
       "jakob",
       "mo"
     ],
-    "username": "Template"
+    "username": "Kaiden"
   },
   "VsjHS2gYswfzhqqozgKlTQvebsT2": {
     "charID": "cole",
     "highScore": 0,
-    "teamID": -1,
+    "teamID": 0,
     "unlockedChars": [
       "cole",
       "eliud",
       "grant",
       "jakob",
-      "mo"
+      "mo",
+      "rando"
     ],
     "friendships":
     [
@@ -45,7 +46,42 @@
       {"uid":"VsjHS2gYswfzhqqozgKlTQvebsT2","status":"accepted"},
       {"uid":"2L7YC8DsmHdQAtvoMKiNl9bEopR2","status":"pending"}
     ],
+    "teamID": 0,
+    "username": "Universal ID man"
+  },
+  "PZnwO0Nks0TDPhto5eMTUZMMjkn1":{
+    "charID": "cole",
+    "highScore": 500,
+    "unlockedChars": [
+      "cole",
+      "eliud",
+      "grant",
+      "jakob",
+      "mo"
+    ],
+    "friendships":
+    [
+      
+    ],
     "teamID": -1,
-    "username": "Template"
+    "username": "Wayde"
+  },
+  "vam0IT8jJCeaPnm6hRWMYqhSAGa2":
+  {
+    "charID": "cole",
+    "highScore": 0,
+    "unlockedChars": [
+      "cole",
+      "eliud",
+      "grant",
+      "jakob",
+      "mo"
+    ],
+    "friendships":
+    [
+      
+    ],
+    "teamID": -1,
+    "username": "Martin"
   }
 }

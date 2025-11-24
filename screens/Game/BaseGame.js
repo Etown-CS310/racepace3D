@@ -289,7 +289,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
 
                             {/* Next level */}
                             {/* TODO: Replace 'true' with infinite condition */}
-                            {(won || true) && (
+                            {(won) && (
                                 <NavigationPressable
                                     onPress={() => { onNext(); }}
                                     source={nextimg}

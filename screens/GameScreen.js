@@ -61,6 +61,9 @@ function GameScreen({ navigation, currentCharacter, chars }) {
             if (!unlockedLevels.includes(nextLevelId)) {
                 setUnlockedLevels([...unlockedLevels,nextLevelId]);
             }
+        } else {
+            // unlock falk
+            unlockCharacter('falk');
         }
         // adds level completed to be beaten lvl list
         const thisLvlId = lvls[currentLevel].id;

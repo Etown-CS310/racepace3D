@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, ImageBackground,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getSinglePerson } from '../../components/dbConnecter';
+import { getSinglePerson, joinTeam, leaveTeam, deleteTeam } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
@@ -10,13 +10,14 @@ import TextButton from '../../components/textButton';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
-function TeamScreen({ navigation, route }) {
+function TeamScreen({ navigation, route, uid }) {
     const menuHandler = () => {
         navigation.goBack();
     };
 
     const [members, setMembers] = useState(route.params.team.members);
     
+        // TODO: fix???
         useEffect(() => {
             async function fetchMembers() {
                 setMembers(await members.map( async (member)=>{
@@ -28,6 +29,41 @@ function TeamScreen({ navigation, route }) {
         }, []);
 
     //console.log(route.params.team);
+
+    async function joinTeamHandler() {
+        console.log('Join Team:', route.params.team);
+
+        const response = await joinTeam(route.params.team);
+        if (response) {
+            navigation.goBack();
+        } else {
+            Alert.alert('Join Failed', 'There was an error joining the team.', [{ text: 'OK' }]);
+        }
+    }
+
+    // TODO: add confimation popup
+    async function leaveTeamHandler() {
+        console.log('Leave Team:', route.params.team);
+
+        const response = await leaveTeam(route.params.team);
+        if (response) {
+            navigation.goBack();
+        } else {
+            Alert.alert('Leave Failed', 'There was an error leaving the team.', [{ text: 'OK' }]);
+        }
+    }
+
+    // TODO: add confimation popup
+    async function deleteTeamHandler() {
+        console.log('Delete Team:', route.params.team);
+
+        const response = await deleteTeam(route.params.team);
+        if (response) {
+            navigation.goBack();
+        } else {
+            Alert.alert('Delete Failed', 'There was an error deleting the team.', [{ text: 'OK' }]);
+        }
+    }
     
     return (
         <ImageBackground
@@ -50,8 +86,12 @@ function TeamScreen({ navigation, route }) {
                             );
                         })}
                         <View style={styles.textButton}>
-                            {/* TODO: implement join/leave logic with logged user */}
-                            <TextButton title="Join Team" onPress={null} />
+                            {/* TODO: fix */}
+                            {!members.some((member) => member.id === uid) ? (
+                                <TextButton title="Join Team" onPress={joinTeamHandler} />
+                            ) : uid === route.params.team.captain ? (
+                                <TextButton title="Delete Team" onPress={deleteTeamHandler} />
+                            ) : <TextButton title="Leave Team" onPress={leaveTeamHandler} />}
                         </View>
                     </ScrollView>
                 </View>

@@ -251,8 +251,30 @@ export async function getSinglePerson(uid)
     return await queryDB(AuthContext.token,'Users/'+uid);
 }
 
-export async function joinTeam(teamID)
+export async function createTeam(teamName, teamDesc)
 {
-
+    return await postDB(AuthContext.token,'Teams/'+AuthContext.uid, {
+        captain: AuthContext.uid,
+        description: teamDesc,
+        members: [AuthContext.uid],
+        name: teamName
+    });
 }
 
+export async function joinTeam(teamID)
+{
+    return await postDB(AuthContext.token,'Teams/'+teamID+'/members',
+        [...(await queryDB(AuthContext.token,'Teams/'+teamID+'/members')),AuthContext.uid]);
+}
+
+export async function leaveTeam(teamID)
+{
+    const teamData=await queryDB(AuthContext.token,'Teams/'+teamID);
+    return await postDB(AuthContext.token,'Teams/'+teamID+'/members',
+        teamData.members.filter((member)=>member!==AuthContext.uid));
+}
+
+export async function deleteTeam(teamID)
+{
+    return await postDB(AuthContext.token,'Teams/'+teamID,null);
+}

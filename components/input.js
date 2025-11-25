@@ -6,7 +6,7 @@ import NavigationPressable from './NavigationPressable';
 
 import { COLORS, FONT_SIZES } from '../constants/theme';
 
-function Input({ title, value,onChangeText, focus }){
+function Input({ title, value, onChangeText, focus, isMultiline=false }) {
     const [isFocused, setIsFocused] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -15,13 +15,19 @@ function Input({ title, value,onChangeText, focus }){
     return(
         <View style={[styles.container, isFocused && styles.containerFocused]}>
             <TextInput
-                style={[styles.textInput, isFocused && styles.textInputFocused,]}
+                style={[
+                    styles.textInput,
+                    isPasswordField && styles.password,
+                    isMultiline && styles.multiline,
+                    isFocused && styles.textInputFocused
+                ]}
                 placeholder={title}
                 value={value}
                 onChangeText={onChangeText}
                 secureTextEntry={!isPasswordVisible && isPasswordField}
                 autoCorrect={false}       
                 autoFocus={focus}
+                multiline={isMultiline}
                 disableFullscreenUI={true}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
@@ -42,12 +48,21 @@ const styles = StyleSheet.create({
         height: 36,
         paddingHorizontal: 10,
         paddingVertical: Platform.OS === 'ios' ? 10 : 12,
-        paddingRight: 36,
         backgroundColor: COLORS.textInput,
         ...(Platform.OS === 'android' && {
             textAlignVertical: 'center',
             includeFontPadding: false,
         }),
+    },
+
+    password: {
+        paddingRight: 36,
+    },
+
+    multiline: {
+        height: 80,
+        lineHeight: FONT_SIZES.small * 1.5,
+        textAlignVertical: 'top',
     },
 
     textInputFocused: {

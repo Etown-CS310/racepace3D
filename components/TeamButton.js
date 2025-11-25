@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import NavigationPressable from './NavigationPressable';
 import ViewTeam from '../assets/buttons/View.png';
 
-import { COLORS, FONT_SIZES, LAYOUT } from '../constants/';
+import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 
 function TeamButton({ name, onPress, memberCount=1 }) {
     return (
@@ -27,6 +27,7 @@ const styles=StyleSheet.create({
         borderRadius: 6,
         width: 300,
         height: 80,
+        margin: 5,
     },
 
     textContainer: {

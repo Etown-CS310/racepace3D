@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, ImageBackground, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, FlatList } from 'react-native';
 
+import { AuthContext } from '../../components/dbConnecter';
 import { getTeams } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
@@ -13,16 +14,17 @@ import NavigationPressable from '../../components/NavigationPressable';
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 function TeamScreen({ navigation }) {
+    const [teams, setTeams] = useState([]);
+
     const menuHandler = () => {
         navigation.goBack();
     };
 
-    const [teams, setTeams] = useState([]);
-
     useEffect(() => {
         async function fetchTeams() {
             const fetchedTeams = await getTeams();
-            setTeams(fetchedTeams);
+            const teamArray = (fetchedTeams && typeof fetchedTeams === 'object') ? Object.values(fetchedTeams) : [];
+            setTeams(teamArray);
         }
         fetchTeams();
     }, []);
@@ -30,8 +32,13 @@ function TeamScreen({ navigation }) {
 
     function teamPressHandler() {
         //console.log(this.selTeam);
-        navigation.navigate('TeamDetailsScreen', { team: this.selTeam });
+        navigation.navigate('TeamDetails', { team: this.selTeam, uid: AuthContext.uid });
     }
+
+    const newTeamHandler = () => {
+        // console.log('Navigate to New Team Screen');
+        navigation.navigate('NewTeam');
+    };
 
     function renderTeam({ item }) {
         return (
@@ -54,17 +61,16 @@ function TeamScreen({ navigation }) {
                 <FlatList
                     data={teams}
                     renderItem={renderTeam}
-                    keyExtractor={(item) => item.captain}
+                    keyExtractor={(item) => item.id}
                     numColumns={2}
-                    // columnWrapperStyle={styles.row}
-                    // contentContainerStyle={styles.grid}
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={true}
                 />
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
-            {/* TODO: Create a new team */}
-            <NavigationPressable style={styles.newButton} onPress={null} source={newimg} />
+            {(!teams || !(teams.some((team) => team.captain === AuthContext.uid))) &&
+                <NavigationPressable style={styles.newButton} onPress={newTeamHandler} source={newimg} />
+            }
         </ImageBackground>
     );
 }
@@ -97,14 +103,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         right: 20,
-    },
-
-    grid: {
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-    },
-
-    row: {
-        justifyContent: 'center',
     },
 });

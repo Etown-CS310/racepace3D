@@ -19,6 +19,7 @@ import TeamScreen from './screens/Menu/TeamScreen';
 import Login from './screens/UserFuncts/Login';
 import Register from './screens/UserFuncts/Register';
 import TeamDetailsScreen from './screens/Menu/TeamDetailsScreen';
+import NewTeamScreen from './screens/Menu/NewTeamScreen';
 
 import { getChars } from './data/characters';
 
@@ -98,7 +99,8 @@ export default function App() {
           <Stack.Screen name="Highscores" component={HighscoresScreen} />
           <Stack.Screen name="Friends" component={FriendsScreen} />
           <Stack.Screen name="Team" component={TeamScreen} />
-          <Stack.Screen name="TeamDetailsScreen" component={TeamDetailsScreen} />
+          <Stack.Screen name="TeamDetails" component={TeamDetailsScreen} />
+          <Stack.Screen name="NewTeam" component={NewTeamScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

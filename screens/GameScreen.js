@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
 
 // level components
@@ -22,6 +22,7 @@ import backimg from '../assets/buttons/LeftArrow.png';
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';
+import { getMe, unlockLevels } from '../components/dbConnecter.js';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 
@@ -51,6 +52,16 @@ function GameScreen({ navigation, currentCharacter, chars }) {
         }
     }, [route.params?.mode]);
 
+    useEffect(() => {
+        async function getSavedData() 
+        {
+            const me = await getMe();
+            setUnlockedLevels(me.unlockedLevels || [lvls[0].id]);
+
+        }
+        getSavedData();
+    }, []);
+
     const completeLevelHandler = () => {
 
         // unlocks next level if there is one
@@ -60,6 +71,7 @@ function GameScreen({ navigation, currentCharacter, chars }) {
 
             if (!unlockedLevels.includes(nextLevelId)) {
                 setUnlockedLevels([...unlockedLevels,nextLevelId]);
+                unlockLevels([...unlockedLevels,nextLevelId]);
             }
         } else {
             // unlock falk

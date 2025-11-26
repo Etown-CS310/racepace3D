@@ -22,14 +22,17 @@ function TeamScreen({ navigation }) {
     async function createTeamHandler() {
         console.log('Create Team:', teamName, teamDesc);
 
-        const response = await createTeam(teamName, teamDesc);
-        if (response) {
+        try {
+            const response = await createTeam(teamName, teamDesc);
+            if (!response) {
+                throw new Error('Create team failed');
+            }
             navigation.goBack();
-        } else {
-            Alert.alert('Creation Failed', 'There was an error creating your team.', [{ text: 'OK' }]);
+        } catch (error) {
+            Alert.alert('Creation Failed');
         }
     }
-        
+    
     return (
         <ImageBackground
             source={ menuBg }

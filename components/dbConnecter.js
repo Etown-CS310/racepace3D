@@ -93,6 +93,14 @@ async function postDB(token,Purpose,data)
     return response.data;
 }
 
+async function deleteDB(token,Purpose)
+{
+    const api_url = `https://racepace3d-default-rtdb.firebaseio.com/${Purpose}.json?auth=${token}`;
+
+    const response = await axios.delete(api_url);
+    return response.data;
+}
+
 export async function getTeams()
 {
     const token = AuthContext.token;
@@ -251,30 +259,97 @@ export async function getSinglePerson(uid)
     return await queryDB(AuthContext.token,'Users/'+uid);
 }
 
-export async function createTeam(teamName, teamDesc)
-{
-    return await postDB(AuthContext.token,'Teams/'+AuthContext.uid, {
-        captain: AuthContext.uid,
-        description: teamDesc,
-        members: [AuthContext.uid],
-        name: teamName
-    });
+async function updateUserTeam(uid, teamID) {
+    const user = await queryDB(AuthContext.token, `Users/${uid}`);
+    return postDB(AuthContext.token, `Users/${uid}`, { ...user, teamID });
 }
 
-export async function joinTeam(teamID)
-{
-    return await postDB(AuthContext.token,'Teams/'+teamID+'/members',
-        [...(await queryDB(AuthContext.token,'Teams/'+teamID+'/members')),AuthContext.uid]);
+async function updateTeamMembers(teamID, members) {
+    const team = await queryDB(AuthContext.token, `Teams/${teamID}`);
+    return postDB(AuthContext.token, `Teams/${teamID}`, { ...team, members });
 }
 
-export async function leaveTeam(teamID)
-{
-    const teamData=await queryDB(AuthContext.token,'Teams/'+teamID);
-    return await postDB(AuthContext.token,'Teams/'+teamID+'/members',
-        teamData.members.filter((member)=>member!==AuthContext.uid));
+export async function createTeam(teamName, teamDesc) {
+    try {
+        const { uid, token } = AuthContext;
+        
+        const [teamResponse, userResponse] = await Promise.all([
+            postDB(token, `Teams/${uid}`, {
+                captain: uid,
+                description: teamDesc,
+                members: [uid],
+                name: teamName
+            }),
+            updateUserTeam(uid, uid)
+        ]);
+        
+        return !!(teamResponse && userResponse);
+    } catch (error) {
+        console.error('Error creating team:', error);
+        return false;
+    }
 }
 
-export async function deleteTeam(teamID)
-{
-    return await postDB(AuthContext.token,'Teams/'+teamID,null);
+export async function joinTeam(team) {
+    try {
+        const { uid } = AuthContext;
+        
+        const [teamResponse, userResponse] = await Promise.all([
+            updateTeamMembers(team.captain, [...team.members, uid]),
+            updateUserTeam(uid, team.captain)
+        ]);
+        
+        return !!(teamResponse && userResponse);
+    } catch (error) {
+        console.error('Error joining team:', error);
+        return false;
+    }
 }
+
+export async function leaveTeam(team) {
+    try {
+        const { uid, token } = AuthContext;
+        
+        const [teamResponse, userResponse] = await Promise.all([
+            postDB(token, `Teams/${team.captain}/members`, 
+                team.members.filter(member => member !== uid)
+            ),
+            updateUserTeam(uid, -1)
+        ]);
+        
+        return !!(teamResponse && userResponse);
+    } catch (error) {
+        console.error('Error leaving team:', error);
+        return false;
+    }
+}
+
+export async function deleteTeam(team) {
+    try {
+        const { token } = AuthContext;
+        
+        const [memberUpdates, teamResponse] = await Promise.all([
+            Promise.all(team.members.map(uid => updateUserTeam(uid, -1))),
+            deleteDB(token, `Teams/${team.captain}`)
+        ]);
+        
+        return teamResponse !== undefined && memberUpdates.every(Boolean);
+    } catch (error) {
+        console.error('Error deleting team:', error);
+        return false;
+    }
+}
+
+// export async function fixMyUser() {
+//     const fixedUser = {
+//         charID: "cole",
+//         highScore: 0,
+//         username: "Kaiden",
+//         teamID: -1,
+//         friendships: [],
+//         unlockedChars: ["cole", "eliud", "grant", "jakob", "mo"],
+//         completedTracks: []
+//     };
+    
+//     return await postDB(AuthContext.token, `Users/${AuthContext.uid}`, fixedUser);
+// }

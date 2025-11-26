@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getSinglePerson, joinTeam, leaveTeam, deleteTeam } from '../../components/dbConnecter';
+import { getSinglePerson, joinTeam, leaveTeam, deleteTeam, getMe } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
@@ -10,59 +10,113 @@ import TextButton from '../../components/textButton';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
-function TeamScreen({ navigation, route, uid }) {
+function TeamScreen({ navigation, route }) {
     const menuHandler = () => {
         navigation.goBack();
     };
 
-    const [members, setMembers] = useState(route.params.team.members);
+    const { team, uid } = route.params;
+    const [members, setMembers] = useState(team.members);
+    const [memberUsernames, setMemberUsernames] = useState([]);
+    const [me, setMe] = useState(null);
     
         // TODO: fix???
         useEffect(() => {
             async function fetchMembers() {
-                setMembers(await members.map( async (member)=>{
-                    const memberData = await getSinglePerson(member);
-                    return memberData.username;
-                }));
+                try {
+                    const usernames = await Promise.all(
+                        members.map(async (uid) => {
+                            // get batch users???
+                            const memberData = await getSinglePerson(uid);
+                            return { uid, username: memberData.username };
+                        })
+                    );
+                    setMemberUsernames(usernames);
+                } catch (error) {
+                    console.error('Error fetching member usernames:', error);
+                }
             }
             fetchMembers();
+        }, [members]);
+
+        useEffect(() => {
+            async function fetchMe() {
+                const meData = await getMe();
+                setMe(meData);
+            }
+            fetchMe();
         }, []);
 
-    //console.log(route.params.team);
-
     async function joinTeamHandler() {
-        console.log('Join Team:', route.params.team);
+        console.log('Join Team:', team);
 
-        const response = await joinTeam(route.params.team);
-        if (response) {
+        const originalMembers = [...members];
+        setMembers([...members, uid]);
+
+        try {
+            const response = await joinTeam(team);
+            if (!response) {
+                throw new Error('Join team failed');
+            }
             navigation.goBack();
-        } else {
-            Alert.alert('Join Failed', 'There was an error joining the team.', [{ text: 'OK' }]);
+        } catch (error) {
+            setMembers(originalMembers);
+            Alert.alert('Join Failed', error.message);
         }
     }
 
-    // TODO: add confimation popup
     async function leaveTeamHandler() {
-        console.log('Leave Team:', route.params.team);
+        console.log('Leave Team:', team);
 
-        const response = await leaveTeam(route.params.team);
-        if (response) {
-            navigation.goBack();
-        } else {
-            Alert.alert('Leave Failed', 'There was an error leaving the team.', [{ text: 'OK' }]);
-        }
+        Alert.alert(
+            'Leave Team',
+            'Are you sure?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { 
+                    text: 'Leave', 
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            const response = await leaveTeam(team);
+                            if (!response) {
+                                throw new Error('Leave team failed');
+                            }
+                            navigation.goBack();
+                        } catch (error) {
+                            Alert.alert('Leave failed', error.message);
+                        }
+                    }
+                }
+            ]
+        );
     }
 
-    // TODO: add confimation popup
     async function deleteTeamHandler() {
-        console.log('Delete Team:', route.params.team);
+        console.log('Delete Team:', team);
 
-        const response = await deleteTeam(route.params.team);
-        if (response) {
-            navigation.goBack();
-        } else {
-            Alert.alert('Delete Failed', 'There was an error deleting the team.', [{ text: 'OK' }]);
-        }
+        Alert.alert(
+            'Delete Team',
+            'Are you sure? This cannot be undone.',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { 
+                    text: 'Delete', 
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            const response = await deleteTeam(team);
+                            if (!response) {
+                                throw new Error('Delete team failed');
+                            }
+                            navigation.goBack();
+                        } catch (error) {
+                            Alert.alert('Delete failed', error.message);
+                        }
+                    }
+                }
+            ]
+        );
     }
     
     return (
@@ -72,26 +126,29 @@ function TeamScreen({ navigation, route, uid }) {
             resizeMode="cover"
         >
             <View style={styles.container}>
-                <Text style={styles.title}>{route.params.team.name}</Text>
+                <Text style={styles.title}>{team.name}</Text>
                 <View style={styles.scrollWrapper}>
                     <ScrollView 
                         style={styles.scrollContainer}
                         contentContainerStyle={styles.scrollContent}
                     >
-                        <Text style={styles.text}>Description: {route.params.team.description}</Text>
+                        <Text style={styles.text}>Description: {team.description}</Text>
                         <Text style={styles.text}>Members:</Text>
-                        {members.map((member,index) =>{
+                        {memberUsernames.map((member) => {
                             return (
-                                <Text key={index} style={styles.text}>- {member} {route.params.team.members[index]===route.params.team.captain ? "★" : ""}</Text>
+                                <Text key={member.uid} style={styles.text}>
+                                    - {member.username} {member.uid === team.captain ? "★" : ""}
+                                </Text>
                             );
                         })}
                         <View style={styles.textButton}>
-                            {/* TODO: fix */}
-                            {!members.some((member) => member.id === uid) ? (
-                                <TextButton title="Join Team" onPress={joinTeamHandler} />
-                            ) : uid === route.params.team.captain ? (
+                            {team.captain === uid ? (
                                 <TextButton title="Delete Team" onPress={deleteTeamHandler} />
-                            ) : <TextButton title="Leave Team" onPress={leaveTeamHandler} />}
+                            ) : members.includes(uid) ? (
+                                <TextButton title="Leave Team" onPress={leaveTeamHandler} />
+                            ) : me?.teamID === -1 ? (
+                                <TextButton title="Join Team" onPress={joinTeamHandler} />
+                            ) : null}
                         </View>
                     </ScrollView>
                 </View>

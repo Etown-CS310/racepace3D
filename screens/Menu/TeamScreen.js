@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, FlatList } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { StyleSheet, Text, View, ImageBackground, FlatList, Button } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
-import { AuthContext } from '../../components/dbConnecter';
-import { getTeams } from '../../components/dbConnecter';
+import { AuthContext, getTeams, getMe } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/LeftArrow.png';
@@ -15,6 +15,7 @@ import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
 function TeamScreen({ navigation }) {
     const [teams, setTeams] = useState([]);
+    const [me, setMe] = useState(null);
 
     const menuHandler = () => {
         navigation.goBack();
@@ -22,21 +23,37 @@ function TeamScreen({ navigation }) {
 
     useEffect(() => {
         async function fetchTeams() {
-            const fetchedTeams = await getTeams();
-            const teamArray = (fetchedTeams && typeof fetchedTeams === 'object') ? Object.values(fetchedTeams) : [];
+            const teamObjects = await getTeams();
+            const teamArray = teamObjects ? Object.values(teamObjects) : [];
             setTeams(teamArray);
         }
         fetchTeams();
     }, []);
 
+    useFocusEffect(
+        useCallback(() => {
+            async function fetchTeams() {
+                const teamObjects = await getTeams();
+                const teamArray = teamObjects ? Object.values(teamObjects) : [];
+                setTeams(teamArray);
+            }
+            fetchTeams();
+        }, [])
+    );
 
-    function teamPressHandler() {
-        //console.log(this.selTeam);
-        navigation.navigate('TeamDetails', { team: this.selTeam, uid: AuthContext.uid });
+    useEffect(() => {
+        async function fetchMe() {
+            const meData = await getMe();
+            setMe(meData);
+        }
+        fetchMe();
+    }, []);
+
+    function teamPressHandler(team) {
+        navigation.navigate('TeamDetails', { team: team, uid: AuthContext.uid });
     }
 
     const newTeamHandler = () => {
-        // console.log('Navigate to New Team Screen');
         navigation.navigate('NewTeam');
     };
 
@@ -45,7 +62,7 @@ function TeamScreen({ navigation }) {
             <TeamButton
                 name={item.name}
                 memberCount={item.members.length}
-                onPress={teamPressHandler.bind({ selTeam: item })}
+                onPress={() => teamPressHandler(item)}
             />
         );
     }
@@ -68,7 +85,7 @@ function TeamScreen({ navigation }) {
                 />
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
-            {(!teams || !(teams.some((team) => team.captain === AuthContext.uid))) &&
+            {me?.teamID === -1 &&
                 <NavigationPressable style={styles.newButton} onPress={newTeamHandler} source={newimg} />
             }
         </ImageBackground>

@@ -202,7 +202,34 @@ export async function acceptFriendship(friendUID)
 
 }
 
-async function denyFriendship(friendUID)
+export async function denyFriendship(friendUID)
+{
+    const friendData=await getSinglePerson(friendUID);
+    const myData=await getMe();
+    
+    if(friendData==null || myData==null)
+        return 2;
+
+    const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
+        friendData.friendships.map((friend) => {
+            if(friend.uid===AuthContext.uid)
+                return;
+            return friend;
+        }));
+    const myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',
+        myData.friendships.map((friend) => {
+            if(friend.uid===friendUID)
+                return;
+            return friend;
+        }));
+    //console.log(friendResponse,myResponse);
+    if((friendResponse==null && friendData.length!==1) || (myResponse==null && myData.length!==1))
+        return 1;
+
+    return 0;
+}
+
+export async function removeFriend(friendUID)
 {
     const friendData=await getSinglePerson(friendUID);
     const myData=await getMe();
@@ -213,13 +240,13 @@ async function denyFriendship(friendUID)
     const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
         myData.friendships.map((friend) => {
             if(friend.uid===AuthContext.uid)
-                return {"uid":AuthContext.uid,"status":"accepted"};
+                return;
             return friend;
         }));
     const myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',
         myData.friendships.map((friend) => {
             if(friend.uid===friendUID)
-                return {"uid":friend.uid,"status":"accepted"};
+                return;
             return friend;
         }));
     
@@ -231,13 +258,14 @@ async function denyFriendship(friendUID)
 
 export async function getMe()
 {
+    await waitForToken();
     const me=await queryDB(AuthContext.token,'Users/'+AuthContext.uid);
     //console.log(me);
     if(me==null)
     {
         //console.log("Creating user");
         const newMe={
-            "charID":"cole",
+            "char":{"id":0},
             "highScore":0,
             "username":"Template",
             "teamID":-1,
@@ -246,8 +274,8 @@ export async function getMe()
             "completedTracks":[]
             };
 
-        /*await postDB(AuthContext.token,'Users/'+AuthContext.uid,
-            newMe);*/
+        await postDB(AuthContext.token,'Users/'+AuthContext.uid,
+            newMe);
         return newMe;
     }
     //console.log(me);
@@ -353,3 +381,26 @@ export async function deleteTeam(team) {
     
 //     return await postDB(AuthContext.token, `Users/${AuthContext.uid}`, fixedUser);
 // }
+
+export async function unlockLevels(unlockedLevels)
+{
+    const response = await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/unlockedLevels',unlockedLevels);
+    return response;
+}
+
+export async function updateCharacter(charID)
+{
+    //console.log("Updating character to "+charID);
+    const response = await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/char',{"id":charID});
+    return response;
+}
+
+export async function updateHighScore(newScore)
+{
+
+}
+
+export async function getHighScores()
+{
+    
+}

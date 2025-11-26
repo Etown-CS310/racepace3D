@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ImageBackground,ScrollView,Alert,Button } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getFriends,requestFriendship,AuthContext,acceptFriendship } from '../../components/dbConnecter';
+import { getFriends,requestFriendship,AuthContext,acceptFriendship,denyFriendship,removeFriend } from '../../components/dbConnecter';
 
 import PlayerCard from '../../components/PlayerCard';
 
@@ -19,6 +19,7 @@ function FriendsScreen({ navigation }) {
     };
 
     const [friends, setFriends] = useState([]);
+    const [refresh,setRefresh]=useState(false);
 
     useEffect(() => {
         async function fetchFriends() {
@@ -27,8 +28,7 @@ function FriendsScreen({ navigation }) {
             setFriends(friendsData);
         }
         fetchFriends();
-        
-    },[]);
+    },[refresh]);
 
     const [friendUID, setFriendUID] = useState('');
 
@@ -42,6 +42,8 @@ function FriendsScreen({ navigation }) {
             Alert.alert('Add Friend','Friend not found, check your uid');
         else
             Alert.alert('Add Friend','Already friends or request pending');
+
+        setRefresh(!refresh);
     }
 
     async function acceptFriendHandler()
@@ -52,7 +54,35 @@ function FriendsScreen({ navigation }) {
         if(response===0)
             Alert.alert('Friendship Accepted','You are now friends!');
         else
+            Alert.alert('Error','error, try again later');
+
+        menuHandler();
+        
+    }
+    async function denyFriendHandler()
+    {
+        //console.log(this.fuid);
+        const response=await denyFriendship(this.fuid);
+
+        //if(response===0)
+            Alert.alert('Friendship Denied','User has been removed from the list.');
+        //else
+        //    Alert.alert('Error','error, try again later');
+
+        menuHandler();
+
+    }
+    async function removeFriendHandler()
+    {
+        //console.log(this.fuid);
+        const response=await removeFriend(this.fuid);
+
+        if(response===0)
+            Alert.alert('Friend Removed','You are no longer friends.');
+        else
             Alert.alert('Error','Database error, try again later');
+        
+        menuHandler();
     }
     
     return (
@@ -78,6 +108,11 @@ function FriendsScreen({ navigation }) {
                 <View key={friend.username}>
                     <PlayerCard user={friend}>
                         {friend.status==='pending'?<Button title="Accept" onPress={acceptFriendHandler.bind({"fuid":friend.uid})}></Button>:""}
+                        {friend.status==='pending'||friend.status==='requested'?<Button title="Deny" onPress={denyFriendHandler.bind({"fuid":friend.uid})}></Button>:<Button title="Remove Friend" onPress={()=>{
+                            Alert.alert("Confirm","Are you sure you want to do that?",[
+                            {'text':'OK',onPress:()=>{removeFriendHandler.bind({"fuid":friend.uid})()}},
+                            {'text':'Cancel',style:'cancel'}
+                            ])}}></Button>}
                     </PlayerCard>
                 </View>
                 ))}

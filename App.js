@@ -22,6 +22,7 @@ import TeamDetailsScreen from './screens/Menu/TeamDetailsScreen';
 import NewTeamScreen from './screens/Menu/NewTeamScreen';
 
 import { getChars } from './data/characters';
+import { getMe,updateCharacter } from './components/dbConnecter.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,8 +41,17 @@ export default function App() {
       const fetchedChars = await getChars();
       setChars(fetchedChars);
     }
+    async function getCurrentChar()
+    {
+      const me = await getMe();
+      setCurrentCharacter(me.char.id);
+      //console.log(me);
+    }
     fetchChars();
+    getCurrentChar();
   }, []);
+
+
 
   // Hide Android navigation bar
   useEffect(() => {
@@ -62,6 +72,7 @@ export default function App() {
 
   const characterHandler = (index) => {
     setCurrentCharacter(index);
+    updateCharacter(index);
   };
 
   return (

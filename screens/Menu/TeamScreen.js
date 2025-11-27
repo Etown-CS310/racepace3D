@@ -32,12 +32,14 @@ function TeamScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            async function fetchTeams() {
+            async function pageRefresh() {
                 const teamObjects = await getTeams();
                 const teamArray = teamObjects ? Object.values(teamObjects) : [];
                 setTeams(teamArray);
+                const meData = await getMe();
+                setMe(meData);
             }
-            fetchTeams();
+            pageRefresh();
         }, [])
     );
 

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
 import menuBg from '../../assets/images/title.png';
-import backimg from '../../assets/buttons/LeftArrow.png';
+import backimg from '../../assets/buttons/light/LeftArrow.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 

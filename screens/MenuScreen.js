@@ -5,12 +5,12 @@ import menuBg2 from '../assets/images/title.png';
 
 import NavigationPressable from '../components/NavigationPressable.js';
 
-import startimg from '../assets/buttons/Start.png';
-import charimg from '../assets/buttons/Characters.png';
-import highscoreimg from '../assets/buttons/Highscores.png';
-import friendimg from '../assets/buttons/Friends.png';
-import teamimg from '../assets/buttons/Teams.png';
-import loginimg from '../assets/buttons/Logout.png';
+import startimg from '../assets/buttons/dark/Start.png';
+import charimg from '../assets/buttons/dark/Characters.png';
+import highscoreimg from '../assets/buttons/dark/Highscores.png';
+import friendimg from '../assets/buttons/dark/Friends.png';
+import teamimg from '../assets/buttons/dark/Teams.png';
+import loginimg from '../assets/buttons/dark/Logout.png';
 
 import { FONT_SIZES, LAYOUT } from '../constants/';
 

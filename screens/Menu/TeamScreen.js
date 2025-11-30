@@ -5,8 +5,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext, getTeams, getMe } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
-import backimg from '../../assets/buttons/LeftArrow.png';
-import newimg from '../../assets/buttons/New.png';
+import backimg from '../../assets/buttons/light/LeftArrow.png';
+import newimg from '../../assets/buttons/dark/New.png';
 
 import TeamButton from '../../components/TeamButton';
 import NavigationPressable from '../../components/NavigationPressable';
@@ -21,35 +21,19 @@ function TeamScreen({ navigation }) {
         navigation.goBack();
     };
 
-    useEffect(() => {
-        async function fetchTeams() {
-            const teamObjects = await getTeams();
-            const teamArray = teamObjects ? Object.values(teamObjects) : [];
-            setTeams(teamArray);
-        }
-        fetchTeams();
-    }, []);
-
     useFocusEffect(
         useCallback(() => {
             async function pageRefresh() {
                 const teamObjects = await getTeams();
                 const teamArray = teamObjects ? Object.values(teamObjects) : [];
                 setTeams(teamArray);
+                
                 const meData = await getMe();
                 setMe(meData);
             }
             pageRefresh();
         }, [])
     );
-
-    useEffect(() => {
-        async function fetchMe() {
-            const meData = await getMe();
-            setMe(meData);
-        }
-        fetchMe();
-    }, []);
 
     function teamPressHandler(team) {
         navigation.navigate('TeamDetails', { team: team, uid: AuthContext.uid });
@@ -88,7 +72,7 @@ function TeamScreen({ navigation }) {
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
             {me?.teamID === -1 &&
-                <NavigationPressable style={styles.newButton} onPress={newTeamHandler} source={newimg} />
+                <NavigationPressable style={LAYOUT.forwardButton} onPress={newTeamHandler} source={newimg} />
             }
         </ImageBackground>
     );
@@ -116,11 +100,5 @@ const styles = StyleSheet.create({
     bgImage: {
         flex: 1,
         justifyContent: 'center',
-    },
-
-    newButton: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
     },
 });

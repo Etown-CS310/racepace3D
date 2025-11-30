@@ -20,6 +20,7 @@ import Login from './screens/UserFuncts/Login';
 import Register from './screens/UserFuncts/Register';
 import TeamDetailsScreen from './screens/Menu/TeamDetailsScreen';
 import NewTeamScreen from './screens/Menu/NewTeamScreen';
+import EditTeamScreen from './screens/Menu/EditTeamScreen';
 
 import { getChars } from './data/characters';
 import { getMe,updateCharacter } from './components/dbConnecter.js';
@@ -112,6 +113,7 @@ export default function App() {
           <Stack.Screen name="Team" component={TeamScreen} />
           <Stack.Screen name="TeamDetails" component={TeamDetailsScreen} />
           <Stack.Screen name="NewTeam" component={NewTeamScreen} />
+          <Stack.Screen name="EditTeam" component={EditTeamScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

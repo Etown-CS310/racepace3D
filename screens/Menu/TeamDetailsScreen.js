@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
-import { useEffect, useState } from 'react';
-import { getSinglePerson, joinTeam, leaveTeam, deleteTeam, getMe } from '../../components/dbConnecter';
+import { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { getSinglePerson, joinTeam, leaveTeam, deleteTeam, getMe, getTeam } from '../../components/dbConnecter';
 
 import menuBg from '../../assets/images/title.png';
-import backimg from '../../assets/buttons/LeftArrow.png';
+import backimg from '../../assets/buttons/light/LeftArrow.png';
+import editimg from '../../assets/buttons/light/Edit.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 import TextButton from '../../components/textButton';
@@ -15,43 +17,46 @@ function TeamScreen({ navigation, route }) {
         navigation.goBack();
     };
 
-    const { team, uid } = route.params;
+    const editHandler = () => {
+        navigation.navigate('EditTeam', { team: team, memberUsernames: memberUsernames });
+    };
+
+    const { uid } = route.params;
+    const [team, setTeam] = useState(route.params.team);
     const [members, setMembers] = useState(team.members);
     const [memberUsernames, setMemberUsernames] = useState([]);
     const [me, setMe] = useState(null);
-    
-        // TODO: fix???
-        useEffect(() => {
-            async function fetchMembers() {
+
+    useFocusEffect(
+        useCallback(() => {
+            async function pageRefresh() {
                 try {
+                    const updatedTeam = await getTeam(team.captain);
+                    if (updatedTeam) {
+                        setTeam(updatedTeam);
+                        setMembers(updatedTeam.members);
+                    }
+
                     const usernames = await Promise.all(
-                        members.map(async (uid) => {
-                            // get batch users???
+                        updatedTeam.members.map(async (uid) => {
                             const memberData = await getSinglePerson(uid);
                             return { uid, username: memberData.username };
                         })
                     );
                     setMemberUsernames(usernames);
+
+                    const meData = await getMe();
+                    setMe(meData);
                 } catch (error) {
-                    console.error('Error fetching member usernames:', error);
+                    console.error('Error refreshing page:', error);
                 }
             }
-            fetchMembers();
-        }, [members]);
-
-        useEffect(() => {
-            async function fetchMe() {
-                const meData = await getMe();
-                setMe(meData);
-            }
-            fetchMe();
-        }, []);
+            pageRefresh();
+        }, [])
+    );
 
     async function joinTeamHandler() {
         console.log('Join Team:', team);
-
-        const originalMembers = [...members];
-        setMembers([...members, uid]);
 
         try {
             const response = await joinTeam(team);
@@ -60,7 +65,6 @@ function TeamScreen({ navigation, route }) {
             }
             navigation.goBack();
         } catch (error) {
-            setMembers(originalMembers);
             Alert.alert('Join Failed', error.message);
         }
     }
@@ -132,6 +136,7 @@ function TeamScreen({ navigation, route }) {
                         style={styles.scrollContainer}
                         contentContainerStyle={styles.scrollContent}
                     >
+                        {/* Add a button that lets user edit team (change description/delete members) */}
                         <Text style={styles.text}>Description: {team.description}</Text>
                         <Text style={styles.text}>Members:</Text>
                         {memberUsernames.map((member) => {
@@ -153,7 +158,10 @@ function TeamScreen({ navigation, route }) {
                     </ScrollView>
                 </View>
             </View>
-            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
+            <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg}/>
+            {team.captain === uid && (
+                <NavigationPressable style={LAYOUT.forwardButton} onPress={editHandler} source={editimg}/>
+            )}
         </ImageBackground>
     );
 }
@@ -199,6 +207,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.medium,
+        lineHeight: FONT_SIZES.medium * 1.5,
         marginBottom: 10,
     },
 

@@ -5,8 +5,8 @@ import { getFriends,requestFriendship,AuthContext,acceptFriendship,denyFriendshi
 import PlayerCard from '../../components/PlayerCard';
 
 import menuBg from '../../assets/images/title.png';
-import backimg from '../../assets/buttons/LeftArrow.png';
-import plusimg from '../../assets/buttons/Plus.png';
+import backimg from '../../assets/buttons/light/LeftArrow.png';
+import plusimg from '../../assets/buttons/dark/New.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 

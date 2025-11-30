@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, Button, Pressable, ImageBackground, FlatList } 
 
 import menuBg from '../../assets/images/title.png';
 
-import backimg from '../../assets/buttons/LeftArrow.png';
+import backimg from '../../assets/buttons/light/LeftArrow.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 import CharacterPressable from '../../components/CharacterPressable';
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 40,
         height: '100%',
         width: '100%',
         backgroundColor: COLORS.overlay,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZES.medium,
         marginHorizontal: 200,
         color: 'white',
-        lineHeight: 18,
+        lineHeight: FONT_SIZES.medium * 1.5,
     },
 
     bgImage: {

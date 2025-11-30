@@ -18,7 +18,7 @@ import roadbg from '../assets/images/Roadbg.png';
 import spacebg from '../assets/images/Spacebg.png';
 
 // navigation
-import backimg from '../assets/buttons/LeftArrow.png';
+import backimg from '../assets/buttons/light/LeftArrow.png';
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';

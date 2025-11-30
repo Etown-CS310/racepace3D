@@ -1,7 +1,7 @@
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { useState } from 'react';
 
-import Visible from '../assets/buttons/View.png';
+import Visible from '../assets/buttons/dark/View.png';
 import NavigationPressable from './NavigationPressable';
 
 import { COLORS, FONT_SIZES } from '../constants/theme';

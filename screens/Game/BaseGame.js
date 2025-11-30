@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Animated, Easing, Pressable, Dimensions, ImageBackground } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 
-import leftimg from '../../assets/buttons/LeftArrow.png';
-import restartimg from '../../assets/buttons/Refresh.png';
-import nextimg from '../../assets/buttons/NextArrow.png';
+import leftimg from '../../assets/buttons/light/LeftArrow.png';
+import restartimg from '../../assets/buttons/light/Refresh.png';
+import nextimg from '../../assets/buttons/light/NextArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';

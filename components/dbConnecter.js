@@ -107,6 +107,12 @@ export async function getTeams()
     return await queryDB(token,'Teams');
 }
 
+export async function getTeam(teamID)
+{
+    const teamData =  await queryDB(AuthContext.token,'Teams/'+teamID);
+    return teamData;
+}
+
 export async function getCharacters()
 {
     const charData =  await queryDB(AuthContext.token,'Characters');
@@ -314,6 +320,28 @@ export async function createTeam(teamName, teamDesc) {
         return !!(teamResponse && userResponse);
     } catch (error) {
         console.error('Error creating team:', error);
+        return false;
+    }
+}
+
+export async function editTeam(teamName, teamDesc, teamMembers, removedMembers) {
+    try {
+        const { uid, token } = AuthContext;
+
+        const [teamResponse, currentMemberUpdates, removedMemberUpdates] = await Promise.all([
+            postDB(token, `Teams/${uid}`, {
+                captain: uid,
+                description: teamDesc,
+                members: teamMembers,
+                name: teamName
+            }),
+            Promise.all(teamMembers.map(memberUid => updateUserTeam(memberUid, uid))),
+            Promise.all(removedMembers.map(memberUid => updateUserTeam(memberUid, -1)))
+        ]);
+
+        return !!(teamResponse && currentMemberUpdates.every(Boolean) && removedMemberUpdates.every(Boolean));
+    } catch (error) {
+        console.error('Error editing team:', error);
         return false;
     }
 }

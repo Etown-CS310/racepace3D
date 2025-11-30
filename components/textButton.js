@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.small,
         color: 'white',
-        lineHeight: 18,
+        lineHeight: FONT_SIZES.small * 1.5,
     },
 });

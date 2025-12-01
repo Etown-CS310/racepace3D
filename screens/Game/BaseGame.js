@@ -9,7 +9,7 @@ import { setHighScore } from '../../components/dbConnecter';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
-export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit, gameEndBackground, freePlay = false }) {
+export default function BaseGame({ background, playerGiF, barrierImg, floorImg, onNext, onExit, gameEndBackground, freePlay }) {
 
     // player jump animation
     const jumpAnimation = useRef(new Animated.Value(0)).current;
@@ -289,11 +289,12 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                             />
 
                             {/* Restart level */}
-                            <NavigationPressable
+                            {(!won) && (<NavigationPressable
                                 onPress={() => { resetGame(); }}
                                 source={restartimg}
                                 style={LAYOUT.button}
                             />
+                            )}
 
                             {/* Next level */}
                             {/* TODO: Replace 'true' with infinite condition */}

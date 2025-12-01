@@ -1,19 +1,24 @@
-import {View,Text,StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 import NavigationPressable from './NavigationPressable';
-import ViewFriend from '../assets/buttons/View.png';
+import ViewFriend from '../assets/buttons/dark/View.png';
 
-
-
-function PlayerCard({user,children,viewPlayerHandler}){
+function PlayerCard({ user, children, viewPlayerHandler }){
     //console.log(user);
     return(
-        <View style={styles.card}>
-            <Text>{user.username}</Text>
-            <Text>highScore: {user.highScore}</Text>
-            {children}
-            <NavigationPressable source={ViewFriend} size={30} onPress={viewPlayerHandler}/>
+        <View style={styles.container}>
+            <View style={styles.textContainer}>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.text}>Members: {memberCount}</Text>
+            </View>
+            <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.button} />
         </View>
+        // <View style={styles.card}>
+        //     <Text>{user.username}</Text>
+        //     <Text>highScore: {user.highScore}</Text>
+        //     {children}
+        //     <NavigationPressable source={ViewFriend} size={30} onPress={viewPlayerHandler}/>
+        // </View>
     );
 }
 

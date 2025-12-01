@@ -84,6 +84,11 @@ function FriendsScreen({ navigation }) {
         
         menuHandler();
     }
+
+    function vpHandler()
+    {
+        
+    }
     
     return (
         <ImageBackground
@@ -106,7 +111,7 @@ function FriendsScreen({ navigation }) {
             <ScrollView>
             {friends.map((friend) => (
                 <View key={friend.username}>
-                    <PlayerCard user={friend}>
+                    <PlayerCard user={friend} viewPlayerHandler={vpHandler}>
                         {friend.status==='pending'?<Button title="Accept" onPress={acceptFriendHandler.bind({"fuid":friend.uid})}></Button>:""}
                         {friend.status==='pending'||friend.status==='requested'?<Button title="Deny" onPress={denyFriendHandler.bind({"fuid":friend.uid})}></Button>:<Button title="Remove Friend" onPress={()=>{
                             Alert.alert("Confirm","Are you sure you want to do that?",[

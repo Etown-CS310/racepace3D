@@ -423,12 +423,34 @@ export async function updateCharacter(charID)
     return response;
 }
 
-export async function updateHighScore(newScore)
+export async function updateHighScore(newScore,levelID)
 {
-
+    const highScores= await queryDB(AuthContext.token,'Users/'+AuthContext.uid+'/highScore');
+    postDB(AuthContext.token,'Users/'+AuthContext.uid+'/highScore',highScores.map((record)=>{
+        if(record.levelID===levelID)
+            return {levelID:Math.max(record.score,newScore)};
+        return record;
+    }));
 }
 
-export async function getHighScores()
+/*export async function getHighScores(UIDs='ALL')
 {
-    
+    const users = await queryDB(AuthContext.token,'Users');
+    const highScores = users.map((user)=>{
+        return {
+            username: user.username,
+            highScore: user.highScore
+        };
+    });
+}*/
+
+export async function unlockCharacter(charName)
+{
+    const me = await getMe();
+    await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/unlockedChars',[...me.unlockedChars,charName]);
+}
+
+export async function updateUsername(newUsername)
+{
+    const response = await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/username',newUsername);
 }

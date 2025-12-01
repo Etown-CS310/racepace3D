@@ -5,6 +5,9 @@ import ViewFriend from '../assets/buttons/dark/View.png';
 
 function PlayerCard({ user, children, viewPlayerHandler }){
     //console.log(user);
+    if(user.score===undefined){
+        user.score={highScore:0};
+    }
     return(
         <View style={styles.container}>
             <View style={styles.textContainer}>

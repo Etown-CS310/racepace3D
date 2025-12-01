@@ -197,7 +197,7 @@ export async function acceptFriendship(friendUID)
     const myResponse=await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/friendships',
         myData.friendships.map((friend) => {
             if(friend.uid===friendUID)
-                return {"uid":friend.uid,"status":"accepted"};
+                return {"uid":friendUID,"status":"accepted"};
             return friend;
         }));
     
@@ -433,16 +433,38 @@ export async function updateHighScore(newScore,levelID)
     }));
 }
 
-/*export async function getHighScores(UIDs='ALL')
+export async function getHighScores()
 {
+    //console.log("Fetching high scores");
     const users = await queryDB(AuthContext.token,'Users');
-    const highScores = users.map((user)=>{
+    //console.log(users);
+    let highScores = Object.values(users).map((user)=>{
+        if(user.score==undefined)
+            user.score={highScore:0};
         return {
             username: user.username,
-            highScore: user.highScore
-        };
+            highScore: user.score.highScore
+        }
     });
-}*/
+
+    
+    highScores.sort((a,b)=>b.highScore - a.highScore);
+    //console.log(highScores);
+    return highScores.slice(0,5);
+}
+
+export async function setHighScore(newScore)
+{
+    //console.log(newScore);
+    const me = await getMe();
+    //console.log(me.score, newScore);
+    if(me.score==undefined || newScore>me.score.highScore)
+    {
+        const response = await postDB(AuthContext.token,'Users/'+AuthContext.uid+'/score',{"highScore":newScore});
+        return 0;
+    }
+    return 1;
+}
 
 export async function unlockCharacter(charName)
 {

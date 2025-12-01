@@ -5,6 +5,7 @@ import leftimg from '../../assets/buttons/light/LeftArrow.png';
 import restartimg from '../../assets/buttons/light/Refresh.png';
 import nextimg from '../../assets/buttons/light/NextArrow.png';
 import NavigationPressable from '../../components/NavigationPressable';
+import { setHighScore } from '../../components/dbConnecter';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
@@ -19,6 +20,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
     const [gameRunning, setGameRunning] = useState(true);
     const [gameOver, setGameOver] = useState(false);
     const [score, setScore] = useState(0);
+    const scoreRef = useRef(0);
     const [barrierPassed, setBarrierPassed] = useState(false);
     const [won, setWon] = useState(false);
 
@@ -137,10 +139,14 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
             playerTop < barrierBottom &&
             playerBottom > barrierTop;
 
+        //console.log(`Score: ${scoreRef.current}`);
         if (horizontalOverlap && verticalOverlap && !gameOver) {
+            //console.log(scoreRef.current);
+            setHighScore(scoreRef.current);
             setWon(false);
             setGameOver(true);
             setGameRunning(false);
+            
         }
 
         // update score
@@ -152,6 +158,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                     setGameRunning(false);
                     setWon(true);
                 }
+                scoreRef.current = newScore;
                 return newScore;
             });
             setBarrierPassed(true);
@@ -166,6 +173,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         setGameOver(false);
         setWon(false);
         setScore(0);
+        scoreRef.current = 0;
         setBarrierPassed(false);
         setGameRunning(true);
         jumpAnimation.setValue(0);

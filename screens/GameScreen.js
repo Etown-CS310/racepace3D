@@ -22,7 +22,7 @@ import backimg from '../assets/buttons/light/LeftArrow.png';
 import LevelPressable from '../components/LevelPressable.js';
 import NavigationPressable from '../components/NavigationPressable.js';
 import { useRoute } from '@react-navigation/native';
-import { getMe, unlockLevels, unlockCharacter, updateHighScore } from '../components/dbConnecter.js';
+import { getMe, unlockLevels, unlockCharacter } from '../components/dbConnecter.js';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 

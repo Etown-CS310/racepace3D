@@ -19,5 +19,10 @@ export const LAYOUT = {
         margin: 5,
     },
 
+    viewButton: {
+        margin: 20,
+        marginLeft: 0,
+    },
+
     // container...
 };

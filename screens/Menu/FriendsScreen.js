@@ -79,17 +79,20 @@ function FriendsScreen({ navigation,chars }) {
     }
 
     function renderFriend({ item }) {
-        //console.log(item.char.id,chars);
         return (
             <PlayerCard key={item.uid} user={item} viewPlayerHandler={vpHandler} source={chars[item.char.id].img}>
                 {item.status === 'pending' ? (
                     <View style={styles.buttonWrapper}>
-                        <TextButton title = "Accept" onPress={() => acceptFriendHandler(item.uid)}/>
+                        <View style={styles.doubleButtonWrapper}>
+                            <TextButton title = "Accept" onPress={() => acceptFriendHandler(item.uid)}/>
+                        </View>
+                        <View style={styles.doubleButtonWrapper}>
+                            <TextButton title = "Deny" onPress={() => denyFriendHandler(item.uid)}/>
+                        </View>
                     </View>
-                ) : null}
-                {item.status === 'pending' || item.status === 'requested' ? (
+                ) : item.status === 'requested' ? (
                     <View style={styles.buttonWrapper}>
-                        <TextButton title = "Deny" onPress={() => denyFriendHandler(item.uid)}/>
+                        <TextButton title = "Delete" onPress={() => denyFriendHandler(item.uid)}/>
                     </View>
                 ) : (
                     <View style={styles.buttonWrapper}>
@@ -99,8 +102,8 @@ function FriendsScreen({ navigation,chars }) {
                                 Alert.alert("Confirm","Are you sure you want to do that?", [
                                 {'text': 'OK', onPress: () => {removeFriendHandler(item.uid)}},
                                 {'text': 'Cancel', style: 'cancel'}
-                        ])}}
-                    />
+                            ])}}
+                        />
                     </View>
                 )}
             </PlayerCard>
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        width: '64%',
+        width: '62%',
         gap: 10,
     },
 
@@ -184,5 +187,11 @@ const styles = StyleSheet.create({
     buttonWrapper: {
         width: '100%',
         paddingBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    doubleButtonWrapper: {
+        width: '48%',
     },
 });

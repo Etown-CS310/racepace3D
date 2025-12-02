@@ -138,25 +138,26 @@ function TeamScreen({ navigation, route, chars }) {
                         style={styles.scrollContainer}
                         contentContainerStyle={styles.scrollContent}
                     >
-                        {/* Add a button that lets user edit team (change description/delete members) */}
                         <Text style={styles.text}>Description: {team.description}</Text>
                         <Text style={styles.text}>Members:</Text>
                         {memberUsernames.map((member) => {
                             return (
                                 <View key={member.uid} style={styles.memRow}>
                                     <View style={styles.userContainer}>
+                                        <View style={styles.leftContent}>
+                                            <Text style={styles.text}>
+                                                {member.uid === team.captain ? "★" : "-"}  {member.username} 
+                                            </Text>
+                                            <Image 
+                                                source={chars[member.char].img} 
+                                                style={styles.charImage}
+                                                resizeMode="contain"
+                                            />
+                                        </View>
                                         <Text style={styles.text}>
-                                            {member.uid === team.captain ? "★" : "-"}  {member.username} 
+                                            High Score: {member.highScore}
                                         </Text>
-                                        <Image 
-                                        source={chars[member.char].img} 
-                                        style={styles.charImage}
-                                        resizeMode="contain"
-                                        />
                                     </View>
-                                    <Text style={styles.text}>
-                                        High Score: {member.highScore}
-                                    </Text>
                                 </View>
                             );
                         })}
@@ -226,7 +227,6 @@ const styles = StyleSheet.create({
     },
 
     textButton: {
-        marginTop: 20,
         alignSelf: 'center',
         width: '50%',
     },
@@ -234,14 +234,24 @@ const styles = StyleSheet.create({
     memRow: {
         flexDirection: 'row',
         justifyContent:'space-between',
+        marginBottom: 10,
     },
-    charImage: 
-    {
-        height: 50,
-    },
-    userContainer: 
-    {
+
+    userContainer: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-    }
+        justifyContent: 'space-between',
+    },
+
+    leftContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    charImage: {
+        height: 50,
+        marginLeft: 10,
+        marginBottom: 10,
+    },
 });

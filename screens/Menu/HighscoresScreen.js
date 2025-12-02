@@ -38,14 +38,13 @@ function HighscoresScreen({ navigation,chars }) {
                     {highScores.map((score, index) => (
                         <View key={index} style={styles.score}>
                             <Text style={styles.scoreText}>
-                                {index +1}. {score.username} : {score.highScore}
+                                {index +1}. {score.username}: {score.highScore}
                             </Text>
                             <Image
                                 source={chars[score.char].img}
                                 style={styles.charImage}
                                 resizeMode="contain"
-                                />
-                                
+                            />
                         </View>
                     ))}
                 </ScrollView>
@@ -78,6 +77,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    
     score: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -85,20 +85,19 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.wrapper,
         borderRadius: 6,
         margin: 5,
-        padding: 15,
+        padding: 10,
         width: 500,
-        
     },
+
     scoreText:{
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.medium,
         color: 'black',
     },
+
     scoresList:{
-        margin:30,
-        //justifyContent:'center',
+        marginBottom: 30,
     },
-    
 
     title: {
         fontFamily: 'PressStart2P',
@@ -106,8 +105,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: 'white',
     },
+
     charImage: {
-        width: 50,
-        height: 50,
+        height: 60,
     },
 });

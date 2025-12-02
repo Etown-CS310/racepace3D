@@ -11,7 +11,7 @@ function TeamButton({ name, onPress, memberCount=1 }) {
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.text}>Members: {memberCount}</Text>
             </View>
-            <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.button} />
+            <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.viewButton} />
         </View>
     );
 }
@@ -46,7 +46,7 @@ const styles=StyleSheet.create({
 
     text: {
         fontFamily: 'PressStart2P',
-        fontSize: FONT_SIZES.medium,
+        fontSize: FONT_SIZES.small,
         margin: 5,
     },
 });

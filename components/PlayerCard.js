@@ -19,15 +19,17 @@ function PlayerCard({ user, children, source }){
                     {(user.status === 'pending') || (user.status === 'requested') ? (
                         <Text style={styles.text}>(Pending)</Text>
                     ) : (
-                            <Text style={styles.text}>High Score: {user.score.highScore}</Text>
+                        <Text style={styles.text}>High Score: {user.highScore}</Text>
                     )}
                 </View>
-                <Image
-                                source={source}
-                                style={styles.charImage}
-                                resizeMode="contain"
-                            />
-                <NavigationPressable source={ViewFriend} onPress={onPressHandler} size={45} style={LAYOUT.button} />
+                <View style={styles.imageWrapper}>
+                    <Image
+                        source={source}
+                        style={styles.charImage}
+                        resizeMode="contain"
+                    />
+                </View>
+                <NavigationPressable source={ViewFriend} onPress={onPressHandler} size={45} style={LAYOUT.viewButton} />
             </View>
             {selected && (
                 <View style={styles.buttonContainer}>
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.wrapper,
         borderRadius: 6,
         width: 300,
-        height: 100,
+        height: 80,
         margin: 5,
     },
 
@@ -56,16 +58,17 @@ const styles = StyleSheet.create({
 
     topRow: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },
 
     textContainer: {
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 10,
         flex: 1,
+        paddingRight: 0,
     },
 
     buttonContainer: {
@@ -81,12 +84,17 @@ const styles = StyleSheet.create({
 
     text: {
         fontFamily: 'PressStart2P',
-        fontSize: FONT_SIZES.medium,
+        fontSize: FONT_SIZES.small,
         margin: 5,
     },
-    
+
+    imageWrapper: {
+        alignSelf: 'flex-start',
+        paddingTop: 10,
+    },
+
     charImage: {
-        width: 30,
-        alignSelf: 'center',
+        height: 60,
+        alignSelf: 'flex-start',
     },
 });

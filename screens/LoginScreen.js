@@ -1,4 +1,4 @@
-import { StyleSheet, ImageBackground, View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { StyleSheet, ImageBackground, View, KeyboardAvoidingView, ScrollView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import bkimg from '../assets/images/Trackbg.png';
 
 import { COLORS } from '../constants/theme';
@@ -8,21 +8,23 @@ function LoginScreen({children, width='50%'}) {
         <ImageBackground 
             style={styles.bkimg}
             source={bkimg}
-        > 
-            <KeyboardAvoidingView 
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-                style={styles.keyboardView}
-            >
-                <ScrollView 
-                    contentContainerStyle={styles.scrollContainer}
-                    keyboardShouldPersistTaps="handled"
-                    showsVerticalScrollIndicator={false}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <KeyboardAvoidingView 
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+                    style={styles.keyboardView}
                 >
-                    <View style={[styles.container, {width: width}]}>
-                        {children}
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                    <ScrollView 
+                        contentContainerStyle={styles.scrollContainer}
+                        keyboardShouldPersistTaps="handled"
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={[styles.container, {width: width}]}>
+                            {children}
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
         </ImageBackground>
     );
 }

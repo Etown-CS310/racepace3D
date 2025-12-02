@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import { createTeam } from '../../components/dbConnecter';
 
@@ -39,29 +39,31 @@ function TeamScreen({ navigation }) {
             style={styles.bgImage}
             resizeMode="cover"
         >
-            <View style={styles.overlay}>
-                <KeyboardAvoidingView 
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-                    style={styles.keyboardView}
-                >
-                    <ScrollView 
-                        contentContainerStyle={styles.scrollContainer}
-                        keyboardShouldPersistTaps="handled"
-                        showsVerticalScrollIndicator={false}
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.overlay}>
+                    <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+                        style={styles.keyboardView}
                     >
-                        <View style={styles.container}>
-                            <Text style={styles.text}>Create a New Team</Text>
-                            <View style={styles.textContainer}>
-                                <Input title="Team Name" value={teamName} onChangeText={setTeamName} focus={true}/>
-                                <Input title="Description" value={teamDesc} onChangeText={setTeamDesc} isMultiline={true}/>
+                        <ScrollView 
+                            contentContainerStyle={styles.scrollContainer}
+                            keyboardShouldPersistTaps="handled"
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <View style={styles.container}>
+                                <Text style={styles.text}>Create a New Team</Text>
+                                <View style={styles.textContainer}>
+                                    <Input title="Team Name" value={teamName} onChangeText={setTeamName} focus={true}/>
+                                    <Input title="Description" value={teamDesc} onChangeText={setTeamDesc} isMultiline={true}/>
+                                </View>
+                                <View style={styles.textButton}>
+                                    <TextButton title="Create Team" onPress={createTeamHandler}/>
+                                </View>
                             </View>
-                            <View style={styles.textButton}>
-                                <TextButton title="Create Team" onPress={createTeamHandler}/>
-                            </View>
-                        </View>
-                    </ScrollView>
-                </KeyboardAvoidingView>
-            </View>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+                </View>
+            </TouchableWithoutFeedback>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg}/>
         </ImageBackground>
     );

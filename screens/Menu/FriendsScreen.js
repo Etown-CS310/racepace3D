@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, FlatList, Alert, Button } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getFriends, requestFriendship, AuthContext, acceptFriendship, denyFriendship, removeFriend } from '../../components/dbConnecter';
 
@@ -6,10 +6,11 @@ import PlayerCard from '../../components/PlayerCard';
 
 import menuBg from '../../assets/images/title.png';
 import backimg from '../../assets/buttons/light/LeftArrow.png';
-import plusimg from '../../assets/buttons/dark/New.png';
+import plusimg from '../../assets/buttons/light/New.png';
 
 import NavigationPressable from '../../components/NavigationPressable';
 import Input from '../../components/input';
+import TextButton from '../../components/textButton';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
@@ -44,8 +45,8 @@ function FriendsScreen({ navigation }) {
         setRefresh(!refresh);
     }
 
-    async function acceptFriendHandler() {
-        const response=await acceptFriendship(this.fuid);
+    async function acceptFriendHandler(fuid) {
+        const response=await acceptFriendship(fuid);
 
         if(response===0)
             Alert.alert('Friendship Accepted','You are now friends!');
@@ -55,15 +56,15 @@ function FriendsScreen({ navigation }) {
         menuHandler();
     }
 
-    async function denyFriendHandler() {
-        const response=await denyFriendship(this.fuid);
+    async function denyFriendHandler(fuid) {
+        const response=await denyFriendship(fuid);
         Alert.alert('Friendship Denied','User has been removed from the list.');
 
         menuHandler();
     }
 
-    async function removeFriendHandler() {
-        const response=await removeFriend(this.fuid);
+    async function removeFriendHandler(fuid) {
+        const response=await removeFriend(fuid);
 
         if(response===0)
             Alert.alert('Friend Removed','You are no longer friends.');
@@ -81,19 +82,25 @@ function FriendsScreen({ navigation }) {
         return (
             <PlayerCard key={item.uid} user={item} viewPlayerHandler={vpHandler}>
                 {item.status === 'pending' ? (
-                    <Button title="Accept" onPress={acceptFriendHandler.bind({"fuid":item.uid})}></Button>
+                    <View style={styles.buttonWrapper}>
+                        <TextButton title = "Accept" onPress={() => acceptFriendHandler(item.uid)}/>
+                    </View>
                 ) : null}
                 {item.status === 'pending' || item.status === 'requested' ? (
-                    <Button title="Deny" onPress={denyFriendHandler.bind({"fuid":item.uid})}></Button>
+                    <View style={styles.buttonWrapper}>
+                        <TextButton title = "Deny" onPress={() => denyFriendHandler(item.uid)}/>
+                    </View>
                 ) : (
-                    <Button
-                        title="Remove Friend"
-                        onPress={()=>{
-                            Alert.alert("Confirm","Are you sure you want to do that?", [
-                                {'text': 'OK', onPress: ()=>{ removeFriendHandler.bind({ "fuid":item.uid })() }},
+                    <View style={styles.buttonWrapper}>
+                        <TextButton
+                            title = "Remove Friend"
+                            onPress={()=>{
+                                Alert.alert("Confirm","Are you sure you want to do that?", [
+                                {'text': 'OK', onPress: () => {removeFriendHandler(item.uid)}},
                                 {'text': 'Cancel', style: 'cancel'}
                         ])}}
-                    ></Button>
+                    />
+                    </View>
                 )}
             </PlayerCard>
         );
@@ -105,25 +112,27 @@ function FriendsScreen({ navigation }) {
             style={styles.bgImage}
             resizeMode="cover"
         >
-            <View style={styles.container}>
-                <Text style={styles.title}>Friends Screen</Text>
-                <View style={styles.addFriend}>
-                    <View style={styles.input}>
-                        <Input title="Add Friend by UID" value={friendUID} onChangeText={setFriendUID} />
-                        <Text style={styles.text}>MyUID: {AuthContext.uid}</Text>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>Friends Screen</Text>
+                    <View style={styles.addFriend}>
+                        <View style={styles.input}>
+                            <Input title="Add Friend by UID" value={friendUID} onChangeText={setFriendUID} />
+                            <Text style={styles.text}>MyUID: {AuthContext.uid}</Text>
+                        </View>
+                        <NavigationPressable onPress={addFriendHandler} source={plusimg} size={40}/>
                     </View>
-                    <NavigationPressable onPress={addFriendHandler} source={plusimg} size={40}/>
+                    <FlatList
+                        data={friends}
+                        renderItem={renderFriend}
+                        keyExtractor={(item) => item.id}
+                        numColumns={2}
+                        showsVerticalScrollIndicator={false}
+                        scrollEnabled={true}
+                    />
+                    <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
                 </View>
-                <FlatList
-                    data={friends}
-                    renderItem={renderFriend}
-                    keyExtractor={(item) => item.id}
-                    numColumns={1}
-                    showsVerticalScrollIndicator={false}
-                    scrollEnabled={true}
-                />
-                <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
-            </View>
+            </TouchableWithoutFeedback>
         </ImageBackground>
     );
 }
@@ -159,9 +168,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 10,
     },
-    
+
     input: {
-        width: '50%',
+        width: '64%',
         gap: 10,
     },
 
@@ -169,5 +178,10 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.small,
         color:'white',
+    },
+
+    buttonWrapper: {
+        width: '100%',
+        paddingBottom: 10,
     },
 });

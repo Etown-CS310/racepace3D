@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Button, Pressable, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, View, Text, Button, Pressable, ImageBackground, FlatList, ScrollView } from 'react-native';
 
 import menuBg from '../../assets/images/title.png';
 
@@ -50,10 +50,10 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
                     />
                 </View>
 
-                <View style={styles.detailsContainer}>
+                <ScrollView style={styles.detailsContainer}>
                     <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
                     <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
-                </View>
+                </ScrollView>
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
         </ImageBackground>

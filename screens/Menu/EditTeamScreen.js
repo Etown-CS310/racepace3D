@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView, KeyboardAvoidingView, Platform, Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, KeyboardAvoidingView, Platform, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useEffect, useState } from 'react';
 import { editTeam } from '../../components/dbConnecter';
 
@@ -66,41 +66,43 @@ function TeamScreen({ navigation, route }) {
             style={styles.bgImage}
             resizeMode="cover"
         >
-            <View style={styles.overlay}>
-                <KeyboardAvoidingView 
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-                    style={styles.keyboardView}
-                >
-                    <ScrollView 
-                        contentContainerStyle={styles.scrollContainer}
-                        keyboardShouldPersistTaps="handled"
-                        showsVerticalScrollIndicator={false}
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.overlay}>
+                    <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+                        style={styles.keyboardView}
                     >
-                        <View style={styles.container}>
-                            <Text style={styles.title}>Edit Team</Text>
-                            <View style={styles.textContainer}>
-                                <Input title="Team Name" value={teamName} onChangeText={setTeamName}/>
-                                <Input title="Description" value={teamDesc} onChangeText={setTeamDesc} isMultiline={true}/>
+                        <ScrollView 
+                            contentContainerStyle={styles.scrollContainer}
+                            keyboardShouldPersistTaps="handled"
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <View style={styles.container}>
+                                <Text style={styles.title}>Edit Team</Text>
+                                <View style={styles.textContainer}>
+                                    <Input title="Team Name" value={teamName} onChangeText={setTeamName}/>
+                                    <Input title="Description" value={teamDesc} onChangeText={setTeamDesc} isMultiline={true}/>
+                                </View>
+                                <View style={styles.membersContainer}>
+                                    {memberUsernames.map((member) => (
+                                        <View key={member.uid} style={styles.memberItem}>
+                                            <MemberButton
+                                                name={member.username}
+                                                captain={member.uid === team.captain}
+                                                onPress={() => toggleMemberHandler(member.uid)}
+                                                isDeleting={!teamMembers.includes(member.uid)}
+                                            />
+                                        </View>
+                                    ))}
+                                </View>
+                                <View style={styles.textButton}>
+                                    <TextButton title="Save Team" onPress={editTeamHandler}/>
+                                </View>
                             </View>
-                            <View style={styles.membersContainer}>
-                                {memberUsernames.map((member) => (
-                                    <View key={member.uid} style={styles.memberItem}>
-                                        <MemberButton
-                                            name={member.username}
-                                            captain={member.uid === team.captain}
-                                            onPress={() => toggleMemberHandler(member.uid)}
-                                            isDeleting={!teamMembers.includes(member.uid)}
-                                        />
-                                    </View>
-                                ))}
-                            </View>
-                            <View style={styles.textButton}>
-                                <TextButton title="Save Team" onPress={editTeamHandler}/>
-                            </View>
-                        </View>
-                    </ScrollView>
-                </KeyboardAvoidingView>
-            </View>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+                </View>
+            </TouchableWithoutFeedback>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg}/>
             <NavigationPressable style={LAYOUT.forwardButton} onPress={refreshHandler} source={refreshimg}/>
         </ImageBackground>

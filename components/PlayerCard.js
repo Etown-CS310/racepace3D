@@ -1,38 +1,82 @@
+import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 import NavigationPressable from './NavigationPressable';
 import ViewFriend from '../assets/buttons/dark/View.png';
 
-function PlayerCard({ user, children, viewPlayerHandler }){
-    //console.log(user);
-    return(
-        <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.text}>Members: {memberCount}</Text>
+function PlayerCard({ user, children }){
+    const [selected, setSelected] = useState(false);
+
+    const onPressHandler = () => {
+        setSelected(!selected);
+    }
+
+    return (
+        <View style={[styles.container, selected && styles.selectedContainer]}>
+            <View style={styles.topRow}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.name} numberOfLines={selected ? 2 : 1}>{user.username}</Text>
+                    {(user.status === 'pending') || (user.status === 'requested') ? (
+                        <Text style={styles.text}>(Pending)</Text>
+                    ) : (
+                        <Text style={styles.text}>High Score: {user.highScore}</Text>
+                    )}
+                </View>
+                <NavigationPressable source={ViewFriend} onPress={onPressHandler} size={45} style={LAYOUT.button} />
             </View>
-            <NavigationPressable source={ViewTeam} onPress={onPress} size={45} style={LAYOUT.button} />
+            {selected && (
+                <View style={styles.buttonContainer}>
+                    {children}
+                </View>
+            )}
         </View>
-        // <View style={styles.card}>
-        //     <Text>{user.username}</Text>
-        //     <Text>highScore: {user.highScore}</Text>
-        //     {children}
-        //     <NavigationPressable source={ViewFriend} size={30} onPress={viewPlayerHandler}/>
-        // </View>
     );
 }
 
 export default PlayerCard;
 
-const styles=StyleSheet.create({
-    card:
-    {
-        backgroundColor:COLORS.wrapper,
-        padding:10,
-        margin:10,
-        borderRadius:10,
-        width:150,
-        alignItems:'center',
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column',
+        backgroundColor: COLORS.wrapper,
+        borderRadius: 6,
+        width: 300,
+        height: 80,
+        margin: 5,
+    },
 
-    }
+    selectedContainer: {
+        height: 'auto',
+    },
+
+    topRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'flex-start',
+    },
+
+    textContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        flex: 1,
+    },
+
+    buttonContainer: {
+        width: '100%',
+        paddingHorizontal: 10,
+    },
+
+    name: {
+        fontFamily: 'PressStart2P',
+        fontSize: FONT_SIZES.large,
+        margin: 5,
+    },
+
+    text: {
+        fontFamily: 'PressStart2P',
+        fontSize: FONT_SIZES.medium,
+        margin: 5,
+    },
 });

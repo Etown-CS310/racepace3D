@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView, Animated } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
 import menuBg2 from '../assets/images/title.png';
@@ -40,7 +40,7 @@ function MenuScreen({ navigation }) {
         >
             <View style={styles.container}>
 
-                <Text style={styles.title}> RacePace3D</Text>
+                <Text style={[styles.title,Platform.isPad&&styles.iPadTitle]}> RacePace3D</Text>
                 <NavigationPressable style={LAYOUT.button} onPress={() => navigationHandler('Game')} source={startimg} size={150}/>
             </View>
 
@@ -75,6 +75,13 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingBottom: 10,
         marginBottom: 10,
+    },
+
+    iPadTitle: 
+    {
+        shadowColor: 'black',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
     },
 
     backgroundImage: {

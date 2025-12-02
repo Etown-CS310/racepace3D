@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 import { COLORS, FONT_SIZES, LAYOUT } from '../constants';
 import NavigationPressable from './NavigationPressable';
 import ViewFriend from '../assets/buttons/dark/View.png';
 
-function PlayerCard({ user, children }){
+function PlayerCard({ user, children, source }){
     const [selected, setSelected] = useState(false);
 
     const onPressHandler = () => {
@@ -19,9 +19,14 @@ function PlayerCard({ user, children }){
                     {(user.status === 'pending') || (user.status === 'requested') ? (
                         <Text style={styles.text}>(Pending)</Text>
                     ) : (
-                        <Text style={styles.text}>High Score: {user.highScore}</Text>
+                            <Text style={styles.text}>High Score: {user.score.highScore}</Text>
                     )}
                 </View>
+                <Image
+                                source={source}
+                                style={styles.charImage}
+                                resizeMode="contain"
+                            />
                 <NavigationPressable source={ViewFriend} onPress={onPressHandler} size={45} style={LAYOUT.button} />
             </View>
             {selected && (
@@ -41,7 +46,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.wrapper,
         borderRadius: 6,
         width: 300,
-        height: 80,
+        height: 100,
         margin: 5,
     },
 
@@ -78,5 +83,10 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.medium,
         margin: 5,
+    },
+    
+    charImage: {
+        width: 30,
+        alignSelf: 'center',
     },
 });

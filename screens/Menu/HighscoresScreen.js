@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground,ScrollView } from 'react-native';
 
 import { useEffect, useState } from 'react';
 import menuBg from '../../assets/images/title.png';
@@ -10,7 +10,7 @@ import NavigationPressable from '../../components/NavigationPressable';
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 import PlayerCard from '../../components/PlayerCard.js';
 
-function HighscoresScreen({ navigation }) {
+function HighscoresScreen({ navigation,chars }) {
     const menuHandler = () => {
         navigation.goBack();
     };
@@ -32,15 +32,23 @@ function HighscoresScreen({ navigation }) {
             style={styles.bgImage}
             resizeMode="cover"
         >
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <Text style={styles.title}>Highscores Screen</Text>
-                <View style={styles.scoresList}>
+                <ScrollView style={styles.scoresList} contentContainerStyle={{justifyContent:'center'}}>
                     {highScores.map((score, index) => (
-                        <Text key={index} style={styles.score}>
-                            {index +1}. {score.username} : {score.highScore}
-                        </Text>
+                        <View key={index} style={styles.score}>
+                            <Text style={styles.scoreText}>
+                                {index +1}. {score.username} : {score.highScore}
+                            </Text>
+                            <Image
+                                source={chars[score.char].img}
+                                style={styles.charImage}
+                                resizeMode="contain"
+                                />
+                                
+                        </View>
                     ))}
-                </View>
+                </ScrollView>
             </View>
             <NavigationPressable style={LAYOUT.backButton} onPress={menuHandler} source={backimg} />
         </ImageBackground>
@@ -72,20 +80,23 @@ const styles = StyleSheet.create({
     },
     score: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: COLORS.wrapper,
         borderRadius: 6,
         margin: 5,
         padding: 15,
         width: 500,
+        
+    },
+    scoreText:{
         fontFamily: 'PressStart2P',
         fontSize: FONT_SIZES.medium,
         color: 'black',
     },
     scoresList:{
         margin:30,
-        justifyContent:'center',
+        //justifyContent:'center',
     },
     
 
@@ -94,5 +105,9 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZES.title,
         marginBottom: 20,
         color: 'white',
+    },
+    charImage: {
+        width: 50,
+        height: 50,
     },
 });

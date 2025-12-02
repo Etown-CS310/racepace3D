@@ -108,10 +108,16 @@ export default function App() {
               />
             )}
           </Stack.Screen>
-          <Stack.Screen name="Highscores" component={HighscoresScreen} />
-          <Stack.Screen name="Friends" component={FriendsScreen} />
+          <Stack.Screen name="Highscores" >
+            {(props) => <HighscoresScreen {...props} chars={chars} />}
+          </Stack.Screen>
+          <Stack.Screen name="Friends"  >
+            {(props) => <FriendsScreen {...props} chars={chars} />}
+          </Stack.Screen>
           <Stack.Screen name="Team" component={TeamScreen} />
-          <Stack.Screen name="TeamDetails" component={TeamDetailsScreen} />
+          <Stack.Screen name="TeamDetails">
+            {(props) => <TeamDetailsScreen {...props} chars={chars} />}
+          </Stack.Screen>
           <Stack.Screen name="NewTeam" component={NewTeamScreen} />
           <Stack.Screen name="EditTeam" component={EditTeamScreen} />
         </Stack.Navigator>

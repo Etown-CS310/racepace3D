@@ -12,6 +12,7 @@ function Register({navigation}) {
     const [confirmEmail, setConfirmEmail] = useState('');
     const [userPass, setUserPass] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
+    const [username, setUsername]= useState('');
 
     async function registrationHandler() { 
         if(userEmail !== confirmEmail) {
@@ -36,7 +37,7 @@ function Register({navigation}) {
         }
         
         //console.log("Registered:",userEmail,confirmEmail,userPass,confirmPass);
-        const response= await signUp(userEmail,userPass);
+        const response= await signUp(userEmail,userPass,username);
 
         if (response)
             navigation.navigate('Menu');
@@ -55,6 +56,7 @@ function Register({navigation}) {
                 <Input title="Confirm Email" value={confirmEmail} onChangeText={setConfirmEmail}/>
                 <Input title="Password" value={userPass} onChangeText={setUserPass}/>
                 <Input title="Confirm Password" value={confirmPass} onChangeText={setConfirmPass}/>
+                <Input title="Username" value={username} onChangeText={setUsername}/>
             </View>
             <View style={styles.buttonContainer}>
                 <TextButton title="Register" onPress={registrationHandler}/>

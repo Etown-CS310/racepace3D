@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button, Pressable, ImageBackground, ScrollView } from 'react-native';
+import {  useEffect, useState,createContext, useContext } from 'react';
+import { StyleSheet, View, Text, ImageBackground, ScrollView } from 'react-native';
 
 // level components
 import Track from './Game/Track.js';
@@ -36,10 +36,13 @@ const lvls = [
     { id: 'space', name: "Space", component: Space, bg: spacebg },
 ];
 
+const curLvl=createContext({lvl:0});
+
 function GameScreen({ navigation, currentCharacter, chars }) {
     const route = useRoute();
     const selectedMode = route.params?.mode || 'selectLvl';
-    const [currentLevel, setCurrentLevel] = useState(0);
+    //const [currentLevel, setCurrentLevel] = useState(0);
+    const currentLevel=useContext(curLvl);
     const [unlockedLevels, setUnlockedLevels] = useState([lvls[0].id]);
     const [mode, setMode] = useState(selectedMode); // in the game or between levels (play or selectLvl)
     const [beaten, setBeaten] = useState([]); // is level beaten
@@ -65,7 +68,7 @@ function GameScreen({ navigation, currentCharacter, chars }) {
     const completeLevelHandler = () => {
 
         // unlocks next level if there is one
-        const nextLevel = currentLevel + 1;
+        const nextLevel = currentLevel.lvl + 1;
         if (nextLevel < lvls.length) {
             const nextLevelId = lvls[nextLevel].id;
 
@@ -78,7 +81,7 @@ function GameScreen({ navigation, currentCharacter, chars }) {
             unlockCharacter('falk');
         }
         // adds level completed to be beaten lvl list
-        const thisLvlId = lvls[currentLevel].id;
+        const thisLvlId = lvls[currentLevel.lvl].id;
         setBeaten(function (previousLevels) {
             if (previousLevels.includes(thisLvlId)) {
                 return previousLevels;
@@ -97,7 +100,8 @@ function GameScreen({ navigation, currentCharacter, chars }) {
 
     const nextLevelHandler = () => {
         completeLevelHandler();
-        setCurrentLevel(currentLevel + 1);
+        //setCurrentLevel(currentLevel + 1);
+        currentLevel.lvl+=1;
         setMode('play');
     };
 
@@ -107,7 +111,8 @@ function GameScreen({ navigation, currentCharacter, chars }) {
 
     // sets the current level when its selected
     const currentLevelHandler = (index) => {
-        setCurrentLevel(index);
+        //setCurrentLevel(index);
+        currentLevel.lvl=index;
     };
 
     // sets mode between play and selectLvl
@@ -123,11 +128,11 @@ function GameScreen({ navigation, currentCharacter, chars }) {
     // either displays a level or the level selection screen
     if (mode === 'play') {
         let bg;
-        if (lvls[currentLevel].bg == null) bg = lvls[currentLevel - 1].bg; // after beating space, there is no next level, so use previous bg
-        else bg = lvls[currentLevel].bg;
+        if (lvls[currentLevel.lvl].bg == null) bg = lvls[currentLevel.lvl - 1].bg; // after beating space, there is no next level, so use previous bg
+        else bg = lvls[currentLevel.lvl].bg;
         
-        const LvlComponent = lvls[currentLevel].component;
-        const isFreePlay = beaten.includes(lvls[currentLevel].id);
+        const LvlComponent = lvls[currentLevel.lvl].component;
+        const isFreePlay = beaten.includes(lvls[currentLevel.lvl].id);
         return(
             <View style={{flex: 1}}>
                 <LvlComponent
@@ -144,7 +149,7 @@ function GameScreen({ navigation, currentCharacter, chars }) {
 
             // background image goes here
             <ImageBackground
-                source={lvls[currentLevel].bg}
+                source={lvls[currentLevel.lvl].bg}
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >

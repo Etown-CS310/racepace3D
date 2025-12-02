@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, Alert,Image } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getSinglePerson, joinTeam, leaveTeam, deleteTeam, getMe, getTeam } from '../../components/dbConnecter';
@@ -12,7 +12,7 @@ import TextButton from '../../components/textButton';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
-function TeamScreen({ navigation, route }) {
+function TeamScreen({ navigation, route, chars }) {
     const menuHandler = () => {
         navigation.goBack();
     };
@@ -40,10 +40,12 @@ function TeamScreen({ navigation, route }) {
                     const usernames = await Promise.all(
                         updatedTeam.members.map(async (uid) => {
                             const memberData = await getSinglePerson(uid);
-                            return { uid, username: memberData.username };
+                            if(memberData.score == undefined)
+                                memberData.score = { highScore: 0 };
+                            return { uid, username: memberData.username, highScore: memberData.score.highScore,char: memberData.char.id };
                         })
                     );
-                    setMemberUsernames(usernames);
+                    setMemberUsernames(usernames.sort((a, b) => b.highScore - a.highScore));
 
                     const meData = await getMe();
                     setMe(meData);
@@ -141,9 +143,21 @@ function TeamScreen({ navigation, route }) {
                         <Text style={styles.text}>Members:</Text>
                         {memberUsernames.map((member) => {
                             return (
-                                <Text key={member.uid} style={styles.text}>
-                                    - {member.username} {member.uid === team.captain ? "★" : ""}
-                                </Text>
+                                <View key={member.uid} style={styles.memRow}>
+                                    <View style={styles.userContainer}>
+                                        <Text style={styles.text}>
+                                            {member.uid === team.captain ? "★" : "-"}  {member.username} 
+                                        </Text>
+                                        <Image 
+                                        source={chars[member.char].img} 
+                                        style={styles.charImage}
+                                        resizeMode="contain"
+                                        />
+                                    </View>
+                                    <Text style={styles.text}>
+                                        High Score: {member.highScore}
+                                    </Text>
+                                </View>
                             );
                         })}
                         <View style={styles.textButton}>
@@ -216,4 +230,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: '50%',
     },
+
+    memRow: {
+        flexDirection: 'row',
+        justifyContent:'space-between',
+    },
+    charImage: 
+    {
+        height: 50,
+    },
+    userContainer: 
+    {
+        flexDirection: 'row',
+        alignItems: 'center',
+    }
 });

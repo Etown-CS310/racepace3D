@@ -50,7 +50,7 @@ function CharactersScreen({ navigation, currentCharacter, characterHandler, char
                     />
                 </View>
 
-                <ScrollView style={styles.detailsContainer}>
+                <ScrollView style={styles.detailsContainer} contentContainerStyle={{alignItems: 'center'}}>
                     <Text style={styles.subtitle}>{chars[currentCharacter].name}</Text>
                     <Text style={styles.text}>{chars[currentCharacter].desc}</Text>
                 </ScrollView>
@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
 
     detailsContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        //alignItems: 'center',
+        //justifyContent: 'flex-start',
+        textAlign: 'center',
     },
 
     title: {

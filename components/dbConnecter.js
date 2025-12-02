@@ -61,11 +61,24 @@ export async function login(email, password)
             return true;
 }
 
-export async function signUp(email, password) 
+export async function signUp(email, password, username) 
 {
         const id = await auth(email, password, 'signup');
         if(id!=null)
+        {
+            const newMe={
+                "char":{"id":0},
+                score:{"highScore":0},
+                "username":username,
+                "teamID":-1,
+                "friendships":[],
+                "unlockedChars":["cole","eliud","grant","jakob","mo"],
+                "completedTracks":[]
+            }
+            await postDB(AuthContext.token,'Users/'+AuthContext.uid,
+            newMe);
             return true;
+        }
 }
 
 async function waitForToken({ interval = 500 } = {}) {
@@ -130,13 +143,16 @@ export async function getFriends()
     const me= await getMe();
     
     const friends=await  Promise.all(me.friendships.map(async (friendID)=>{
+        if(friendID==null)
+            return null;
         const friendData=await getSinglePerson(friendID.uid);
         friendData.status=friendID.status;
         friendData.uid=friendID.uid;
+        //console.log(friendData);
         return friendData;
     }));
     //console.log(friends);
-    return friends;
+    return friends.filter((friend) => friend !== null);
 
 }
 
@@ -189,7 +205,7 @@ export async function acceptFriendship(friendUID)
         return 2;
 
     const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
-        myData.friendships.map((friend) => {
+        friendData.friendships.map((friend) => {
             if(friend.uid===AuthContext.uid)
                 return {"uid":AuthContext.uid,"status":"accepted"};
             return friend;
@@ -244,7 +260,7 @@ export async function removeFriend(friendUID)
         return 2;
 
     const friendResponse=await postDB(AuthContext.token,'Users/'+friendUID+'/friendships',
-        myData.friendships.map((friend) => {
+        friendData.friendships.map((friend) => {
             if(friend.uid===AuthContext.uid)
                 return;
             return friend;
@@ -280,8 +296,7 @@ export async function getMe()
             "completedTracks":[]
             };
 
-        await postDB(AuthContext.token,'Users/'+AuthContext.uid,
-            newMe);
+        
         return newMe;
     }
     //console.log(me);
@@ -443,7 +458,8 @@ export async function getHighScores()
             user.score={highScore:0};
         return {
             username: user.username,
-            highScore: user.score.highScore
+            highScore: user.score.highScore,
+            char: user.char.id
         }
     });
 

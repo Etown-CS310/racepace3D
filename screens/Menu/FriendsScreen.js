@@ -14,7 +14,7 @@ import TextButton from '../../components/textButton';
 
 import { COLORS, FONT_SIZES, LAYOUT } from '../../constants';
 
-function FriendsScreen({ navigation }) {
+function FriendsScreen({ navigation,chars }) {
     const menuHandler = () => {
         navigation.goBack();
     };
@@ -79,8 +79,9 @@ function FriendsScreen({ navigation }) {
     }
 
     function renderFriend({ item }) {
+        //console.log(item.char.id,chars);
         return (
-            <PlayerCard key={item.uid} user={item} viewPlayerHandler={vpHandler}>
+            <PlayerCard key={item.uid} user={item} viewPlayerHandler={vpHandler} source={chars[item.char.id].img}>
                 {item.status === 'pending' ? (
                     <View style={styles.buttonWrapper}>
                         <TextButton title = "Accept" onPress={() => acceptFriendHandler(item.uid)}/>

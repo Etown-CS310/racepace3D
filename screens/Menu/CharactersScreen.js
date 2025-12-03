@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
         //justifyContent: 'flex-start',
         textAlign: 'center',
+        showsVerticalScrollIndicator: true,
+        width: '75%',
     },
 
     title: {
@@ -106,6 +108,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 200,
         color: 'white',
         lineHeight: FONT_SIZES.medium * 1.5,
+        width: '100%',
+        textAlign: 'center',
     },
 
     bgImage: {

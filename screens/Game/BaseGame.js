@@ -157,6 +157,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
                 if (!freePlay && newScore >= 100) {
                     setGameRunning(false);
                     setWon(true);
+                    freePlay = true;
                 }
                 scoreRef.current = newScore;
                 return newScore;

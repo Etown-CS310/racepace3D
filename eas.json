@@ -1,12 +1,19 @@
 { 
     "build": 
     { 
-        "production": 
+        "development": 
         { 
             "ios": 
             { 
                 "distribution": "internal"
             }
-        } 
+        },
+        "production":
+        {
+            "ios":
+            {
+                "distribution":"store"
+            }
+        }
     } 
 }

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { createContext } from 'react';
-import { API_KEY } from './apikey';
+//import { API_KEY } from './apikey';
 import * as SecureStore from 'expo-secure-store';
 
-
+const API_KEY=process.env.EXPO_PUBLIC_API_KEY;
 
 export const AuthContext = createContext({
     isLoggedIn: false,

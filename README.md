@@ -2,7 +2,7 @@
 Upgraded version of racepace made for mobile devices
 
 # What is racepace?
-Racepace is a game about running and jumping throughout many different levels, you play as multiple levels and ulock new levels and cosmetics as you go. The purpose of the game is to have fun, unlock levels and build your highscore. You will also be able to have friends to share your highscore with, and teams to build group highscores with as well.
+Racepace is a game about running and jumping throughout many different levels, you play as multiple levels and unlock new levels as you go. Once the last level is completed, the user is rewarded with a unlocked character. The purpose of the game is to have fun, unlock levels and build your highscore. You will also be able to have friends to share your highscore with, and teams to build group highscores with as well.
 
 # Game setup
 To set up racepace3D simply clone the repo locally and then run npm install to get the node modules missing. Then simply run npm start in the terminal, connect with your mobile device via the QR code or run the simulator on your computer and experience the game
@@ -12,7 +12,7 @@ To set up racepace3D simply clone the repo locally and then run npm install to g
 ## Game Features
 
 ### Level Selection
-Different levels to play on in the racepace 3D game. These levels will have different enemies based on the different enviornment and biome that the levels are in.
+Different levels to play on in the RacePace3D game. These levels will have different enemies based on the different environment and biome that the levels are in.
 
 ### Level Unlocking
 The seperate levels will be unlocked through playing through and beating the previous levels.
@@ -23,15 +23,12 @@ Running, Jumping, Winning and Losing are all possible. It's in it's early stages
 ## Customizaiton Features
 
 ### Customization Unlocking
-Unlock the different characters that Racepace3D has to offer, and equip them through the menu.
+Unlock the different characters that RacePace3D has to offer, and equip them through the menu.
 
 
 # Feature Upgrades Yet to implement
 
 ## Game Upgrades
-
-### Different Enemies
-Unlike Racepace on the web, there will be multiple different kinds of enemies coming from all angles and not just sitting on the floor.
 
 ## Customization upgrades
 

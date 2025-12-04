@@ -19,7 +19,7 @@ function PlayerCard({ user, children, source }){
                     {(user.status === 'pending') || (user.status === 'requested') ? (
                         <Text style={styles.text}>(Pending)</Text>
                     ) : (
-                        <Text style={styles.text}>High Score: {user.highScore}</Text>
+                        <Text style={styles.text}>High Score: {user.score.highScore}</Text>
                     )}
                 </View>
                 <View style={styles.imageWrapper}>

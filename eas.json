@@ -1,0 +1,12 @@
+{ 
+    "build": 
+    { 
+        "production": 
+        { 
+            "ios": 
+            { 
+                "distribution": "internal"
+            }
+        } 
+    } 
+}

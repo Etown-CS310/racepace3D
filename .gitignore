@@ -44,3 +44,5 @@ yarn-error.*
 
 #api config file
 *apikey.js
+
+eas.json

@@ -180,6 +180,7 @@ export default function BaseGame({ background, playerGiF, barrierImg, floorImg, 
         jumpAnimation.setValue(0);
         barrierX.setValue(SCREEN_WIDTH + 50);
         screenX.setValue(0);
+        if (won) freePlay = false;
 
         barrierAnim();
 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Racepace3D",
-    "slug": "Racepace3D",
+    "slug": "racepace3D",
     "version": "1.0.1",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.asherwayde.racepace3D"
     },
     "web": {
       "favicon": "./assets/favicon.png"

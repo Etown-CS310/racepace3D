@@ -6,21 +6,23 @@
             "ios": 
             { 
                 "distribution": "internal"
-            }
+            },
+            "autoIncrement": true
         },
         "production":
         {
             "ios":
             {
                 "distribution":"store"
-            }
+            },
+            "autoIncrement": true
         }
     },
     "submit":
     {
         "production":
         {
-
+            "autoIncrement": true
         }
     }
 }
